@@ -10,7 +10,7 @@
                     </a>
                 </span>
 
-        <a class="navbar-brand" href="#">JCORE</a>
+     <!--    <a class="navbar-brand" href="#">JCORE</a> -->
 
 <!--         <div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
             <div class="input-group">
@@ -21,7 +21,7 @@
         </div> -->
 
     </div><!-- logo-area -->
-
+    <span class="company_top_navigation" style="font-size: 1.2vw;vertical-align: middle;padding:13px 0px !important;display: inline-block;color: #067cb2;    font-family: 'Segoe UI', 'Source Sans Pro', Calibri, Candara, Arial, sans-serif;"><?php echo $this->session->company_top_navigation;?></span> 
     <ul class="nav navbar-nav toolbar pull-right">
 
 <!--         <li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">

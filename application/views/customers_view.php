@@ -29,7 +29,7 @@
 
     <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
     <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
-
+    <script type="text/javascript" src="assets/plugins/datatables/ellipsis.js"></script>
 
     <!-- Date range use moment.js same as full calendar plugin -->
     <script src="assets/plugins/fullcalendar/moment.min.js"></script>
@@ -89,7 +89,7 @@
                     },
                     { targets:[1],data: "customer_name" },
                     { targets:[2],data: "contact_name" },
-                    { targets:[3],data: "address" },
+                    { targets:[3],data: "address",render: $.fn.dataTable.render.ellipsis(80) },
                     { targets:[4],data: "contact_no" },
                     {
                         targets:[5],
@@ -657,7 +657,7 @@
                                                         <th>&nbsp;&nbsp;</th>
                                                         <th>Customer Name</th>
                                                         <th>Contact Person</th>
-                                                        <th>Address</th>
+                                                        <th width="25%">Address</th>
                                                         <th>Contact No</th>
                                                         <th><center>Action</center></th>
                                                     </tr>

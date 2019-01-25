@@ -40,7 +40,7 @@ class Deliveries extends CORE_Controller
 
         //data required by active view
         $data['suppliers']=$this->Suppliers_model->get_list(
-            null,
+            array('suppliers.is_active'=>TRUE,'suppliers.is_deleted'=>FALSE),
             'suppliers.*,IFNULL(tax_types.tax_rate,0)as tax_rate',
             array(
                 array('tax_types','tax_types.tax_type_id=suppliers.tax_type_id','left')
@@ -94,7 +94,9 @@ class Deliveries extends CORE_Controller
 
             case'delivery_list_count':  //this returns JSON of Purchase Order to be rendered on Datatable with validation of count in invoice
             $m_delivery=$this->Delivery_invoice_model;
-            $response['data']=$m_delivery->delivery_list_count($id_filter);
+            $tsd = date('Y-m-d',strtotime($this->input->get('tsd')));
+            $ted = date('Y-m-d',strtotime($this->input->get('ted')));
+            $response['data']=$m_delivery->delivery_list_count($id_filter,null,null,$tsd,$ted);
 
             echo json_encode($response);    
 

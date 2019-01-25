@@ -221,7 +221,7 @@ class Login extends CORE_Controller {
                         //set session data here and response data
 
                         $tktToken = $this->Users_model->generateToken($result->row()->user_id);
-
+                        $company=$this->Company_model->get_list(1); 
                         $this->session->set_userdata(
                             array(
                                 'user_id'=>$result->row()->user_id,
@@ -229,6 +229,7 @@ class Login extends CORE_Controller {
                                 'user_fullname'=>$result->row()->user_fullname,
                                 'user_email'=>$result->row()->user_email,
                                 'user_photo'=>$result->row()->photo_path,
+                                'company_top_navigation'=>$company[0]->company_name, 
                                 'journal_prepared_by'=>$result->row()->journal_prepared_by,
                                 'journal_approved_by'=>$result->row()->journal_approved_by,
                                 'user_rights'=>$user_rights,

@@ -181,7 +181,19 @@ ORIGINAL QUERY OF THE FUNCTION
                     INNER JOIN sales_order as so ON si.sales_order_id=so.sales_order_id)
                     INNER JOIN sales_invoice_items as sii ON si.sales_invoice_id=sii.sales_invoice_id
                     WHERE  si.is_active=TRUE AND si.is_deleted=FALSE
-                    GROUP BY so.so_no,sii.product_id)as
+                    GROUP BY so.so_no,sii.product_id
+
+                    UNION ALL 
+ 
+                    SELECT  
+                    so.sales_order_id,so.so_no,max(ci.date_invoice),cii.product_id,0 as SoQty,SUM(cii.inv_qty) as InvQty 
+                    FROM cash_invoice ci 
+                    INNER JOIN sales_order so ON so.sales_order_id = ci.sales_order_id 
+                    INNER JOIN cash_invoice_items cii ON cii.cash_invoice_id = ci.cash_invoice_id 
+                    WHERE ci.is_active = TRUE AND ci.is_deleted = FALSE 
+                    GROUP BY so.so_no,cii.product_id 
+ 
+                    )as
 
                     m GROUP BY m.so_no,m.product_id HAVING SoQtyBalance>0
 

@@ -107,6 +107,20 @@
         .form-group {
             margin-bottom: 15px;
         }
+         #tbl_cash_invoice_filter    
+        { 
+            display:none; 
+        } 
+        div.dataTables_processing{  
+        position: absolute!important;  
+        top: 0%!important;  
+        right: -45%!important;  
+        left: auto!important;  
+        width: 100%!important;  
+        height: 40px!important;  
+        background: none!important;  
+        background-color: transparent!important;  
+        }  
     </style>
     <link type="text/css" href="assets/css/light-theme.css" rel="stylesheet">
 </head>
@@ -129,9 +143,36 @@
 <div class="col-md-12">
 <div id="div_cash_invoice_list">
     <div class="panel panel-default">
-        <div class="panel-body table-responsive">
+        <div class="panel-body table-responsive" style="width: 100%;overflow-x: hidden;">
         <div class="row panel-row">
         <h2 class="h2-panel-heading">Cash Invoice</h2><hr>
+            <div class="row"> 
+                <div class="col-lg-3"><br> 
+                    <button class="btn btn-success" id="btn_new" style="text-transform: none;font-family: Tahoma, Georgia, Serif; " data-toggle="modal" data-target="#salesInvoice" data-placement="left" title="Record Cash Invoice" ><i class="fa fa-plus"></i> Record Cash Invoice</button> 
+                </div> 
+                <div class="col-lg-3"> 
+                        From :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_start_date_cash" name="" class="date-picker form-control" value="<?php echo date("m"); ?>/01/<?php echo date("Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        To :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_end_date_cash" name="" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        Search :<br /> 
+                         <input type="text" id="tbl_cash_invoice_search" class="form-control"> 
+                </div> 
+            </div> 
             <table id="tbl_cash_invoice" class="table table-striped" cellspacing="0" width="100%" style="">
                 <thead >
                 <tr>
@@ -141,7 +182,7 @@
                     <th>Due Date</th>
                     <th>Customer</th>
                     <th>Department</th>
-                    <th>Remarks</th>
+                    <th width="20%">Remarks</th>
                     <th><center>Action</center></th>
                     <th></th>
 
@@ -815,6 +856,7 @@
 <script src="assets/plugins/spinner/dist/ladda.min.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="assets/plugins/datatables/ellipsis.js"></script>
 <!-- Date range use moment.js same as full calendar plugin -->
 <script src="assets/plugins/fullcalendar/moment.min.js"></script>
 <!-- Data picker -->
@@ -866,10 +908,23 @@ $(document).ready(function(){
             "dom": '<"toolbar">frtip',
             "bLengthChange":false,
             "order": [[ 8, "desc" ]],
-            "ajax" : "Cash_invoice/transaction/list",
+            "ajax" : { 
+                "url":"Cash_invoice/transaction/list", 
+                "bDestroy": true,             
+                "data": function ( d ) { 
+                        return $.extend( {}, d, { 
+                            "tsd":$('#txt_start_date_cash').val(), 
+                            "ted":$('#txt_end_date_cash').val() 
+                        }); 
+                    } 
+            },  
             "language": {
                 "searchPlaceholder":"Search Invoice"
             },
+            oLanguage: { 
+                    sProcessing: '<center><br /><img src="assets/img/loader/ajax-loader-sm.gif" /><br /><br /></center>' 
+            }, 
+            processing : true, 
             "columns": [
                 {
                     "targets": [0],
@@ -880,10 +935,10 @@ $(document).ready(function(){
                 },
                 { targets:[1],data: "cash_inv_no" },
                 { targets:[2],data: "date_invoice" },
-                { targets:[3],data: "date_due" },
+                { targets:[3],data: "date_due" ,visible:false},
                 { targets:[4],data: "customer_name" },
                 { targets:[5],data: "department_name" },
-                { targets:[6],data: "remarks" },
+                { targets:[6],data: "remarks" ,render: $.fn.dataTable.render.ellipsis(80)},
                 {
                     targets:[7],
                     render: function (data, type, full, meta){
@@ -922,11 +977,6 @@ $(document).ready(function(){
         });
         $('.numeric').autoNumeric('init');
         $('#contact_no').keypress(validateNumber);
-        var createToolBarButton=function(){
-            var _btnNew='<button class="btn btn-success" id="btn_new" style="text-transform: none;font-family: Tahoma, Georgia, Serif; " data-toggle="modal" data-target="#salesInvoice" data-placement="left" title="Record Cash Invoice" >'+
-                '<i class="fa fa-plus"></i> Record Cash Invoice</button>';
-            $("div.toolbar").html(_btnNew);
-        }();
         _cboDepartments=$("#cbo_departments").select2({
             placeholder: "Please select Department.",
             allowClear: true
@@ -1065,7 +1115,7 @@ $(document).ready(function(){
                     vat_input = getFloat(vat_input) / getFloat(suggestion.child_unit_desc);
                 }
             changetxn = 'active';
-            $('#tbl_items > tbody').append(newRowItem({
+            $('#tbl_items > tbody').prepend(newRowItem({
                 inv_qty : "1",
                 inv_gross : temp_inv_price,
                 product_code : suggestion.product_code,
@@ -1128,7 +1178,23 @@ $(document).ready(function(){
         $('#link_browse').click(function(){
             $('#btn_receive_so').click();
         });
-
+        $("#txt_start_date_cash").on("change", function () {         
+            $('#tbl_cash_invoice').DataTable().ajax.reload() 
+        }); 
+ 
+        $("#invoice_default").on("change", function () {         
+            // $('#tbl_cash_invoice').DataTable().ajax.reload() 
+            $('#label_invoice_default').text($(this).val()); 
+        }); 
+ 
+        $("#txt_end_date_cash").on("change", function () {         
+            $('#tbl_cash_invoice').DataTable().ajax.reload() 
+        }); 
+        $("#tbl_cash_invoice_search").keyup(function(){          
+                dt 
+                        .search(this.value) 
+                        .draw(); 
+        });
         $('#tbl_so_list tbody').on( 'click', 'tr td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = dt_so.row( tr );

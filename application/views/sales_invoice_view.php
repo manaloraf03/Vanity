@@ -107,6 +107,10 @@
         .form-group {
             margin-bottom: 15px;
         }
+        #tbl_sales_invoice_filter    
+        { 
+            display:none; 
+        } 
     </style>
     <link type="text/css" href="assets/css/light-theme.css" rel="stylesheet">
 </head>
@@ -135,6 +139,33 @@
         <div class="panel-body table-responsive">
         <div class="row panel-row">
         <h2 class="h2-panel-heading">Sales Invoice</h2><hr>
+            <div class="row"> 
+                <div class="col-lg-3"><br> 
+                <button class="btn btn-success" id="btn_new" style="text-transform: none;font-family: Tahoma, Georgia, Serif; " data-toggle="modal" data-target="#salesInvoice" data-placement="left" title="Record Sales Invoice" ><i class="fa fa-plus"></i> Record Sales Invoice</button> 
+                </div> 
+                <div class="col-lg-3"> 
+                        From :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_start_date_sales" name="" class="date-picker form-control" value="<?php echo date("m"); ?>/01/<?php echo date("Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        To :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_end_date_sales" name="" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        Search :<br /> 
+                         <input type="text" id="tbl_sales_invoice_search" class="form-control"> 
+                </div> 
+            </div> 
             <table id="tbl_sales_invoice" class="table table-striped" cellspacing="0" width="100%" style="">
                 <thead >
                 <tr>
@@ -144,7 +175,7 @@
                     <th>Due Date</th>
                     <th>Customer</th>
                     <th>Department</th>
-                    <th>Remarks</th>
+                    <th style="width: 20%">Remarks</th>
                     <th><center>Action</center></th>
                     <th>Invoice #</th>
                 </tr>
@@ -837,6 +868,7 @@
 <script src="assets/plugins/spinner/dist/ladda.min.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="assets/plugins/datatables/ellipsis.js"></script>
 <!-- Date range use moment.js same as full calendar plugin -->
 <script src="assets/plugins/fullcalendar/moment.min.js"></script>
 <!-- Data picker -->
@@ -888,7 +920,16 @@ $(document).ready(function(){
             "dom": '<"toolbar">frtip',
             "bLengthChange":false,
             "order": [[ 8, "desc" ]],
-            "ajax" : "Sales_invoice/transaction/list_with_count",
+            "ajax" : { 
+                "url":"Sales_invoice/transaction/list", 
+                "bDestroy": true,             
+                "data": function ( d ) { 
+                        return $.extend( {}, d, { 
+                            "tsd":$('#txt_start_date_sales').val(), 
+                            "ted":$('#txt_end_date_sales').val() 
+                        }); 
+                    } 
+            }, 
             "language": {
                 "searchPlaceholder":"Search Invoice"
             },
@@ -902,10 +943,10 @@ $(document).ready(function(){
                 },
                 { targets:[1],data: "sales_inv_no" },
                 { targets:[2],data: "date_invoice" },
-                { targets:[3],data: "date_due" },
+                { targets:[3],data: "date_due" ,visible:false},
                 { targets:[4],data: "customer_name" },
                 { targets:[5],data: "department_name" },
-                { targets:[6],data: "remarks" },
+                { targets:[6],data: "remarks"  ,render: $.fn.dataTable.render.ellipsis(60)},
                 {
                     targets:[7],
                     render: function (data, type, full, meta){
@@ -944,11 +985,6 @@ $(document).ready(function(){
         });
         $('.numeric').autoNumeric('init');
         $('#contact_no').keypress(validateNumber);
-        var createToolBarButton=function(){
-            var _btnNew='<button class="btn btn-success" id="btn_new" style="text-transform: none;font-family: Tahoma, Georgia, Serif; " data-toggle="modal" data-target="#salesInvoice" data-placement="left" title="Record Sales Invoice" >'+
-                '<i class="fa fa-plus"></i> Record Sales Invoice</button>';
-            $("div.toolbar").html(_btnNew);
-        }();
         _cboDepartments=$("#cbo_departments").select2({
             placeholder: "Please select Department.",
             allowClear: true
@@ -1239,6 +1275,18 @@ $(document).ready(function(){
         $('#btn_close_salesperson').on('click',function(){
             $('#modal_new_salesperson').modal('hide');
         });
+
+         $("#tbl_sales_invoice_search").keyup(function(){          
+                dt 
+                        .search(this.value) 
+                        .draw(); 
+        }); 
+        $("#txt_start_date_sales").on("change", function () {         
+            $('#tbl_sales_invoice').DataTable().ajax.reload() 
+        }); 
+        $("#txt_end_date_sales").on("change", function () {         
+            $('#tbl_sales_invoice').DataTable().ajax.reload() 
+        }); 
         //loads modal to create new department
         _cboDepartments.on('select2:select', function(){
             if (_cboDepartments.val() == 0) {
@@ -1572,15 +1620,11 @@ $(document).ready(function(){
             _selectRowObj=$(this).closest('tr');
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.sales_invoice_id;
-            _count=data.count;
             _is_journal_posted=data.is_journal_posted;
 
             if(_is_journal_posted > 0){
                 showNotification({title:"<b style='color:white;'> Error!</b>",stat:"error",msg:"Cannot Edit: Invoice is already Posted in Sales Journal."});
             }
-            // else if(_count > 0){
-            //     showNotification({title:"<b style='color:white;'> Error!</b> ",stat:"error",msg:"Cannot Edit: Invoice is already in use in Collection Entry."});
-            // }
             else
             {
 
@@ -1714,7 +1758,6 @@ $(document).ready(function(){
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.sales_invoice_id;
 
-            _count=data.count;
             _is_journal_posted=data.is_journal_posted;
 
                 _selectRowObj=$(this).closest('tr');
@@ -1735,8 +1778,6 @@ $(document).ready(function(){
                     }
                     if(_is_journal_posted > 0){
                         showNotification({title:"<b style='color:white;'> Error!</b> ",stat:"error",msg:"Cannot Delete: Invoice is already Posted in Sales Journal."});
-                    }else if(_count > 0){
-                        showNotification({title:"<b style='color:white;'> Error!</b> ",stat:"error",msg:"Cannot Edit: Invoice is already in use in Collection Entry."});
                     }else {
                         $('#modal_confirmation').modal('show');
                     }

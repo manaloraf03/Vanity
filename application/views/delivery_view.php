@@ -149,7 +149,9 @@
             padding-bottom: 15px;
         }
 
-
+        #tbl_delivery_invoice_filter{
+            display: none;
+        }
     </style>
 </head>
 
@@ -191,12 +193,39 @@
         <div class="panel-body table-responsive">
         <div class="row panel-row">
             <h2 style="margin-bottom: 0;" class="h2-panel-heading"> Purchase Invoice</h2><hr>
+            <div class="row"> 
+                <div class="col-lg-3"><br> 
+                    <button class="btn btn-primary"  id="btn_new" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;" data-toggle="modal" data-target="" data-placement="left" title="Record Purchase Invoice" ><i class="fa fa-plus"></i> Record Purchase Invoice</button>
+                </div>
+                <div class="col-lg-3"> 
+                        From :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_start_date_purchase" name="" class="date-picker form-control" value="<?php echo date("m"); ?>/01/<?php echo date("Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        To :<br /> 
+                        <div class="input-group"> 
+                            <input type="text" id="txt_end_date_purchase" name="" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>"> 
+                             <span class="input-group-addon"> 
+                                    <i class="fa fa-calendar"></i> 
+                             </span> 
+                        </div> 
+                </div> 
+                <div class="col-lg-3"> 
+                        Search :<br /> 
+                         <input type="text" id="tbl_delivery_invoice_search" class="form-control"> 
+                </div> 
+            </div> <br>
             <table id="tbl_delivery_invoice" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th></th>
                     <th>Invoice #</th>
-                    <th>Supplier</th>
+                    <th width="25%">Supplier</th>
                     <th>External Ref#</th>
                     <th>PO #</th>
                     <th>Terms</th>
@@ -831,7 +860,7 @@
 <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
 
-
+<script type="text/javascript" src="assets/plugins/datatables/ellipsis.js"></script> 
 
 
 <!-- Date range use moment.js same as full calendar plugin -->
@@ -931,7 +960,16 @@ $(document).ready(function(){
             "language": {
                 "searchPlaceholder":"Search Purchase Invoice"
             },
-            "ajax" : "Deliveries/transaction/delivery_list_count",
+            "ajax" : { 
+                "url":"Deliveries/transaction/delivery_list_count", 
+                "bDestroy": true,             
+                "data": function ( d ) { 
+                        return $.extend( {}, d, { 
+                            "tsd":$('#txt_start_date_purchase').val(), 
+                            "ted":$('#txt_end_date_purchase').val() 
+                        }); 
+                    } 
+            }, 
             "columns": [
                 {
                     "targets": [0],
@@ -941,7 +979,7 @@ $(document).ready(function(){
                     "defaultContent": ""
                 },
                 { targets:[1],data: "dr_invoice_no" },
-                { targets:[2],data: "supplier_name" },
+                { targets:[2],data: "supplier_name" ,render: $.fn.dataTable.render.ellipsis(80)},
                 { targets:[3],data: "external_ref_no" },
                 { targets:[4],data: "po_no" },
                 { targets:[5],data: "term_description" },
@@ -957,17 +995,6 @@ $(document).ready(function(){
                 }
             ]
         });
-
-
-        var createToolBarButton=function(){
-            var _btnNew='<button class="btn btn-primary"  id="btn_new" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;" data-toggle="modal" data-target="" data-placement="left" title="Record Purchase Invoice" >'+
-                '<i class="fa fa-plus"></i> Record Purchase Invoice</button>';
-
-            $("div.toolbar").html(_btnNew);
-        }();
-
-
-
 
 
         $('.date-picker').datepicker({
@@ -1273,6 +1300,17 @@ $(document).ready(function(){
         });
 
 
+         $("#tbl_sales_invoice_search").keyup(function(){          
+                dt 
+                        .search(this.value) 
+                        .draw(); 
+        }); 
+        $("#txt_start_date_purchase").on("change", function () {         
+            $('#tbl_delivery_invoice').DataTable().ajax.reload() 
+        }); 
+        $("#txt_end_date_purchase").on("change", function () {         
+            $('#tbl_delivery_invoice').DataTable().ajax.reload() 
+        }); 
         $('#tbl_delivery_invoice tbody').on('click','#btn_email',function(){
             _selectRowObj=$(this).parents('tr').prev();
             var d=dt.row(_selectRowObj).data();
@@ -1525,15 +1563,11 @@ $(document).ready(function(){
             _selectRowObj=$(this).closest('tr');
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.dr_invoice_id;
-            _count=data.count;
             _is_journal_posted=data.is_journal_posted;
 
             if(_is_journal_posted > 0){
                 showNotification({title:"Error!",stat:"error",msg:"Cannot Edit: Invoice is already Posted in Purchase Journal."});
             }
-            // else if (_count > 0){
-            //     showNotification({title:"Error!",stat:"error",msg:"Cannot Edit: Invoice is already in use in Record Payment."});
-            // }
             else
             {
                 getproduct().done(function(data){
@@ -1668,30 +1702,12 @@ $(document).ready(function(){
             _selectRowObj=$(this).closest('tr');
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.dr_invoice_id;
-            _count=data.count;
             _is_journal_posted=data.is_journal_posted;
-
             if(_is_journal_posted > 0){
                 showNotification({title:"Error!",stat:"error",msg:"Cannot Delete: Invoice is already Posted in Purchase Journal."});
-            }
-            // else if (_count > 0){
-            //     showNotification({title:"Error!",stat:"error",msg:"Cannot Delete: Invoice is already in use in Record Payment."});
-            // }
-            else
-            {
-
-
-            _selectRowObj=$(this).closest('tr');
-            var data=dt.row(_selectRowObj).data();
-            _selectedID=data.dr_invoice_id;           
-            _count=data.count;
-            // if(_count > 0){
-            //     showNotification({title:"Error!",stat:"error",msg:"Cannot Delete: Invoice is already in use in Record Payment."});
-            // } else { 
+            } else {
                 $('#modal_confirmation').modal('show');
-            // }
-
-        }
+            }
         });
         $('#tbl_items tbody').on('change','select',function(){
         if(changetxn == 'active'){

@@ -26,7 +26,8 @@ class User_group_right_model extends CORE_Model{
             (SELECT x.link_code FROM user_group_rights as x WHERE x.user_group_id=$user_group_id)as ugr
 
 
-            ON rl.link_code=ugr.link_code";
+            ON rl.link_code=ugr.link_code
+            ORDER BY CAST(rl.parent_code as signed) ASC, CAST(SUBSTRING_INDEX(rl.link_code, '-', -1) as signed) ASC";
         return $this->db->query($sql)->result();
     }
 

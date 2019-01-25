@@ -111,6 +111,9 @@
 
             display: none;
         }
+        .right_align{
+            text-align: right;
+        }
     </style>
     <link type="text/css" href="assets/css/light-theme.css" rel="stylesheet">
 </head>
@@ -140,14 +143,22 @@
         <div class="row panel-row">
         <h2 class="h2-panel-heading">Sales/Cash Invoice History</h2><hr>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-lg-3">
                             <b class="required"></b>Customer : <br />
-                            <select name="customer" id="cbo_customers" data-error-msg="Customer is required." required>
-                            <option value="0"> All</option>
+                            <select name="customer" id="cbo_customers" class="form-control">
+                            <!-- <option value="0"> All</option> -->
                                 <?php foreach($customers as $customer){ ?>
-                                    <option data-address="<?php echo $customer->address; ?>" data-contact="<?php echo $customer->contact_name; ?>" value="<?php echo $customer->customer_id; ?>" data-term-default="<?php echo ($customer->term=="none"?"":$customer->term); ?>" data-customer_type="<?php echo $customer->customer_type_id; ?>"><?php echo $customer->customer_name; ?></option>
+                                    <option value="<?php echo $customer->customer_id; ?>"><?php echo $customer->customer_name; ?></option>
                                 <?php } ?>
                             </select>
+                        </div>
+                        <div class="col-lg-6" >
+                            <b class="required"></b>Product : <br />
+                            <select id="product_id" class="form-control">
+                                <option value="0"> ALL PRODUCTS</option>
+                                <?php foreach($products as $row) { echo '<option value="'.$row->product_id.'">'.$row->product_desc.'</option>'; } ?>
+                            </select>
+
                         </div>
                     <div class="col-lg-3">
                             Search :<br />
@@ -159,11 +170,13 @@
                 <thead >
                 <tr>
                     <th></th>
+                    <th width="25%">Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Gross</th>
                     <th>Invoice #</th>
-                    <th>Invoice Date</th>
-                    <th>Customer</th>
-                    <th>Department</th>
-                    <th style="width: 20%">Remarks</th>
+                    <th width="10%">Invoice Date</th>
+                    <th width="20%">Remarks</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -219,7 +232,7 @@
 <script>
 $(document).ready(function(){
     var dt; var _txnMode; var _selectedID; var _selectRowObj; var _cboDepartments; var _cboDepartments; var _cboCustomers; var dt_so; var products; var changetxn;
-    var _cboCustomerType; var prodstat;
+    var _cboCustomerType; var prodstat; var _cboProducts;
     var _cboCustomerTypeCreate; var _cboSource;
      var _line_unit;
 
@@ -230,32 +243,41 @@ $(document).ready(function(){
             "bLengthChange":false,
                 "order": [[ 2, "desc" ]],
             "ajax" : {
-                "url" : "Sales_history/transaction/list_with_count",
+                "url" : "Customer_sale_history/transaction/list",
                 "bDestroy": true,            
                 "data": function ( d ) {
                         return $.extend( {}, d, {
-                            "id":$('#cbo_customers').val()
+                            "id":$('#cbo_customers').val(),
+                            "pid":$('#product_id').val()
+
 
                         });
                     }
             }, 
             "columns": [
-                {
+                { visible:false,
                     "targets": [0],
                     "class":          "details-control",
                     "orderable":      false,
                     "data":           null,
                     "defaultContent": ""
                 },
-                { targets:[1],data: "inv_no" },
-                { targets:[2],data: "date_invoice" },
-                { targets:[3],data: "customer_name" },
-                { targets:[4],data: "department_name" },
-                { targets:[5],data: "remarks"  ,render: $.fn.dataTable.render.ellipsis(80)},
+                { targets:[1],data: "product_desc" ,render: $.fn.dataTable.render.ellipsis(100)},
+                {sClass:"right_align", targets:[2],data: "inv_price" , render: $.fn.dataTable.render.number( ',', '.', 2)},
+                {sClass:"right_align", targets:[3],data: "inv_qty" , render: $.fn.dataTable.render.number( ',', '.', 2)},
+                {sClass:"right_align", targets:[4],data: "inv_gross" , render: $.fn.dataTable.render.number( ',', '.', 2)},
+                { targets:[5],data: "inv_no" },
+                { targets:[6],data: "date_invoice" },
+                { targets:[7],data: "remarks"  ,render: $.fn.dataTable.render.ellipsis(80)},
             ]
         });
         _cboCustomers=$("#cbo_customers").select2({
             placeholder: "Please select customer.",
+            allowClear: false
+        });
+
+        _cboProducts=$("#product_id").select2({
+            placeholder: "Please Select a Product.",
             allowClear: false
         });
       
@@ -327,6 +349,10 @@ $(document).ready(function(){
         });
 
         _cboCustomers.on("select2:select", function (e) {
+            $('#tbl_sales_invoice').DataTable().ajax.reload()
+        });
+
+        _cboProducts.on("select2:select", function (e) {
             $('#tbl_sales_invoice').DataTable().ajax.reload()
         });
     })();

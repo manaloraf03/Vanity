@@ -110,6 +110,67 @@ class Sales_invoice_model extends CORE_Model
         return $this->db->query($sql)->result();
     }
 
+    function get_customer_sale_history($customer_id = null,$product_id = null){
+        $sql='          SELECT 
+            invoice_id,
+            inv_no,
+            transaction_type,
+            product_desc,
+            inv_qty,
+            inv_price,
+            inv_gross,
+            remarks,
+            DATE_FORMAT(main.date_invoice,"%m/%d/%Y") as date_invoice,
+            p.product_desc,
+            u.unit_name
+            FROM 
+            (SELECT         
+            sii.sales_invoice_id as invoice_id,
+            "SI" as transaction_type,
+            sii.product_id,
+            sii.unit_id,
+            sii.inv_qty,
+            sii.inv_price,
+            sii.inv_gross,
+            si.date_invoice,
+            si.sales_inv_no  as inv_no,
+            si.remarks
+            FROM sales_invoice_items sii
+            LEFT JOIN sales_invoice si ON si.sales_invoice_id = sii.sales_invoice_id 
+            LEFT JOIN products p ON p.product_id = sii.product_id
+            LEFT JOIN units u ON u.unit_id = sii.unit_id
+            WHERE si.is_active = TRUE AND si.is_deleted = FALSE
+            '.($customer_id==null||$customer_id==0?'':' AND si.customer_id='.$customer_id).'
+            '.($product_id==null||$product_id==0?'':' AND sii.product_id='.$product_id).'
+            UNION ALL
+ 
+            SELECT
+            cii.cash_invoice_id as invoice_id,
+            "CI" as transaction_type,
+            cii.product_id,
+            cii.unit_id,
+            cii.inv_qty,
+            cii.inv_price,
+            cii.inv_gross,
+            ci.date_invoice,
+            ci.cash_inv_no  as inv_no,
+            ci.remarks
+            FROM cash_invoice_items cii
+
+            LEFT JOIN cash_invoice ci ON ci.cash_invoice_id = cii.cash_invoice_id 
+            LEFT JOIN products p ON p.product_id = cii.product_id
+            LEFT JOIN units u ON u.unit_id = cii.unit_id
+            WHERE ci.is_active = TRUE AND ci.is_deleted = FALSE
+            '.($customer_id==null||$customer_id==0?'':' AND ci.customer_id='.$customer_id).'
+            '.($product_id==null||$product_id==0?'':' AND cii.product_id='.$product_id).'
+            ) as main
+            LEFT JOIN products p ON p.product_id = main.product_id 
+            LEFT JOIN units u ON u.unit_id= main.unit_id
+            ORDER BY main.date_invoice DESC
+        ';
+
+        return $this->db->query($sql)->result();
+    }
 
 function get_journal_entries_2($sales_invoice_id){
 

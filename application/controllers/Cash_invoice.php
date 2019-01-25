@@ -94,7 +94,10 @@ class Cash_invoice extends CORE_Controller
         switch ($txn){
             case 'list':
             $m_pf_invoice = $this->Cash_invoice_model;
-            $response['data']=$this->response_rows();
+            $tsd = date('Y-m-d',strtotime($this->input->get('tsd'))); 
+            $ted = date('Y-m-d',strtotime($this->input->get('ted'))); 
+            $additional = " AND DATE(cash_invoice.date_invoice) BETWEEN '$tsd' AND '$ted'"; 
+            $response['data']=$this->response_rows(null,null,$additional); 
                     echo json_encode($response);
 
         
@@ -464,9 +467,9 @@ class Cash_invoice extends CORE_Controller
     }
 
 
-    function response_rows($id_filter=null,$show_unposted=FALSE){
+    function response_rows($id_filter=null,$show_unposted=FALSE,$additional=null){
         return $this->Cash_invoice_model->get_list(
-            'cash_invoice.is_active = TRUE AND cash_invoice.is_deleted = FALSE '.($id_filter==null?'':' AND cash_invoice.cash_invoice_id='.$id_filter). ($show_unposted==FALSE?"":" AND cash_invoice.is_journal_posted=FALSE "),
+            'cash_invoice.is_active = TRUE AND cash_invoice.is_deleted = FALSE '.($id_filter==null?'':' AND cash_invoice.cash_invoice_id='.$id_filter).''.($additional==null?'':$additional).''. ($show_unposted==FALSE?"":" AND cash_invoice.is_journal_posted=FALSE "), 
             array(
                 'cash_invoice.*',
                 'DATE_FORMAT(cash_invoice.date_invoice,"%m/%d/%Y") as date_invoice',
