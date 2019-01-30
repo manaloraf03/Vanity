@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="assets/plugins/pace/themes/blue/pace-theme-flash.css" /><!-- progress bar -->
 <link rel="stylesheet" href="assets/plugins/checkbox/checkbox.css" /><!-- progress bar -->
-
+<link rel="icon" href="assets/img/companyico.ico" type="image/ico" sizes="16x16">
 
 <style type="text/css">
 /* -------------- SWITCHER --------------   */

@@ -1115,7 +1115,7 @@ $(document).ready(function(){
                     vat_input = getFloat(vat_input) / getFloat(suggestion.child_unit_desc);
                 }
             changetxn = 'active';
-            $('#tbl_items > tbody').prepend(newRowItem({
+            $('#tbl_items > tbody').append(newRowItem({
                 inv_qty : "1",
                 inv_gross : temp_inv_price,
                 product_code : suggestion.product_code,

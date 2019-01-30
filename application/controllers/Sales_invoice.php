@@ -699,7 +699,7 @@ class Sales_invoice extends CORE_Controller
 
 
 //**************************************user defined*************************************************
-    function response_rows($filter_value,$additional){
+    function response_rows($filter_value,$additional=null){
         return $this->Sales_invoice_model->get_list(
              'sales_invoice.is_active = TRUE AND sales_invoice.is_deleted = FALSE '.($filter_value==null?'':' AND sales_invoice.sales_invoice_id='.$filter_value).''.($additional==null?'':$additional),
             array(

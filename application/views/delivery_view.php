@@ -1300,7 +1300,7 @@ $(document).ready(function(){
         });
 
 
-         $("#tbl_sales_invoice_search").keyup(function(){          
+         $("#tbl_delivery_invoice_search").keyup(function(){          
                 dt 
                         .search(this.value) 
                         .draw(); 
