@@ -316,10 +316,10 @@ class Sales_invoice extends CORE_Controller
                     //unit id retrieval is change, because of TRIGGER restriction
                     $m_invoice_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                     if($is_parent[$i] == '1'){
-                                            $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                            $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_invoice_items->unit_id=$unit_id[0]->parent_unit_id;
                     }else{
-                                             $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                             $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_invoice_items->unit_id=$unit_id[0]->child_unit_id;
                     }   
 
@@ -460,10 +460,10 @@ class Sales_invoice extends CORE_Controller
                         //unit id retrieval is change, because of TRIGGER restriction
                         $m_invoice_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                         if($is_parent[$i] == '1'){
-                                                $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                                $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                                 $m_invoice_items->unit_id=$unit_id[0]->parent_unit_id;
                         }else{
-                                                 $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                                 $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                                 $m_invoice_items->unit_id=$unit_id[0]->child_unit_id;
                         }   
                         //$m_invoice_items->set('unit_id','(SELECT unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
