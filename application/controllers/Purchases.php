@@ -299,9 +299,9 @@ class Purchases extends CORE_Controller
                         $m_po_items->non_tax_amount=$this->get_numeric_value($non_tax_amount[$i]);
                         $m_po_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                         if($is_parent[$i] == '1'){
-                            $m_po_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                            $m_po_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         }else{
-                             $m_po_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                             $m_po_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         }                        
                         $m_po_items->save();
                     }
@@ -389,9 +389,9 @@ class Purchases extends CORE_Controller
                         $m_po_items->non_tax_amount=$this->get_numeric_value($non_tax_amount[$i]);
                         $m_po_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                         if($is_parent[$i] == '1'){
-                            $m_po_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                            $m_po_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         }else{
-                             $m_po_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                             $m_po_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         }                        
                         $m_po_items->save();
                     }

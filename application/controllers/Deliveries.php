@@ -239,10 +239,10 @@ class Deliveries extends CORE_Controller
                     //unit id retrieval is change, because of TRIGGER restriction
                     $m_dr_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                     if($is_parent[$i] == '1'){
-                                            $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                            $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_dr_items->unit_id=$unit_id[0]->parent_unit_id;
                     }else{
-                                             $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                             $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_dr_items->unit_id=$unit_id[0]->child_unit_id;
                     }   
                     $m_dr_items->save();
@@ -373,10 +373,10 @@ class Deliveries extends CORE_Controller
 
                     $m_dr_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                     if($is_parent[$i] == '1'){
-                                            $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                            $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_dr_items->unit_id=$unit_id[0]->parent_unit_id;
                     }else{
-                                             $unit_id=$m_products->get_list(array('product_id'=>$prod_id[$i]));
+                                             $unit_id=$m_products->get_list(array('product_id'=>$this->get_numeric_value($prod_id[$i])));
                                             $m_dr_items->unit_id=$unit_id[0]->child_unit_id;
                     }   
                     $m_dr_items->save();

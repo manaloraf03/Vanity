@@ -231,9 +231,9 @@ class Adjustments extends CORE_Controller
 
                         $m_adjustment_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                         if($is_parent[$i] == '1'){
-                            $m_adjustment_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                            $m_adjustment_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         }else{
-                             $m_adjustment_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                             $m_adjustment_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                         } 
 
                     $m_adjustment_items->save();
@@ -328,9 +328,9 @@ class Adjustments extends CORE_Controller
 
                     $m_adjustment_items->is_parent=$this->get_numeric_value($is_parent[$i]);
                     if($is_parent[$i] == '1'){
-                        $m_adjustment_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                        $m_adjustment_items->set('unit_id','(SELECT parent_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                     }else{
-                         $m_adjustment_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$prod_id[$i].')');
+                         $m_adjustment_items->set('unit_id','(SELECT child_unit_id FROM products WHERE product_id='.(int)$this->get_numeric_value($prod_id[$i]).')');
                     } 
 
                     $m_adjustment_items->save();
