@@ -189,7 +189,7 @@
 
         <h2 class="h2-panel-heading">Sales Report By Source</h2><hr>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                    <b>* </b>  Order Source :<br />
                     <select name="order_source_id" id="cbo_order_source">
                         <option value="0">ALL</option>
@@ -198,13 +198,22 @@
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                    <b>* </b>  Invoice Source :<br />
                     <select name="source_invoice" id="source_invoice">
                         <option value="0">ALL</option>
                         <option value="1">Sales Invoices</option>
                         <option value="2">Cash Invoices</option>
                        
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                   <b>* </b>  Supplier :<br />
+                    <select name="supplier_id" id="supplier_id">
+                        <option value="0">ALL</option>
+                        <?php foreach($suppliers as $supplier){ ?>
+                            <option value="<?php echo $supplier->supplier_id; ?>"><?php echo $supplier->supplier_name; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="col-lg-2">
@@ -323,7 +332,7 @@
 
 
 $(document).ready(function(){
-    var dt;  var _cboSource;  var _cboInvoice;
+    var dt;  var _cboSource;  var _cboInvoice; var _cboSupplierid;
 
 
 
@@ -332,6 +341,10 @@ $(document).ready(function(){
         _cboSource=$("#cbo_order_source").select2({
             placeholder: "Please select Order Source."
         });
+        _cboSupplierid=$("#supplier_id").select2({
+            placeholder: "Please select a Supplier."
+        });
+
         _cboInvoice=$("#source_invoice").select2({
             placeholder: "Please select Invoice Source."
         });
@@ -360,7 +373,7 @@ $(document).ready(function(){
        var bindEventHandlers=function(){
 
         $('#btn_print').click(function(){
-            window.open('Sales_report_source/transaction/report?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val());
+            window.open('Sales_report_source/transaction/report?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val()+'&supid='+$('#supplier_id').val());
         });
 
         _cboSource.on("select2:select", function (e) {
@@ -368,6 +381,10 @@ $(document).ready(function(){
         });
 
         _cboInvoice.on("select2:select", function (e) {
+            reinitializeBalances(); 
+        });
+
+        _cboSupplierid.on("select2:select", function (e) {
             reinitializeBalances(); 
         });
 
@@ -380,7 +397,7 @@ $(document).ready(function(){
         });
 
             $('#btn_export').on('click', function() {
-                window.open('Sales_report_source/transaction/export?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val(),'_self');
+                window.open('Sales_report_source/transaction/export?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val()+'&supid='+$('#supplier_id').val(),'_self');
             });
 
 
@@ -413,6 +430,7 @@ $(document).ready(function(){
          data.push({name : "si" ,value : $('#source_invoice').val()});
          data.push({name : "start" ,value : $('#txt_start_date').val()});
          data.push({name : "end" ,value : $('#txt_end_date').val()});
+         data.push({name : "supid" ,value : $('#supplier_id').val()});
         $.ajax({
             url : 'Sales_report_source/transaction/list',
             type : "GET",

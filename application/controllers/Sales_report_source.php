@@ -15,6 +15,7 @@ class Sales_report_source extends CORE_Controller
         $this->load->library('excel');
         $this->load->model('Email_settings_model');
         $this->load->model('Order_source_model');
+        $this->load->model('Suppliers_model');
     }
 
     public function index() {
@@ -26,6 +27,13 @@ class Sales_report_source extends CORE_Controller
         $data['_side_bar_navigation'] = $this->load->view('template/elements/side_bar_navigation', '', TRUE);
         $data['_top_navigation'] = $this->load->view('template/elements/top_navigation', '', TRUE);
 
+        $data['suppliers']=$this->Suppliers_model->get_list(
+            array('suppliers.is_active'=>TRUE,'suppliers.is_deleted'=>FALSE),
+            'suppliers.*,IFNULL(tax_types.tax_rate,0)as tax_rate',
+            array(
+                array('tax_types','tax_types.tax_type_id=suppliers.tax_type_id','left')
+            )
+        );
 
         $data['title'] = 'Sales Report By Source';
          $data['order_sources'] = $this->Order_source_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE));
@@ -42,15 +50,16 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
+                $supplier_id = $this->input->get('supid');
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
-                    $response['data']=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice);
-                    $response['sources']=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                    $response['totals']=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                    $response['data']=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $response['sources']=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $response['totals']=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
 
-                    $response['return_data']=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice);
-                    $response['return_sources']=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                    $response['return_totals']=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                    $response['return_data']=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $response['return_sources']=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $response['return_totals']=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
                     echo json_encode($response);
                 break;
 
@@ -64,17 +73,18 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
+                $supplier_id = $this->input->get('supid');
 
 
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
-                    $data['data']=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice);
-                    $data['sources']=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                    $data['totals']=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                    $data['data']=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $data['sources']=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $data['totals']=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
 
-                    $data['return_data']=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice);
-                    $data['return_sources']=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                    $data['return_totals']=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                    $data['return_data']=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $data['return_sources']=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                    $data['return_totals']=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
                     $source_name = $this->Order_source_model->get_list($order_source_id);
                     if(count($source_name) == 0){
 
@@ -82,7 +92,13 @@ class Sales_report_source extends CORE_Controller
                     }else{
                         $data['source_name'] = $source_name[0]->order_source_name;
                     }
-
+                    $data['supplier_id'] = $supplier_id; // PASS THE SUPPLIER ID TO KNOW IF SUPPLIER NAME IS TO BE SHOWN
+                    if($supplier_id == 0){
+                        $data['supplier_name'] = 'ALL';
+                        
+                    }else{
+                        $data['supplier_name']=$this->Suppliers_model->get_list($supplier_id,'supplier_name')[0]->supplier_name;
+                    }
                 $this->load->view('template/sales_report_source_content',$data);
                 break;
 
@@ -96,15 +112,16 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
+                $supplier_id = $this->input->get('supid');
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
-                $data=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice);
-                $sources=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                $totals=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                $data=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                $sources=$m_sales->get_sales_source(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                $totals=$m_sales->get_sales_source(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
 
-                $return_data=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice);
-                $return_sources=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice);
-                $return_totals=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice);
+                $return_data=$m_sales->get_sales_return(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                $return_sources=$m_sales->get_sales_return(TRUE,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
+                $return_totals=$m_sales->get_sales_return(null,TRUE,$order_source_id,$start,$end,$source_invoice,$supplier_id);
                 $source_name = $this->Order_source_model->get_list($order_source_id);
                 if(count($source_name) == 0){ $source_name= 'ALL'; }else{$source_name= $source_name[0]->order_source_name; }
                 if($source_invoice == 0){ $inv_src = 'All Invoices'; }else if ($source_invoice == 1){ $inv_src = 'Sales Invoices Only'; }else if($source_invoice== 2){ $inv_src = 'Cash Invoice Only' ;} 
@@ -159,7 +176,11 @@ class Sales_report_source extends CORE_Controller
                 $i=8;
                 $excel->getActiveSheet()->setCellValue('A'.$i,'Period : '.$start.' - '.$end); $i++;
                 $excel->getActiveSheet()->setCellValue('A'.$i,'Source: '.$source_name); $i++;
-                $excel->getActiveSheet()->setCellValue('A'.$i,'Invoice Source: '.$inv_src); $i++;$i++;
+                $excel->getActiveSheet()->setCellValue('A'.$i,'Invoice Source: '.$inv_src); $i++;
+                if($supplier_id != 0){
+                    $excel->getActiveSheet()->setCellValue('A'.$i,'Supplier: '.$this->Suppliers_model->get_list($supplier_id,'supplier_name')[0]->supplier_name); $i++;
+                }
+                $i++;
 
 
 

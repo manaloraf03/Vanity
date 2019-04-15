@@ -66,6 +66,14 @@
 		<td></td>
 		<td></td>
 	</tr>
+<?php if($supplier_id != 0) {?>
+	<tr>
+		<td><strong>Supplier: </strong><?php echo $supplier_name; ?></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+<?php } ?>
 </table>
 <h2>Sales</h2>
 <?php 
