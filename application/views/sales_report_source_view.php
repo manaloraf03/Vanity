@@ -170,7 +170,7 @@
 
 <ol class="breadcrumb"  style="margin-bottom: 10px;">
     <li><a href="Dashboard">Dashboard</a></li>
-    <li><a href="Open_purchase">Open Purchases</a></li>
+    <li><a href="Sales_report_source">Sales Report by Source</a></li>
 </ol>
 
 
