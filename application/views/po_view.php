@@ -1373,10 +1373,11 @@ $(document).ready(function(){
                     var price=parseFloat(accounting.unformat(row.find(oTableItems.retail_price).find('input.numeric').val()));
                 }
                 $(oTableItems.unit_price,row).find('input').val(accounting.formatNumber(price,2));  
-                $(oTableItems.unit_identifier,row).find('input').val(accounting.formatNumber(unit_value,2)); 
+                $(oTableItems.unit_identifier,row).find('input').val(accounting.formatNumber(unit_value,2));
+                $('.number-keyup').keyup(); 
             } 
 
-        $('.number-keyup').keyup();
+        
         });
 
 
