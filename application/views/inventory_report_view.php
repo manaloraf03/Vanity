@@ -323,14 +323,12 @@
                 dt.clear().draw();
                 dt.destroy();
                 reloadList();
-                createToolBarButton();
             });
 
             $('#cbo_department').on('change',function(){
                 dt.clear().draw();
                 dt.destroy();
                 reloadList();
-                createToolBarButton();
             });
 
             $(document).on('click','#btn_print',function(){

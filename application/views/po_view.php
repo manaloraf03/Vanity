@@ -187,6 +187,7 @@
                     <th>Status</th>
                     <th>Sent</th>
                     <th><center>Action</center></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -330,9 +331,9 @@
                             <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
                             <input id="txt_overall_discount_amount" name="total_overall_discount_amount" type="hidden" class="numeric form-control" value="0.00" />
                         </td>
-                        <td style="text-align: right;"><strong><i class="glyph-icon icon-star"></i>Total After Discount :</strong></td>
-                        <td id="td_total_after_discount" style="text-align: right;"><strong>0.00</strong></td>
-                        <td style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total Before Tax :</strong></td>
+                        <td style="text-align: right;"><strong style="display: none;"> <i class="glyph-icon icon-star"></i>Total After Discount :</strong></td>
+                        <td id="td_total_after_discount" style="text-align: right;display: none;"><strong>0.00</strong></td><td style="border-right: 0px;"></td>
+                        <td style="text-align: right; border-left: 0px!important;"><strong><i class="glyph-icon icon-star"></i> Total Before Tax :</strong></td>
                         <td align="right" colspan="2" id="td_before_tax" color="red">0.00</td>
                     </tr>
                     <tr>
@@ -590,14 +591,14 @@
 
                             <div class="col-md-12">
                                 <div class="col-md-4" id="label">
-                                    <label class="control-label boldlabel" style="text-align:right;">Mobile No :</label>
+                                    <label class="control-label boldlabel" style="text-align:right;">Contact No :</label>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-mobile"></i>
                                         </span>
-                                        <input type="text" name="mobile_no" id="mobile_no" class="form-control" placeholder="Mobile No">
+                                        <input type="text" name="contact_no" id="mobile_no" class="form-control" placeholder="Contact No">
                                     </div>
                                 </div>
                             </div>
@@ -782,7 +783,9 @@ $(document).ready(function(){
         net_vat : 'td:eq(9)',
         item_id : 'td:eq(10)',
         bulk_price : 'td:eq(12)',
-        retail_price : 'td:eq(13)'
+        retail_price : 'td:eq(13)',
+        total_after_global : 'td:eq(14)'
+
 
     };
 
@@ -800,8 +803,7 @@ $(document).ready(function(){
         dt=$('#tbl_purchases').DataTable({
             "dom": '<"toolbar">frtip',
             "bLengthChange":false,
-            "pageLength":15,
-            "order": [[ 2, "desc" ]],
+            "order": [[ 9, "desc" ]],
             "ajax" : "Purchases/transaction/list",
             "columns": [
                 {
@@ -812,7 +814,7 @@ $(document).ready(function(){
                     "defaultContent": ""
                 },
                 
-                {
+                { visible:false,
                     targets:[1], data:null,
                     render: function (data, type, full, meta){
                         var btn_email='<button id="btn_email" class="btn-primary btn btn-sm " style="margin-left:-15px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-share"></i> <span class="display" style="display:none;"></span></button> ';
@@ -856,9 +858,9 @@ $(document).ready(function(){
                         return '<center>'+btn_edit+'&nbsp;'+btn_message+'&nbsp;'+btn_trash+'</center>';
                     }
                 },
+                { targets:[9],data: "purchase_order_id",visible:false }
             ]
         });
-
 
         var createToolBarButton=function(){
             var _btnNew='<button class="btn btn-primary"  id="btn_new" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;" data-toggle="modal" data-target="" data-placement="left" title="New Purcahase Order" >'+
@@ -1040,6 +1042,7 @@ $(document).ready(function(){
                 po_discount : "0.00",
                 tax_type_id : null,
                 po_line_total : temp_inv_price,
+                po_line_total_after_global : temp_inv_price,
                 po_non_tax_amount: net_vat,
                 po_tax_amount:vat_input,
                 is_parent: suggis_parent ,
@@ -1325,6 +1328,7 @@ $(document).ready(function(){
                             po_discount : value.po_discount,
                             tax_type_id : null,
                             po_line_total : value.po_line_total,
+                            po_line_total_after_global : value.po_line_total_after_global,
                             po_non_tax_amount: value.non_tax_amount,
                             po_tax_amount:value.tax_amount,
                             is_bulk: value.is_bulk,
@@ -1373,8 +1377,8 @@ $(document).ready(function(){
                     var price=parseFloat(accounting.unformat(row.find(oTableItems.retail_price).find('input.numeric').val()));
                 }
                 $(oTableItems.unit_price,row).find('input').val(accounting.formatNumber(price,2));  
-                $(oTableItems.unit_identifier,row).find('input').val(accounting.formatNumber(unit_value,2));
-                $('.number-keyup').keyup(); 
+                $(oTableItems.unit_identifier,row).find('input').val(accounting.formatNumber(unit_value,2)); 
+                $('.number-keyup').keyup();
             } 
 
         
@@ -1393,16 +1397,18 @@ $(document).ready(function(){
             //     showNotification({title:"Invalid",stat:"error",msg:"Discount must not greater than unit price."});
             //     row.find(oTableItems.discount).find('input.numeric').val('0.00');
             // }
-
+            var global_discount = $('#txt_overall_discount').val();
             var discounted_price=price-discount;
             var line_total_discount=discount*qty;
             var line_total=price*qty;
             var new_discount_price=line_total*(discount/100);
             var new_line_total=line_total-new_discount_price;
-            var net_vat=line_total/(1+tax_rate);
-            var vat_input=line_total-net_vat;
+            var total_after_global = new_line_total-(new_line_total*(global_discount/100));
+            var net_vat=total_after_global/(1+tax_rate);
+            var vat_input=total_after_global-net_vat;
 
             $(oTableItems.total,row).find('input.numeric').val(accounting.formatNumber(new_line_total,2)); // line total amount
+            $(oTableItems.total_after_global,row).find('input.numeric').val(accounting.formatNumber(total_after_global,2)); // line total amount
             $(oTableItems.total_line_discount,row).find('input.numeric').val(accounting.formatNumber(new_discount_price,2)); //line total discount
             $(oTableItems.net_vat,row).find('input.numeric').val(accounting.formatNumber(net_vat,2)); //net of vat
             $(oTableItems.vat_input,row).find('input.numeric').val(accounting.formatNumber(vat_input,2)); //vat input
@@ -1722,30 +1728,34 @@ $(document).ready(function(){
         //display:none;
         '<td style="display: none;" ><input name="po_line_total_discount[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_line_total_discount,2)+'" readonly></td>'+
         '<td style="display: none;"><input name="po_tax_rate[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_tax_rate,2)+'"></td>'+
-        '<td  align="right"><input name="po_line_total[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_line_total,2)+'" readonly></td>'+
+        '<td  align="right" style="display:none;"><input name="po_line_total[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_line_total,2)+'" readonly></td>'+
         '<td  style="display: none;"><input name="tax_amount[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_tax_amount,2)+'" readonly></td>'+
         '<td style="display: none;" ><input name="non_tax_amount[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_non_tax_amount,2)+'" readonly></td>'+
         '<td style="display: none;"  ><input name="product_id[]" type="text" class="form-control" value="'+ d.product_id+'" readonly></td>'+
-        '<td align="center" ><button type="button" name="remove_item" class="btn btn-red"><i class="fa fa-trash"></i></button></td>'+
+        '<td align="center" style="display:none;"><button type="button" name="remove_item" class="btn btn-red"><i class="fa fa-trash"></i></button></td>'+
         '<td style="display: none;"><input  type="text" class="form-control numeric" value="'+ accounting.formatNumber(d.bulk_price,2)+'" readonly></td>'+
         '<td style="display: none;"><input type="text" class="form-control numeric" value="'+ accounting.formatNumber(d.retail_price,2)+'" readonly></td>'+
+        '<td  align="right"><input name="po_line_total_after_global[]" type="text" class="numeric form-control" value="'+ accounting.formatNumber(d.po_line_total_after_global,2)+'" readonly></td>'+
+        '<td align="center" ><button type="button" name="remove_item" class="btn btn-red"><i class="fa fa-trash"></i></button></td>'+ // ADDED ANOTHER ONE HERE BECAUSE WE CANNOT REARRANGE THE  TABLE DATA
         '</tr>';
     };
 
     $('#txt_overall_discount').on('keyup',function(){
+        $('.number-keyup').keyup();
         reComputeTotal();
     });
 
     var reComputeTotal=function(){
         var rows=$('#tbl_items > tbody tr');
 
-        var discounts=0; var before_tax=0; var after_tax=0; var tax_amount=0; var after_discount=0;
+        var discounts=0; var before_tax=0; var after_tax=0; var tax_amount=0; var after_discount=0; var gross=0;
 
         $.each(rows,function(){
             discounts+=parseFloat(accounting.unformat($(oTableItems.total_line_discount,$(this)).find('input.numeric').val()));
+            gross +=parseFloat(accounting.unformat($(oTableItems.unit_price,$(this)).find('input.numeric').val()) *accounting.unformat($(oTableItems.qty,$(this)).find('input.numeric').val()))
             before_tax+=parseFloat(accounting.unformat($(oTableItems.net_vat,$(this)).find('input.numeric').val()));
             tax_amount+=parseFloat(accounting.unformat($(oTableItems.vat_input,$(this)).find('input.numeric').val()));
-            after_tax+=parseFloat(accounting.unformat($(oTableItems.total,$(this)).find('input.numeric').val()));
+            after_tax+=parseFloat(accounting.unformat($(oTableItems.total_after_global,$(this)).find('input.numeric').val()));
         });
 
         var tbl_summary=$('#tbl_purchase_summary');
@@ -1759,8 +1769,8 @@ $(document).ready(function(){
         $('#td_after_tax').html('<b>'+accounting.formatNumber(after_tax,2)+'</b>');
         $('#td_discount').html(accounting.formatNumber(discounts,2));
         $('#td_tax').html(accounting.formatNumber(tax_amount,2));
-        $('#td_total_after_discount').html(accounting.formatNumber(after_tax - (after_tax * ($('#txt_overall_discount').val() / 100)),2));
-        $('#txt_overall_discount_amount').val(accounting.formatNumber(after_tax * ($('#txt_overall_discount').val() / 100),2));
+        $('#td_total_after_discount').html(accounting.formatNumber(after_tax,2));
+        $('#txt_overall_discount_amount').val(accounting.formatNumber((gross-discounts-after_tax),2));
     };
 
     _cboDepartments.on("select2:select", function (e) {
