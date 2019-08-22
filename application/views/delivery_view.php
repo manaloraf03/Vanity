@@ -231,6 +231,7 @@
                     <th>Terms</th>
                     <th>Delivered</th>
                     <th><center>Action</center></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -438,9 +439,9 @@
                         <input id="txt_overall_discount_amount" name="total_overall_discount_amount" type="hidden" class="numeric form-control" value="0.00" readonly />
                             
                         </td>
-                        <td style="text-align: right;"><strong><i class="glyph-icon icon-star"></i>Total After Discount :</strong></td>
-                        <td id="td_total_after_discount" style="text-align: right;"><strong>0.00</strong></td>
-                        <td style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total Before Tax :</strong></td>
+                        <td style="text-align: right;"><strong><i class="glyph-icon icon-star"></i></strong></td>
+                        <td id="td_total_after_discount" style="text-align: right;display: none;"><strong>0.00</strong></td><td style="border-right: none;"></td>
+                        <td style="text-align: right;border-left: none;"><strong><i class="glyph-icon icon-star"></i> Total Before Tax :</strong></td>
                         <td align="right" colspan="4" id="td_before_tax" color="red">0.00</td>
                     </tr>
                     <tr>
@@ -732,16 +733,16 @@
                                 </div>
                             </div>
                     
-                            <div class="col-md-12">
+                                    <div class="col-md-12">
                                 <div class="col-md-4" id="label">
-                                     <label class="control-label boldlabel" style="text-align:right;">Mobile No :</label>
+                                     <label class="control-label boldlabel" style="text-align:right;">Contact No :</label>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-mobile"></i>
                                         </span>
-                                        <input type="text" name="mobile_no" id="mobile_no" class="form-control" placeholder="Mobile No">
+                                        <input type="text" name="contact_no" id="mobile_no" class="form-control" placeholder="Contact No">
                                     </div>
                                 </div>
                             </div>
@@ -956,7 +957,7 @@ $(document).ready(function(){
         dt=$('#tbl_delivery_invoice').DataTable({
             "dom": '<"toolbar">frtip',
             "bLengthChange":false,
-            "order": [[ 1, "desc" ]],
+            "order": [[ 8, "desc" ]],
             "language": {
                 "searchPlaceholder":"Search Purchase Invoice"
             },
@@ -992,7 +993,8 @@ $(document).ready(function(){
 
                         return '<center>'+btn_edit+'&nbsp;'+btn_trash+'</center>';
                     }
-                }
+                },
+                { targets:[8],data: "dr_invoice_id", visible:false }
             ]
         });
 
@@ -1147,7 +1149,7 @@ $(document).ready(function(){
                     dr_line_total_price : temp_inv_price,
                     dr_non_tax_amount: net_vat,
                     dr_tax_amount:vat_input,
-                    total_after_global : 0.00,
+                    total_after_global : temp_inv_price,
                         bulk_price: bulk_price,
                         retail_price: retail_price,
                         is_bulk: suggestion.is_bulk,
@@ -1416,12 +1418,6 @@ $(document).ready(function(){
                     var gross_amount=0;
                     var a = 0;
                     $.each(rows,function(i,value){
-
-                        var _deductionVat = 0, _newTaxAmount = 0;
-
-                        _deductionVat = (value.po_price / (1 + ((value.po_tax_rate)/100)));
-                        _newTaxAmount = (value.po_price - _deductionVat) * value.po_qty;
-                        bulk_price = value.purchase_cost;
                         var retail_price = 0;
                         if(value.is_bulk == 1){
                             retail_price = getFloat(value.purchase_cost) / getFloat(value.child_unit_desc);
@@ -1443,8 +1439,8 @@ $(document).ready(function(){
                             tax_type_id : null,
                             dr_line_total_price : value.po_line_total,
                             dr_non_tax_amount: value.non_tax_amount,
-                            dr_tax_amount: _newTaxAmount,
-                            bulk_price : bulk_price,
+                            dr_tax_amount: value.tax_amount,
+                            bulk_price : retail_price,
                             retail_price : retail_price,
                             is_bulk: value.is_bulk,
                             is_parent : value.is_parent,
@@ -1453,7 +1449,7 @@ $(document).ready(function(){
                             parent_unit_id : value.parent_unit_id,
                             child_unit_id : value.child_unit_id,
                             // exp_date: exp_date,
-                            total_after_global : 0.00,
+                            total_after_global : value.po_line_total_after_global,
                             batch_no:"",
                             a:a
                         }));
@@ -1743,9 +1739,9 @@ $(document).ready(function(){
             var line_total=price*qty;
             var new_discount_price=line_total*(discount/100);
             var new_line_total=line_total-new_discount_price;
-            var net_vat=line_total/(1+tax_rate);
-            var vat_input=line_total-net_vat;
-            var total_after_global = new_line_total-(new_line_total*(global_discount/100));
+            var total_after_global = new_line_total-(new_line_total*(global_discount/100)); 
+            var net_vat=total_after_global/(1+tax_rate); 
+            var vat_input=total_after_global-net_vat; 
 
 
             $(oTableItems.total,row).find('input.numeric').val(accounting.formatNumber(new_line_total,2)); // line total amount
@@ -1875,7 +1871,6 @@ $(document).ready(function(){
             $.each(_files,function(key,value){
                 data.append(key,value);
             });
-            console.log(_files);
             $.ajax({
                 url : 'Suppliers/transaction/upload',
                 type : "POST",
@@ -1974,7 +1969,6 @@ $(document).ready(function(){
         _data.push({name : "summary_before_discount", value :tbl_summary.find(oTableDetails.before_tax).text()});
         _data.push({name : "summary_tax_amount", value : tbl_summary.find(oTableDetails.tax_amount).text()});
         _data.push({name : "summary_after_tax", value : tbl_summary.find(oTableDetails.after_tax).text()});
-        console.log(_data);
         return $.ajax({ 
             "dataType":"json",
             "type":"POST",
@@ -1995,7 +1989,6 @@ $(document).ready(function(){
         _data.push({name : "summary_tax_amount", value : tbl_summary.find(oTableDetails.tax_amount).text()});
         _data.push({name : "summary_after_tax", value : tbl_summary.find(oTableDetails.after_tax).text()});
         _data.push({name : "dr_invoice_id" ,value : _selectedID});
-        console.log(_data);
         return $.ajax({
             "dataType":"json",
             "type":"POST",
@@ -2100,25 +2093,23 @@ $(document).ready(function(){
     };
 
     $('#txt_overall_discount').on('keyup',function(){
+        $('.trigger-keyup').keyup(); 
         reComputeTotal();
     });
 
     var reComputeTotal=function(){
         var rows=$('#tbl_items > tbody tr');
 
-        var discounts=0; var before_tax=0; var after_tax=0; var tax_amount=0; var after_discount=0;
+        var discounts=0; var before_tax=0; var after_tax=0; var tax_amount=0; var after_discount=0; var gross = 0;
 
         var over_all_discount = parseFloat(accounting.unformat($('#txt_overall_discount').val()/100)); // global variable 
 
         $.each(rows,function(){
-            new_line_total = parseFloat(accounting.unformat($(oTableItems.total,$(this)).find('input.numeric').val()));
-            total_after_global = new_line_total - (new_line_total *over_all_discount);
-            
+            gross +=parseFloat(accounting.unformat($(oTableItems.unit_price,$(this)).find('input.numeric').val()) *accounting.unformat($(oTableItems.qty,$(this)).find('input.numeric').val()))
             discounts+=parseFloat(accounting.unformat($(oTableItems.total_line_discount,$(this)).find('input.numeric').val()));
             before_tax+=parseFloat(accounting.unformat($(oTableItems.net_vat,$(this)).find('input.numeric').val()));
             tax_amount+=parseFloat(accounting.unformat($(oTableItems.vat_input,$(this)).find('input.numeric').val()));
-            after_tax+=parseFloat(accounting.unformat($(oTableItems.total,$(this)).find('input.numeric').val()));
-            $(oTableItems.total_after_global,$(this)).find('input.numeric').val(accounting.formatNumber(total_after_global,2));
+            after_tax+=parseFloat(accounting.unformat($(oTableItems.total_after_global,$(this)).find('input.numeric').val()));
 
         });
         
@@ -2129,14 +2120,12 @@ $(document).ready(function(){
         tbl_summary.find(oTableDetails.after_tax).html('<b>'+accounting.formatNumber(after_tax,2)+'</b>');
         tbl_summary.find(oTableDetails.total_line_discount).html('<b>'+accounting.formatNumber(after_discount,2)+'</b>');
 
-
-
-        $('#txt_overall_discount_amount').val(accounting.formatNumber(after_tax * ($('#txt_overall_discount').val() / 100),2));
         $('#td_before_tax').html(accounting.formatNumber(before_tax,2));
         $('#td_after_tax').html('<b>'+accounting.formatNumber(after_tax,2)+'</b>');
         $('#td_discount').html(accounting.formatNumber(discounts,2));
         $('#td_tax').html(accounting.formatNumber(tax_amount,2));
-        $('#td_total_after_discount').html(accounting.formatNumber(after_tax - (after_tax * ($('#txt_overall_discount').val() / 100)),2));
+        $('#td_total_after_discount').html(accounting.formatNumber(after_tax,2));
+        $('#txt_overall_discount_amount').val(accounting.formatNumber((gross-discounts-after_tax),2));
     };
 
 
