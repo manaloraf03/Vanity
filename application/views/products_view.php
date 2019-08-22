@@ -805,6 +805,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4" id="label">
+                                                 <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-code"></i>
+                                                    </span>
+                                                    <select name="is_brand_partner" id="is_brand_partner">
+                                                            <option value="1" >YES</option>
+                                                            <option value="0" >NO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                         <div class="col-md-4">
@@ -1055,7 +1071,7 @@
 
 $(document).ready(function(){
     var dt; var _txnMode; var _selectedID; var _selectRowObj; var _cboItemTypes; var _selectedProductType; var _isTaxExempt=0;
-    var _cboSupplier; var _cboCategory; var _cboTax; var _cboInventory; var _cboMeasurement; var _cboCredit; var _cboDebit;
+    var _cboSupplier; var _cboCategory; var _cboTax; var _cboInventory; var _cboMeasurement; var _cboCredit; var _cboDebit; var _is_brand_partner; 
     var _cboTaxGroup;
     var _section_id; var _menu_id; var _child_unit_id;
     var _cboPrimaryUnit;
@@ -1235,6 +1251,10 @@ $(document).ready(function(){
             placeholder: "Please select a Brand.",
             allowClear: false
         });
+
+        _is_brand_partner=$('#is_brand_partner').select2({ 
+            allowClear: false 
+        }); 
     }();
     
         $("#brand").on("change", function () {     
@@ -1361,6 +1381,7 @@ $(document).ready(function(){
                 // $('#modal_create_product').modal('toggle')
                 //clearFieldsModal($('#frm_unit_group'));
                 clearFieldsModal($('#frm_suppliers_new'));
+                _is_brand_partner.select2('val',0); 
             }
         });
 

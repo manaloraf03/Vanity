@@ -638,6 +638,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4" id="label">
+                                     <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-code"></i>
+                                        </span>
+                                        <select name="is_brand_partner" id="is_brand_partner">
+                                                <option value="1" >YES</option>
+                                                <option value="0" >NO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                             <div class="col-md-4">
@@ -762,7 +778,7 @@
 
 <script>
     $(document).ready(function(){
-        var _txnMode; var _cboSuppliers; var _cboMethods; var _selectRowObj; var _selectedID; var _txnMode;
+        var _txnMode; var _cboSuppliers; var _cboMethods; var _selectRowObj; var _selectedID; var _txnMode; var _is_brand_partner;
         var dtReview; var _cboDepartments;
 
 
@@ -924,7 +940,9 @@
 
 
 
-
+            _is_brand_partner=$('#is_brand_partner').select2({
+                allowClear: false
+            });
 
 
         }();
@@ -1210,6 +1228,7 @@
                     _cboSuppliers.select2('val',null)
                     $('#modal_new_supplier').modal('show');
                     clearFields($('#modal_new_supplier').find('form'));
+                    _is_brand_partner.select2('val',0);
                 }
 
             });

@@ -426,6 +426,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4" id="label">
+                                                     <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-code"></i>
+                                                        </span>
+                                                        <select name="is_brand_partner" id="is_brand_partner">
+                                                                <option value="1" >YES</option>
+                                                                <option value="0" >NO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="col-md-4">
@@ -601,6 +617,7 @@
         var _cboDepartment;
         var _cboSupplier;
         var _cboTaxGroup;
+        var _is_brand_partner; 
 
         var initializeControls=function() {
 
@@ -649,6 +666,9 @@
             _cboBanks=$('#cbo_bank').select2({
                 placeholder: "Please Select Bank"
             });
+            _is_brand_partner=$('#is_brand_partner').select2({ 
+                allowClear: false 
+            }); 
             $('.numeric').autoNumeric('init',{mDec:2});
             InitializeDataTable();
             recomputeTotals();
@@ -782,6 +802,7 @@
                 if (_cboSupplier.val() == 'create_supplier') {
                     $('#modal_create_suppliers').modal('show');
                     $('#modal_new_pcf').modal('toggle');
+                    _is_brand_partner.select2('val',0); 
                 }
             });
 
