@@ -655,6 +655,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4" id="label">
+                                                 <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-code"></i>
+                                                    </span>
+                                                    <select name="is_brand_partner" id="is_brand_partner">
+                                                            <option value="1" >YES</option>
+                                                            <option value="0" >NO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-4">
@@ -936,7 +952,7 @@
 <script>
 $(document).ready(function(){
     var _txnMode; var _cboParticulars; var _cboMethods; var _selectRowObj; var _selectedID; var _txnMode;
-    var dtReview; var _cboDepartments; var _option; var _optGroup;
+    var dtReview; var _cboDepartments; var _option; var _optGroup; var _is_brand_partner; 
     var dtReviewAdjustment;
     var _cboCustomerType;
  
@@ -1120,7 +1136,10 @@ $(document).ready(function(){
         _cboCustomerType=$("#cbo_customer_type").select2({
             allowClear: false
         });
- 
+
+         _is_brand_partner=$('#is_brand_partner').select2({ 
+            allowClear: false 
+        }); 
     }();
 
 
@@ -1367,6 +1386,7 @@ $(document).ready(function(){
                 clearFields($('#frm_supplier'));
                 $('img').attr('src','assets/img/anonymous-icon.png');
                 $('#modal_create_suppliers').modal('show');
+                _is_brand_partner.select2('val',0); 
             }
 
         });

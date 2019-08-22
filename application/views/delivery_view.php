@@ -792,6 +792,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4" id="label">
+                                     <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-code"></i>
+                                        </span>
+                                        <select name="is_brand_partner" id="is_brand_partner">
+                                                <option value="1" >YES</option>
+                                                <option value="0" >NO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                             <div class="col-md-4">
@@ -894,7 +910,7 @@
 
 $(document).ready(function(){
     var dt; var dt_po; var _txnMode; var _selectedID; var _selectRowObj; var _cboSuppliers; var _cboTaxType;
-    var _productType; var _cboDepartments; var _defCostType; var products; var _line_unit; var changetxn ;
+    var _productType; var _cboDepartments; var _defCostType; var products; var _line_unit; var changetxn ; var _is_brand_partner; 
 
     //_defCostType=0;
 
@@ -1042,6 +1058,9 @@ $(document).ready(function(){
             }
         });
 
+        _is_brand_partner=$('#is_brand_partner').select2({ 
+            allowClear: false 
+        }); 
 
 
         products = new Bloodhound({
@@ -1290,6 +1309,7 @@ $(document).ready(function(){
             if(i==0){ //new supplier
                 _cboSuppliers.select2('val',null)
                 $('#modal_new_supplier').modal('show');
+                _is_brand_partner.select2('val',0);
                 //clearFields($('#modal_new_supplier').find('form'));
             }else{
                 // var obj_supplier=$('#cbo_suppliers').find('option[value="'+i+'"]');
