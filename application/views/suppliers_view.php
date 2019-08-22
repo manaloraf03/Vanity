@@ -65,7 +65,7 @@
 
     <script>
 $(document).ready(function(){
-    var dt; var _txnMode; var _selectedID; var _selectRowObj; var _cboItemTypes; var _cboTaxGroup;
+    var dt; var _txnMode; var _selectedID; var _selectRowObj; var _cboItemTypes; var _cboTaxGroup; var _is_brand_partner;
 
     var initializeControls=function(){
         var initializeControls=function() {
@@ -116,6 +116,9 @@ $(document).ready(function(){
             dropdownParent: $('#modal_create_suppliers')
         });
 
+        _is_brand_partner=$('#is_brand_partner').select2({
+            allowClear: false
+        });
     }();
 
     var bindEventHandlers=(function(){
@@ -155,6 +158,7 @@ $(document).ready(function(){
             $('#modal_create_suppliers').modal('show');
             clearFields($('#frm_supplier'));
             _cboTaxGroup.select2('val',null);
+            _is_brand_partner.select2('val',0);
         });
 
         $('#btn_browse').click(function(event){
@@ -191,6 +195,7 @@ $(document).ready(function(){
             });
 
             _cboTaxGroup.select2('val',data.tax_type_id);
+            _is_brand_partner.select2('val',data.is_brand_partner);
         });
 
         $('input[name="purchase_cost"],input[name="markup_percent"],input[name="sale_price"]').keyup(function(){
@@ -718,6 +723,22 @@ $(document).ready(function(){
                                                         <?php foreach($tax_types as $tax_type){ ?>
                                                             <option value="<?php echo $tax_type->tax_type_id; ?>" data-tax-rate="<?php echo $tax_type->tax_rate; ?>"><?php echo $tax_type->tax_type; ?></option>
                                                         <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4" id="label">
+                                                 <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-code"></i>
+                                                    </span>
+                                                    <select name="is_brand_partner" id="is_brand_partner">
+                                                            <option value="1" >YES</option>
+                                                            <option value="0" >NO</option>
                                                     </select>
                                                 </div>
                                             </div>

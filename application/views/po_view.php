@@ -648,6 +648,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4" id="label">
+                                     <label class="control-label boldlabel" style="text-align:right;"><font color="red"><b>*</b></font> Is Brand Partner ? :</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-code"></i>
+                                        </span>
+                                        <select name="is_brand_partner" id="is_brand_partner">
+                                                <option value="1" >YES</option>
+                                                <option value="0" >NO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-4">
@@ -765,7 +781,7 @@
 
 $(document).ready(function(){
     var dt; var _txnMode; var _selectedID; var _selectRowObj; var _cboSuppliers; var _cboTaxType;
-    var _cboDepartments; var _defCostType; var products; var _line_unit; var changetxn;
+    var _cboDepartments; var _defCostType; var products; var _line_unit; var changetxn; var _is_brand_partner; 
 
 
     //_defCostType=1; //Luzon Area Purchase Cost is default, this will change when branch is specified
@@ -913,6 +929,9 @@ $(document).ready(function(){
 
         _cboTaxGroup.select2('val',null);
 
+        _is_brand_partner=$('#is_brand_partner').select2({ 
+            allowClear: false 
+        }); 
 
         $('#custom-templates .typeahead').keypress(function(event){
             if (event.keyCode == 13) {
@@ -1805,6 +1824,7 @@ $(document).ready(function(){
             _cboSuppliers.select2('val',null)
             $('#modal_new_supplier').modal('show');
             clearFields($('#modal_new_supplier').find('form'));
+            _is_brand_partner.select2('val',0); 
         }else{
             var obj_supplier=$('#cbo_suppliers').find('option[value="'+i+'"]');
             _cboTaxType.select2('val',obj_supplier.data('tax-type')); //set tax type base on selected Supplier
