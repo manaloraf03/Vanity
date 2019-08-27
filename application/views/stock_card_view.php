@@ -100,7 +100,7 @@
                                             <select id="cbo_product" class="form-control" style="width: 100%">
                                                 <?php foreach($products as $product) { ?>
                                                     <option value="<?php echo $product->product_id; ?>" data-bulk="<?php echo $product->is_bulk; ?>">
-                                                        <?php echo $product->product_desc; ?>
+                                                        <?php echo $product->product_code; ?> - <?php echo $product->product_desc; ?>
                                                     </option>
                                                 <?php } ?>
                                             </select>
