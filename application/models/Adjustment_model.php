@@ -209,6 +209,62 @@ parent::__construct();
 
 
     }
+
+ function spoilage_by_product_summary($start_Date,$end_Date,$tid){
+        $sql="SELECT main.*,
+		p.product_code, 
+		p.product_desc
+		FROM
+		(SELECT 
+		aii.product_id,
+		SUM(aii.adjust_qty) as adjust_qty,
+		SUM(aii.adjust_line_total_price) as adjust_line_total_price
+
+		FROM adjustment_items aii 
+		LEFT JOIN adjustment_info ai ON aii.adjustment_id = ai.adjustment_id
+		".($tid==1?"
+			WHERE ai.is_active = TRUE AND ai.is_deleted = FALSE  AND ai.is_spoilage = TRUE AND ai.adjustment_type = 'OUT'  ":"
+			WHERE ai.is_active = TRUE AND ai.is_deleted = FALSE  AND ai.is_spoilage = TRUE AND ai.adjustment_type = 'IN' AND ai.is_returns = TRUE")."
+
+		 AND ai.date_adjusted BETWEEN '$start_Date' AND '$end_Date'
+		GROUP BY aii.product_id) as main
+		LEFT JOIN products p ON p.product_id= main.product_id";
+        return $this->db->query($sql)->result();
+
+    }
+
+ function spoilage_by_product_detailed($start_Date,$end_Date,$tid,$distinct_code=0){
+        $sql="
+        ".($distinct_code==1?" SELECT DISTINCT main.adjustment_code,main.customer_name,main.date_adjusted,main.adjustment_id FROM (":"")."
+        SELECT 
+			ai.adjustment_code,
+			ai.adjustment_id,
+			ai.date_adjusted,
+			IFNULL(c.customer_name,'') as customer_name,
+			aii.product_id,
+			p.product_code, 
+			p.product_desc,
+			aii.adjust_qty,
+			aii.adjust_price,
+			aii.adjust_line_total_price
+
+
+			FROM adjustment_items aii 
+			LEFT JOIN adjustment_info ai ON aii.adjustment_id = ai.adjustment_id
+			LEFT JOIN products p ON p.product_id= aii.product_id
+			LEFT JOIN customers c on c.customer_id = ai.customer_id
+		".($tid==1?"
+			WHERE ai.is_active = TRUE AND ai.is_deleted = FALSE  AND ai.is_spoilage = TRUE AND ai.adjustment_type = 'OUT'  ":"
+			WHERE ai.is_active = TRUE AND ai.is_deleted = FALSE  AND ai.is_spoilage = TRUE AND ai.adjustment_type = 'IN' AND ai.is_returns = TRUE")."
+
+		 AND ai.date_adjusted BETWEEN '$start_Date' AND '$end_Date'
+
+			ORDER BY ai.adjustment_id DESC
+
+			".($distinct_code==1?") as main":"")."";
+        return $this->db->query($sql)->result();
+
+    }
 }
 
 

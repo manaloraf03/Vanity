@@ -176,7 +176,7 @@
                         <li><a href="dashboard">Dashboard</a></li>
                         <li><a href="products" id="filter">Products</a></li>
                     </ol>
-
+<input type="hidden" id="product_costing" class="form-control" value="<?php echo (in_array("20-2",$this->session->user_rights)?"1":"0")?>">
                     <div class="container-fluid">
                         <div data-widget-group="group1">
                             <div class="row">
@@ -357,7 +357,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="sale_price" id="sale_price" class="form-control numeric">
+                                                                        <input type="text" name="sale_price" id="sale_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
 
@@ -368,7 +368,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="discounted_price" id="discounted_price" class="form-control numeric">
+                                                                        <input type="text" name="discounted_price" id="discounted_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
 
@@ -380,7 +380,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="dealer_price" id="dealer_price" class="form-control numeric">
+                                                                        <input type="text" name="dealer_price" id="dealer_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
 
@@ -392,7 +392,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="distributor_price" id="distributor_price" class="form-control numeric">
+                                                                        <input type="text" name="distributor_price" id="distributor_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group" style="margin-bottom:0px; vertical-align: middle;text-align: left;"><br>
@@ -412,7 +412,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="public_price" id="public_price" class="form-control numeric">
+                                                                        <input type="text" name="public_price" id="public_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
 
@@ -424,7 +424,7 @@
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
                                                                             </span>
-                                                                        <input type="text" name="purchase_cost" id="purchase_cost" class="form-control numeric">
+                                                                        <input type="text" name="purchase_cost" id="purchase_cost" class="form-control numeric product_costing">
                                                                     </div>
 
                                                                 </div>
@@ -1779,11 +1779,19 @@ $(document).ready(function(){
             _selectedID=data.product_id;
 
             clearFields('#frm_product');
-             $('input,textarea,select').each(function(){
+             $('input:not(.numeric),textarea,select').each(function(){
                 var _elem=$(this);
                 $.each(data,function(name,value){
                     if(_elem.attr('name')==name){
                         _elem.val(value);
+                    }
+                });
+            });
+             $('input.numeric').each(function(){
+                var _elem=$(this);
+                $.each(data,function(name,value){
+                    if(_elem.attr('name')==name){
+                        _elem.val(accounting.formatNumber(value,2));
                     }
                 });
             });
@@ -1812,10 +1820,13 @@ $(document).ready(function(){
          }
 
 
-
-
+         if($('#product_costing').val()== 1){
+            $('.product_costing').prop('readonly',false);
+         }else if($('#product_costing').val()== 0){
+            $('.product_costing').prop('readonly',true);
+         }
         });
-
+        
 
         // $('input[name="purchase_cost"],input[name="markup_percent"],input[name="sale_price"]').keyup(function(){
         //     reComputeSRP();
