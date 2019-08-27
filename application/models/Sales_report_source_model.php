@@ -9,7 +9,7 @@ class Sales_report_source_model extends CORE_Model
     {
         parent::__construct();
     }
-    function get_sales_source($get_source=null,$get_totals=null,$order_source_id=null,$start,$end,$all=0){
+    function get_sales_source($get_source=null,$get_totals=null,$order_source_id=null,$start,$end,$all=0,$supplier_id=0){
         $sql="
 		".($get_source==TRUE?"SELECT distinct main.order_source_id,main.order_source_name FROM(":"")."
 		".($get_totals==TRUE?"SELECT n.order_source_id,SUM(n.inv_line_total_price) as sub_total FROM(":"")."
@@ -34,10 +34,12 @@ class Sales_report_source_model extends CORE_Model
 		LEFT JOIN sales_invoice si ON si.sales_invoice_id = sii.sales_invoice_id 
 		LEFT JOIN products p ON p.product_id = sii.product_id 
 		LEFT JOIN customers c ON c.customer_id = si.customer_id
+        LEFT JOIN suppliers s ON s.supplier_id = p.supplier_id
 		LEFT JOIN order_source os ON os.order_source_id = si.order_source_id
 		WHERE si.is_active = TRUE AND si.is_deleted = FALSE
 		AND (si.date_invoice BETWEEN '$start' AND '$end')
         ".($order_source_id!=0?" AND si.order_source_id = $order_source_id":"")."
+        ".($supplier_id!=0?" AND p.supplier_id = $supplier_id":"")."
 
         UNION ALL
         
@@ -59,12 +61,13 @@ class Sales_report_source_model extends CORE_Model
         LEFT JOIN cash_invoice ci ON ci.cash_invoice_id = cii.cash_invoice_id 
         LEFT JOIN products p ON p.product_id = cii.product_id
         LEFT JOIN customers c ON c.customer_id = ci.customer_id
+        LEFT JOIN suppliers s ON s.supplier_id = p.supplier_id
         LEFT JOIN order_source os ON os.order_source_id = ci.order_source_id
         
         WHERE ci.is_active = TRUE AND ci.is_deleted = FALSE
         AND (ci.date_invoice BETWEEN '$start' AND '$end')
 		".($order_source_id!=0?" AND ci.order_source_id = $order_source_id":"")."
-
+        ".($supplier_id!=0?" AND p.supplier_id = $supplier_id":"")."
 
 		) as main 
 
@@ -82,7 +85,7 @@ class Sales_report_source_model extends CORE_Model
         return $this->db->query($sql)->result();
     }
 
-    function get_sales_return($get_source=null,$get_totals=null,$order_source_id=null,$start,$end,$all=0){
+    function get_sales_return($get_source=null,$get_totals=null,$order_source_id=null,$start,$end,$all=0,$supplier_id=0){
         $sql="
         ".($get_source==TRUE?"SELECT distinct main.order_source_id,main.order_source_name FROM(":"")."
         ".($get_totals==TRUE?"SELECT n.order_source_id,SUM(n.adjust_line_total_price) as sub_total FROM (":"")."
@@ -106,7 +109,7 @@ class Sales_report_source_model extends CORE_Model
             LEFT JOIN adjustment_info ai On ai.adjustment_id = aii.adjustment_id
             INNER JOIN customers c ON  c.customer_id=ai.customer_id
             INNER JOIN products p ON p.product_id = aii.product_id
-
+            LEFT JOIN suppliers s ON s.supplier_id = p.supplier_id
 
 
             LEFT JOIN
@@ -145,11 +148,13 @@ class Sales_report_source_model extends CORE_Model
             AND ai.adjustment_type = 'IN'
             AND (ai.date_adjusted BETWEEN '$start' AND '$end')
             ".($order_source_id!=0?" AND invoices.order_source_id = $order_source_id":"")."
+            ".($supplier_id!=0?"AND p.supplier_id = $supplier_id":"")."
             ) as main
 
 
             ".($all==1?" WHERE source_invoice = 1":"")."
             ".($all==2?" WHERE source_invoice = 2":"")."
+            
 
 
 
