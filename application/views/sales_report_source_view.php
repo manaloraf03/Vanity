@@ -189,7 +189,7 @@
 
         <h2 class="h2-panel-heading">Sales Report By Source</h2><hr>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                    <b>* </b>  Order Source :<br />
                     <select name="order_source_id" id="cbo_order_source">
                         <option value="0">ALL</option>
@@ -198,12 +198,22 @@
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                    <b>* </b>  Invoice Source :<br />
                     <select name="source_invoice" id="source_invoice">
                         <option value="0">ALL</option>
                         <option value="1">Sales Invoices</option>
                         <option value="2">Cash Invoices</option>
+                       
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                   <b>* </b>  Brand Partner :<br />
+                    <select name="brand_partner" id="brand_partner">
+                        <option value="0">None</option>
+                        <?php foreach($suppliers as $supplier){ ?>
+                            <option value="<?php echo $supplier->supplier_id; ?>"><?php echo $supplier->supplier_name; ?></option>
+                        <?php } ?>
                        
                     </select>
                 </div>
@@ -323,7 +333,7 @@
 
 
 $(document).ready(function(){
-    var dt;  var _cboSource;  var _cboInvoice;
+    var dt;  var _cboSource;  var _cboInvoice; var _cboBrandPartner;
 
 
 
@@ -335,6 +345,12 @@ $(document).ready(function(){
         _cboInvoice=$("#source_invoice").select2({
             placeholder: "Please select Invoice Source."
         });
+
+        _cboBrandPartner=$("#brand_partner").select2({
+            placeholder: "Please select Brand Partner."
+        });
+        _cboBrandPartner.select2('val', 0);
+
 
         $('#txt_end_date').datepicker({
             todayBtn: "linked",
@@ -360,7 +376,7 @@ $(document).ready(function(){
        var bindEventHandlers=function(){
 
         $('#btn_print').click(function(){
-            window.open('Sales_report_source/transaction/report?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val());
+            window.open('Sales_report_source/transaction/report?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&bp='+$('#brand_partner').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val());
         });
 
         _cboSource.on("select2:select", function (e) {
@@ -368,6 +384,10 @@ $(document).ready(function(){
         });
 
         _cboInvoice.on("select2:select", function (e) {
+            reinitializeBalances(); 
+        });
+
+        _cboBrandPartner.on("select2:select", function (e) {
             reinitializeBalances(); 
         });
 
@@ -380,7 +400,7 @@ $(document).ready(function(){
         });
 
             $('#btn_export').on('click', function() {
-                window.open('Sales_report_source/transaction/export?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val(),'_self');
+                window.open('Sales_report_source/transaction/export?oi='+$('#cbo_order_source').val()+'&si='+$('#source_invoice').val()+'&bp='+$('#brand_partner').val()+'&start='+$('#txt_start_date').val()+'&end='+$('#txt_end_date').val(),'_self');
             });
 
 
@@ -411,6 +431,7 @@ $(document).ready(function(){
         var data = [];
          data.push({name : "oi" ,value : $('#cbo_order_source').val()});
          data.push({name : "si" ,value : $('#source_invoice').val()});
+         data.push({name : "bp" ,value : $('#brand_partner').val()});
          data.push({name : "start" ,value : $('#txt_start_date').val()});
          data.push({name : "end" ,value : $('#txt_end_date').val()});
         $.ajax({
