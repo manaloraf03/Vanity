@@ -27,13 +27,6 @@ class Sales_report_source extends CORE_Controller
         $data['_side_bar_navigation'] = $this->load->view('template/elements/side_bar_navigation', '', TRUE);
         $data['_top_navigation'] = $this->load->view('template/elements/top_navigation', '', TRUE);
 
-        $data['suppliers']=$this->Suppliers_model->get_list(
-            array('suppliers.is_active'=>TRUE,'suppliers.is_deleted'=>FALSE),
-            'suppliers.*,IFNULL(tax_types.tax_rate,0)as tax_rate',
-            array(
-                array('tax_types','tax_types.tax_type_id=suppliers.tax_type_id','left')
-            )
-        );
 
         $data['title'] = 'Sales Report By Source';
          $data['order_sources'] = $this->Order_source_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE));

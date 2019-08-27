@@ -170,7 +170,7 @@
 
 <ol class="breadcrumb"  style="margin-bottom: 10px;">
     <li><a href="Dashboard">Dashboard</a></li>
-    <li><a href="Sales_report_source">Sales Report by Source</a></li>
+    <li><a href="Open_purchase">Open Purchases</a></li>
 </ol>
 
 
@@ -342,10 +342,6 @@ $(document).ready(function(){
         _cboSource=$("#cbo_order_source").select2({
             placeholder: "Please select Order Source."
         });
-        _cboSupplierid=$("#supplier_id").select2({
-            placeholder: "Please select a Supplier."
-        });
-
         _cboInvoice=$("#source_invoice").select2({
             placeholder: "Please select Invoice Source."
         });
@@ -438,7 +434,6 @@ $(document).ready(function(){
          data.push({name : "bp" ,value : $('#brand_partner').val()});
          data.push({name : "start" ,value : $('#txt_start_date').val()});
          data.push({name : "end" ,value : $('#txt_end_date').val()});
-         data.push({name : "supid" ,value : $('#supplier_id').val()});
         $.ajax({
             url : 'Sales_report_source/transaction/list',
             type : "GET",
