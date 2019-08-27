@@ -192,6 +192,7 @@ class Adjustments extends CORE_Controller
                 $m_adjustment->inv_no=$this->input->post('inv_no',TRUE);
                 $m_adjustment->remarks=$this->input->post('remarks',TRUE);
                 $m_adjustment->is_returns=$this->get_numeric_value($this->input->post('adjustment_is_return',TRUE));
+                $m_adjustment->is_spoilage=$this->get_numeric_value($this->input->post('adjustment_is_spoilage',TRUE));
                 $m_adjustment->date_adjusted=date('Y-m-d',strtotime($this->input->post('date_adjusted',TRUE)));
                 $m_adjustment->total_discount=$this->get_numeric_value($this->input->post('summary_discount',TRUE));
                 $m_adjustment->total_before_tax=$this->get_numeric_value($this->input->post('summary_before_discount',TRUE));
@@ -277,6 +278,7 @@ class Adjustments extends CORE_Controller
                 $m_adjustment->begin();
                 $m_adjustment->customer_id=$this->input->post('customer_id',TRUE);
                 $m_adjustment->is_returns=$this->get_numeric_value($this->input->post('adjustment_is_return',TRUE));
+                $m_adjustment->is_spoilage=$this->get_numeric_value($this->input->post('adjustment_is_spoilage',TRUE));
                 $m_adjustment->inv_no=$this->input->post('inv_no',TRUE);
                 $m_adjustment->department_id=$this->input->post('department',TRUE);
                 $m_adjustment->remarks=$this->input->post('remarks',TRUE);
@@ -429,10 +431,14 @@ class Adjustments extends CORE_Controller
                 'adjustment_info.date_created',
                 'adjustment_info.customer_id',
                 'adjustment_info.is_returns as adjustment_is_return',
+                'adjustment_info.is_spoilage as adjustment_is_spoilage',
                 'adjustment_info.inv_no',
                 'DATE_FORMAT(adjustment_info.date_adjusted,"%m/%d/%Y") as date_adjusted',
                 'departments.department_id',
-                '(CASE WHEN adjustment_info.is_returns = 1 THEN "Sales Returns" ELSE "Adjustments" END ) as transaction_type',
+                '(CASE  WHEN adjustment_info.is_returns = 1 AND adjustment_info.is_spoilage = 1 THEN "Sales Returns (Spoilage)" 
+                        WHEN adjustment_info.is_returns = 1 AND adjustment_info.is_spoilage = 0 THEN "Sales Returns" 
+                        WHEN adjustment_info.is_returns = 0 AND adjustment_info.is_spoilage = 1 THEN "Adjustments (Spoilage)" 
+                        WHEN adjustment_info.is_returns = 0 AND adjustment_info.is_spoilage = 0 THEN "Adjustments" END ) as transaction_type',
                 'departments.department_name'
             ),
             array(

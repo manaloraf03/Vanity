@@ -41,7 +41,6 @@ class Rights_link_model extends CORE_Model{
                                           (30,'8','8-1','Sales Report'),
                                           (31,'15','15-4','Inventory Report'),
                                           (32,'5','5-4','Salesperson Management'),
-                                          (33,'2','2-6','Item Adjustment (Out)'),
                                           (34,'8','8-3','Export Sales Summary'),
                                           (35,'9','9-3','Export Trial Balance'),
                                           (36,'6','6-7','Setup Check Layout'),
@@ -101,8 +100,10 @@ class Rights_link_model extends CORE_Model{
                                           (91,'3','3-6','Sales/Cash Invoice History'),
                                           (92,'7','7-2','Inventory Report Detailed'),
                                           (93,'8','8-6','Profit Report'),
-                                          (94,'3','3-7','Customer Sales History')
-
+                                          (94,'3','3-7','Customer Sales History'),
+                                          (95,'20','20-1','Edit Adjustments'),
+                                          (96,'20','20-2','Edit Product Costing'),
+                                          (97,'15','15-7','Spoilage Report')
 
                                           ON DUPLICATE KEY UPDATE
                                           rights_links.parent_code=VALUES(rights_links.parent_code),
