@@ -37,6 +37,7 @@ class Sales_report_source extends CORE_Controller
 
         $data['title'] = 'Sales Report By Source';
          $data['order_sources'] = $this->Order_source_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE));
+         $data['suppliers'] = $this->Suppliers_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE,'is_brand_partner'=>TRUE),null,null,'supplier_name asc');
         (in_array('8-5',$this->session->user_rights)? 
         $this->load->view('sales_report_source_view', $data)
         :redirect(base_url('dashboard')));
@@ -50,7 +51,7 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
-                $supplier_id = $this->input->get('supid');
+                $supplier_id = $this->input->get('bp');
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
                     $response['data']=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
@@ -73,8 +74,7 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
-                $supplier_id = $this->input->get('supid');
-
+                $supplier_id = $this->input->get('bp');
 
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
@@ -92,12 +92,11 @@ class Sales_report_source extends CORE_Controller
                     }else{
                         $data['source_name'] = $source_name[0]->order_source_name;
                     }
-                    $data['supplier_id'] = $supplier_id; // PASS THE SUPPLIER ID TO KNOW IF SUPPLIER NAME IS TO BE SHOWN
+
                     if($supplier_id == 0){
-                        $data['supplier_name'] = 'ALL';
-                        
+                         $data['supplier_name'] = '';
                     }else{
-                        $data['supplier_name']=$this->Suppliers_model->get_list($supplier_id,'supplier_name')[0]->supplier_name;
+                        $data['supplier_name'] = $this->Suppliers_model->get_list($supplier_id)[0]->supplier_name;
                     }
                 $this->load->view('template/sales_report_source_content',$data);
                 break;
@@ -112,7 +111,7 @@ class Sales_report_source extends CORE_Controller
                 $m_sales=$this->Sales_report_source_model;
                 $order_source_id = $this->input->get('oi');
                 $source_invoice = $this->input->get('si');
-                $supplier_id = $this->input->get('supid');
+                $supplier_id = $this->input->get('bp');
                 $start = date('Y-m-d',strtotime($this->input->get('start')));
                 $end = date('Y-m-d',strtotime($this->input->get('end')));
                 $data=$m_sales->get_sales_source(null,null,$order_source_id,$start,$end,$source_invoice,$supplier_id);
@@ -125,6 +124,11 @@ class Sales_report_source extends CORE_Controller
                 $source_name = $this->Order_source_model->get_list($order_source_id);
                 if(count($source_name) == 0){ $source_name= 'ALL'; }else{$source_name= $source_name[0]->order_source_name; }
                 if($source_invoice == 0){ $inv_src = 'All Invoices'; }else if ($source_invoice == 1){ $inv_src = 'Sales Invoices Only'; }else if($source_invoice== 2){ $inv_src = 'Cash Invoice Only' ;} 
+                if($supplier_id == 0){
+                    $supplier_name = '';
+                }else{
+                    $supplier_name = $this->Suppliers_model->get_list($supplier_id)[0]->supplier_name;
+                }
                 $excel->setActiveSheetIndex(0);
 
                 $excel->getActiveSheet()->setTitle('Sales Report by Source');
@@ -174,14 +178,18 @@ class Sales_report_source extends CORE_Controller
                                             ->setSize(14);
 
                 $i=8;
-                $excel->getActiveSheet()->setCellValue('A'.$i,'Period : '.$start.' - '.$end); $i++;
-                $excel->getActiveSheet()->setCellValue('A'.$i,'Source: '.$source_name); $i++;
-                $excel->getActiveSheet()->setCellValue('A'.$i,'Invoice Source: '.$inv_src); $i++;
+                $excel->getActiveSheet()->setCellValue('A'.$i,'Period: ');
+                $excel->getActiveSheet()->setCellValue('B'.$i,$start.' - '.$end);   $i++;
+                $excel->getActiveSheet()->setCellValue('A'.$i,'Source:');
+                $excel->getActiveSheet()->setCellValue('B'.$i,$source_name);        $i++;
+                $excel->getActiveSheet()->setCellValue('A'.$i,'Invoice Source: ');
+                $excel->getActiveSheet()->setCellValue('B'.$i,$inv_src);            $i++;
                 if($supplier_id != 0){
-                    $excel->getActiveSheet()->setCellValue('A'.$i,'Supplier: '.$this->Suppliers_model->get_list($supplier_id,'supplier_name')[0]->supplier_name); $i++;
+                $excel->getActiveSheet()->setCellValue('A'.$i,'Brand Partner: ');
+                $excel->getActiveSheet()->setCellValue('B'.$i,$supplier_name);   
                 }
-                $i++;
 
+                $i++;
 
 
                 $excel->getActiveSheet()

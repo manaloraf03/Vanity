@@ -12,17 +12,17 @@
 		th { border-bottom: 1px solid gray; }
 
 		.report-header {
-			font-size: 22px;
+			font-size: 18px;
 		}
 		.right-align{
 
 			text-align:right;
 		}
 		@media print {
-      @page { margin: 0; }
+      @page { margin: 0; size: landscape;}
       body { margin: 1.0cm; }
-}
 
+}
 	
 	</style>
 	<script>
@@ -47,7 +47,7 @@
     </div>
 <?php $rtotal = 0; $gtotal=0; ?>
 
-<table cellspacing="0" cellpadding="5">
+<table cellspacing="0" cellpadding="0">
 	<tr>
 		<td><strong>Period: </strong> <?php echo $_GET['start']  ?> - <?php echo $_GET['end']  ?></td>
 		<td></td>
@@ -66,14 +66,15 @@
 		<td></td>
 		<td></td>
 	</tr>
-<?php if($supplier_id != 0) {?>
-	<tr>
-		<td><strong>Supplier: </strong><?php echo $supplier_name; ?></td>
-		<td></td>
-		<td></td>
-		<td></td>
-	</tr>
-<?php } ?>
+	<?php if($_GET['bp']){ ?>
+		<tr>
+			<td><strong>Brand Partner: </strong><?php echo $supplier_name; ?></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	<?php } ?>
+
 </table>
 <h2>Sales</h2>
 <?php 
