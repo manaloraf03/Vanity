@@ -212,6 +212,7 @@ class Products extends CORE_Controller
                 $m_products->product_warn =$this->get_numeric_value( $this->input->post('product_warn', TRUE));
                 $m_products->product_ideal =$this->get_numeric_value( $this->input->post('product_ideal', TRUE));
                 //$m_products->markup_percent = $this->input->post('markup_percent', TRUE);
+                if(in_array("20-2",$this->session->user_rights)){
                 $m_products->sale_price =$this->get_numeric_value($this->input->post('sale_price', TRUE));
                 $m_products->purchase_cost =$this->get_numeric_value($this->input->post('purchase_cost', TRUE));
                 $m_products->purchase_cost_2 =$this->get_numeric_value($this->input->post('purchase_cost_2', TRUE));
@@ -219,6 +220,7 @@ class Products extends CORE_Controller
                 $m_products->dealer_price =$this->get_numeric_value($this->input->post('dealer_price', TRUE));
                 $m_products->distributor_price =$this->get_numeric_value($this->input->post('distributor_price', TRUE));
                 $m_products->public_price =$this->get_numeric_value($this->input->post('public_price', TRUE));
+                }                
 
 
                 $m_products->modify($product_id);

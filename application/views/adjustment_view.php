@@ -238,7 +238,9 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-3"><br>
+                            <input type="checkbox" name="accounting[]" value="is_spoilage" id="is_spoilage" class="css-checkbox" style="font-size: 12px!important;"><label class="css-label " for="is_spoilage" style="font-size: 12px!important;">Spoilage</label><br>
+                            <input type="hidden" name="adjustment_is_spoilage" id="adjustment_is_spoilage" class="form-control">
                         </div>
 
                         <div class="col-sm-3"><div class="checkhidden">
@@ -648,7 +650,7 @@ $(document).ready(function(){
         dt=$('#tbl_issuances').DataTable(
 {            "dom": '<"toolbar">frtip',
             "bLengthChange":false,
-            "order": [[ 8, "desc" ]],
+            "order": [[ 9, "desc" ]],
             "ajax" : "Adjustments/transaction/list",
             "columns": [
                 {
@@ -668,13 +670,13 @@ $(document).ready(function(){
                 {
                     targets:[8],
                     render: function (data, type, full, meta){
-                        var btn_edit='<button class="btn btn-primary btn-sm" name="edit_info"  style="margin-left:-15px;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i> </button>';
+                        var btn_edit='<button class="btn btn-primary btn-sm <?php echo (in_array("20-1",$this->session->user_rights)?"":"hidden")?>" name="edit_info"  style="margin-left:-15px;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i> </button>';
                         var btn_trash='<button class="btn btn-red btn-sm" name="remove_info" style="margin-right:0px;" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button>';
 
                         return '<center>'+btn_edit+'&nbsp;'+btn_trash+'</center>';
                     }
                 },
-                { targets:[8],data: "adjustment_id",visible:false }
+                { targets:[9],data: "adjustment_id",visible:false }
             ]
 
         });
@@ -881,6 +883,13 @@ $(document).ready(function(){
                     $('[id=is_returns]').trigger('click');
                 }
             });
+            $('[id=is_spoilage]').click(function(event) {
+                if(this.checked == true) {
+                    $('#adjustment_is_spoilage').val('1');
+                }else{
+                    $('#adjustment_is_spoilage').val('0');
+                }
+            });
 
 
         var detailRows = [];
@@ -1015,6 +1024,7 @@ $(document).ready(function(){
             $('input[id="is_adjustment"]').prop('checked', true);
             $('.checkhidden').hide();
             $('#adjustment_is_return').val('0');
+            $('#adjustment_is_spoilage').val('0');
             $("#cbo_customers").prop('required',false);
             $("#inv_no").prop('required',false);
             $('#note').text('');
@@ -1152,6 +1162,11 @@ $(document).ready(function(){
                 $('input[id="is_adjustment"]').trigger('click');                
             } 
 
+            if(data.adjustment_is_spoilage == '1'){
+                $("#is_spoilage").prop('checked', true); 
+            }else if(data.adjustment_is_spoilage == '0'){
+                $("#is_spoilage").prop('checked', false);             
+            } 
             $.ajax({
                 url : 'Adjustments/transaction/items/'+data.adjustment_id,
                 type : "GET",
