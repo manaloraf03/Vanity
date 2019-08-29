@@ -549,6 +549,7 @@ class Dispatching extends CORE_Controller
                 'dispatching_invoice.cash_invoice_id',
                 'dispatching_invoice.sales_invoice_id',
                 'dispatching_invoice.customer_type_id',
+                'dispatching_invoice.order_source_id',
                 'DATE_FORMAT(dispatching_invoice.date_invoice,"%m/%d/%Y") as date_invoice',
                 'DATE_FORMAT(dispatching_invoice.date_due,"%m/%d/%Y") as date_due',
                 'departments.department_id',
