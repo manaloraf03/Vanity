@@ -714,6 +714,7 @@ class Sales_invoice extends CORE_Controller
                 'sales_invoice.order_source_id',
                 'sales_invoice.for_dispatching',
                 'sales_invoice.is_journal_posted',
+                'sales_invoice.total_overall_discount', 
                 'DATE_FORMAT(sales_invoice.date_invoice,"%m/%d/%Y") as date_invoice',
                 'DATE_FORMAT(sales_invoice.date_due,"%m/%d/%Y") as date_due',
                 'departments.department_id',
