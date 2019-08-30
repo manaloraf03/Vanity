@@ -207,7 +207,7 @@
         <footer role="contentinfo">
             <div class="clearfix">
                 <ul class="list-unstyled list-inline pull-left">
-                    <li><h6 style="margin: 0;">&copy; 2016 - Paul Christian Rueda</h6></li>
+                    <li><h6 style="margin: 0;">&copy; 2018 - JDEV OFFICE SOLUTION INC</h6></li>
                 </ul>
                 <button class="pull-right btn btn-link btn-xs hidden-print" id="back-to-top"><i class="ti ti-arrow-up"></i></button>
             </div>
@@ -385,7 +385,7 @@
                             { targets:[4],data: "dr_qty" },
                             {
                                 sClass: "numericCol", 
-                                targets:[3],data: "total_amount",
+                                targets:[3],data: "dr_line_total_after_global",
                                 render: function(data,type,full,meta){
                                     return accounting.formatNumber(data,2);
                                 }
