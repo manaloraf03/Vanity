@@ -220,9 +220,9 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-3 hidden ">
                            <b class="required">*</b> <label>Salesperson :</label><br/>
-                            <select name="salesperson_id" id="cbo_salesperson" required  data-error-msg="Salesperson is required." required> >
+                            <select name="salesperson_id" id="cbo_salesperson" >
                                 <option value="0">[ Create New Salesperson ]</option>
                                 <?php foreach($salespersons as $salesperson){ ?>
                                     <option value="<?php echo $salesperson->salesperson_id; ?>"><?php echo $salesperson->acr_name.' - '.$salesperson->fullname; ?></option>
@@ -238,7 +238,10 @@
                                 </span>
                             </div>
                         </div>
-                        
+                        <div class="col-sm-3">
+                            <b class="required"></b> <label>Salesperson :</label><br/>
+                            <?php echo $this->session->user_fullname; ?>
+                        </div>                        
                         <div class="col-sm-2 ">
                             <b class="required">*</b> <label>Invoice Date :</label> <br />
                             <div class="input-group">
