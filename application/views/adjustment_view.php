@@ -1028,6 +1028,8 @@ $(document).ready(function(){
             $("#cbo_customers").prop('required',false);
             $("#inv_no").prop('required',false);
             $('#note').text('');
+            $('.date-picker').datepicker('setDate', 'today');
+
             getproduct().done(function(data){
                 products.clear();
                 products.local = data.data;
