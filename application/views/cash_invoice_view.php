@@ -470,7 +470,8 @@
                 <h4 class="modal-title" style="color:white;"><span id="modal_mode"> </span>Confirm Deletion</h4>
             </div>
             <div class="modal-body">
-                <p id="modal-body-message">Are you sure you want to delete?</p>
+                Are you sure you want to delete?<br><br>
+                <small><i><b>Deleted by : <?php echo $this->session->user_fullname; ?></b></i></small>
             </div>
             <div class="modal-footer">
                 <button id="btn_yes" type="button" class="btn btn-danger" data-dismiss="modal" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;">Yes</button>
