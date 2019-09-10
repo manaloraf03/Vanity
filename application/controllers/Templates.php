@@ -923,7 +923,9 @@ class Templates extends CORE_Controller {
                         'sales_invoice.address',
                         'sales_order.so_no',
                         'order_source.order_source_name',
-                        'CONCAT(salesperson.firstname," ",salesperson.lastname) AS salesperson_name'
+                        'CONCAT(salesperson.firstname," ",salesperson.lastname) AS salesperson_name',
+                        'CONCAT_WS(" ",user_accounts.user_fname,user_accounts.user_lname)as user'
+                    
                     ),
                     array(
                         array('departments','departments.department_id=sales_invoice.department_id','left'),
@@ -931,6 +933,7 @@ class Templates extends CORE_Controller {
                         array('customers','customers.customer_id=sales_invoice.customer_id','left'),
                         array('sales_order','sales_order.sales_order_id=sales_invoice.sales_order_id','left'),
                         array('order_source','order_source.order_source_id=sales_invoice.order_source_id','left'),
+                        array('user_accounts','user_accounts.user_id=sales_invoice.posted_by_user','left')
                     )
                 );
 
@@ -1081,7 +1084,8 @@ class Templates extends CORE_Controller {
                     'sales_order.so_no',
                     'order_source.order_source_name',
                     'customers.customer_name',
-                    'CONCAT(salesperson.firstname," ",salesperson.lastname) AS salesperson_name'
+                    'CONCAT(salesperson.firstname," ",salesperson.lastname) AS salesperson_name',
+                    'CONCAT_WS(" ",user_accounts.user_fname,user_accounts.user_lname)as user'
 
                 ),
                 array(
@@ -1090,6 +1094,7 @@ class Templates extends CORE_Controller {
                     array('sales_order','sales_order.sales_order_id=cash_invoice.sales_order_id','left'),
                     array('order_source','order_source.order_source_id=cash_invoice.order_source_id','left'),
                     array('salesperson','salesperson.salesperson_id=cash_invoice.salesperson_id','left'),
+                    array('user_accounts','user_accounts.user_id=cash_invoice.posted_by_user','left')
                 ),
                 'cash_invoice.cash_invoice_id DESC'
             );
