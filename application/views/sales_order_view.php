@@ -214,9 +214,9 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 hidden">
                        <b class="required">* </b> SalesPerson :<br/>
-                        <select name="salesperson_id" id="cbo_salesperson" required="" data-error-msg="Salesperson is required.">
+                        <select name="salesperson_id" id="cbo_salesperson">
                             <option value="0">[ Create New Salesperson ]</option>
                             <?php foreach($salespersons as $salesperson){ ?>
                                 <option value="<?php echo $salesperson->salesperson_id; ?>"><?php echo $salesperson->acr_name.' - '.$salesperson->fullname; ?></option>
@@ -224,7 +224,7 @@
                         </select>
                     </div>
 
-                    <div class="col-sm-3 ">
+                    <div class="col-sm-4 ">
                         SO # :<br />
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -232,6 +232,10 @@
                             </span>
                             <input type="text" name="slip_no" class="form-control" placeholder="SO-YYYYMMDD-XXX" readonly>
                         </div>
+                    </div>
+                    <div class="col-sm-3">
+                    <b class="required"></b> Salesperson :<br/>
+                    <?php echo $this->session->user_fullname; ?>
                     </div>
                 </div>
                 <div class="row">
