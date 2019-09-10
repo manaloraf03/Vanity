@@ -212,7 +212,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label>SO # :</label> <br />
                             <div class="input-group">
                                 <input type="text" name="so_no" class="form-control">
@@ -221,16 +221,19 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 hidden">
                             <b class="required">*</b><label>Sales person :</label><br/>
-                            <select name="salesperson_id" id="cbo_salesperson" required data-error-msg="Salesperson is required.">
+                            <select name="salesperson_id" id="cbo_salesperson">
                                 <option value="0">[ Create New Salesperson ]</option>
                                 <?php foreach($salespersons as $salesperson){ ?>
                                     <option value="<?php echo $salesperson->salesperson_id; ?>"><?php echo $salesperson->acr_name.' - '.$salesperson->fullname; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
-                       
+                        <div class="col-sm-3">
+                            <b class="required"></b> <label>Salesperson :</label><br/>
+                            <?php echo $this->session->user_fullname; ?>
+                        </div>  
                         <div class="col-sm-2">
                             <b class="required">*</b> <label>Invoice Date :</label> <br />
                             <div class="input-group">
@@ -251,7 +254,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <label>Customer Type :</label><br/>
                             <select name="customer_type_id" id="cbo_customer_type">
                                 <option value="0">Walk In</option>
@@ -260,7 +263,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label>Contact Person :</label><br/>
                             <input type="text" name="contact_person" id="contact_person" class="form-control" data-error-msg="Contact Person is required!" placeholder="Contact Person">
                         </div>

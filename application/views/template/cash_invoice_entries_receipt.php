@@ -86,7 +86,7 @@
         <td class="bottom twentyfive"><strong><?php echo $info->order_source_name; ?></strong></td>
         <td></td>
         <td class="fifteen">CLERK:</td>
-        <td class="fifteen bottom"><strong><?php echo $info->salesperson_name; ?></strong></td>
+        <td class="fifteen bottom"><strong><?php echo $info->user; ?></strong></td>
     </tr>
     <tr>
         <td class="fifteen">Remarks:</td>
