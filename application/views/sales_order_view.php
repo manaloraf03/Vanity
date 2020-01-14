@@ -1372,7 +1372,7 @@ $(document).ready(function(){
             $('#order_default').datepicker('setDate', 'today');
             clearFields($('#frm_sales_order'));
             $('#tbl_items tbody').html('');
-            $('#cbo_departments').select2('val', null);
+            $('#cbo_departments').select2('val', 2);
             $('#cbo_department').select2('val', null);
             $('#cbo_customers').select2('val', null);
             $('#cbo_customer_type').select2('val', 0);

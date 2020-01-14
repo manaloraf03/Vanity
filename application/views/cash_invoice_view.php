@@ -1438,7 +1438,7 @@ $(document).ready(function(){
             showList(false);
 
             $('#tbl_items > tbody').html('');
-            $('#cbo_departments').select2('val', null);
+            $('#cbo_departments').select2('val', 2);
             $('#cbo_department').select2('val', null);
             $('#cbo_customers').select2('val', null);
             $('#cbo_order_source').select2('val', 1);
