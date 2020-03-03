@@ -38,9 +38,9 @@ class Export_sales extends CORE_Controller
         $data['title'] = 'Inventory Report';
 
         $data['departments']=$this->Departments_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE));
-        $data['title']="Trial Balance Report";
+        $data['title']="Sales and Cash Invoices Report";
         
-        (in_array('9-3',$this->session->user_rights)? 
+        (in_array('8-7',$this->session->user_rights)? 
         $this->load->view('export_sales_view',$data)
         :redirect(base_url('dashboard')));
     }
@@ -70,6 +70,8 @@ class Export_sales extends CORE_Controller
 
                 $excel->getActiveSheet()->getColumnDimensionByColumn('A')->setWidth('20');
 
+                $excel->getActiveSheet()->setCellValue('A6',"Detailed Sales and Cash Invoices")
+                                        ->setCellValue('A7',$this->input->get('start',TRUE).' - '.$this->input->get('end',TRUE));
                 $i = 9;
 
                 $infos=$this->Sales_invoice_model->get_list(
@@ -120,7 +122,7 @@ class Export_sales extends CORE_Controller
 
 
 
-                $cashinfo=$this->Cash_invoice_model->get_list(
+                $cashinfos=$this->Cash_invoice_model->get_list(
                     "cash_invoice.is_active = TRUE AND cash_invoice.is_deleted = FALSE AND cash_invoice.date_invoice BETWEEN '".$start."' AND '".$end."'",
                 array(
                     'cash_invoice.*',
@@ -153,6 +155,7 @@ class Export_sales extends CORE_Controller
                     'cash_invoice_items.*,products.product_desc,products.size,units.unit_name,products.product_code',
                     array(
                         array('products','products.product_id=cash_invoice_items.product_id','left'),
+                        array('cash_invoice','cash_invoice.cash_invoice_id=cash_invoice_items.cash_invoice_id','left'),
                         array('units','units.unit_id=cash_invoice_items.unit_id','left')
                     )
                 );
@@ -163,7 +166,7 @@ class Export_sales extends CORE_Controller
 
                      $excel->getActiveSheet()->setCellValue('A'.$i, "Invoice No");
                      $excel->getActiveSheet()->getStyle('A'.$i)->getFont()->setBold(TRUE);
-                     $excel->getActiveSheet()->setCellValue('B'.$i,$cashinfo->sales_inv_no); 
+                     $excel->getActiveSheet()->setCellValue('B'.$i,$cashinfo->cash_inv_no); 
                      $excel->getActiveSheet()->setCellValue('D'.$i, "Date");
                      $excel->getActiveSheet()->getStyle('D'.$i)->getFont()->setBold(TRUE);
                      $excel->getActiveSheet()->setCellValue('E'.$i, $cashinfo->date_invoice); $i++;
@@ -174,7 +177,7 @@ class Export_sales extends CORE_Controller
                      $excel->getActiveSheet()->setCellValue('B'.$i,$cashinfo->customer_name); 
                      $excel->getActiveSheet()->setCellValue('D'.$i, "Sales Type");
                      $excel->getActiveSheet()->getStyle('D'.$i)->getFont()->setBold(TRUE);
-                     $excel->getActiveSheet()->setCellValue('E'.$i, "Charge"); $i++;
+                     $excel->getActiveSheet()->setCellValue('E'.$i, "Cash"); $i++;
 
 
                      $excel->getActiveSheet()->setCellValue('A'.$i, "Type");
@@ -183,6 +186,10 @@ class Export_sales extends CORE_Controller
                      $excel->getActiveSheet()->setCellValue('D'.$i, "Clerk");
                      $excel->getActiveSheet()->getStyle('D'.$i)->getFont()->setBold(TRUE);
                      $excel->getActiveSheet()->setCellValue('E'.$i, $cashinfo->user); $i++;
+
+                     $excel->getActiveSheet()->setCellValue('A'.$i, "Remarks");
+                     $excel->getActiveSheet()->getStyle('A'.$i)->getFont()->setBold(TRUE);
+                     $excel->getActiveSheet()->setCellValue('B'.$i,$cashinfo->remarks); $i++;
 
                     $excel->getActiveSheet()
                     ->getStyle('A'.$i.':'.'E'.$i)
@@ -204,14 +211,14 @@ class Export_sales extends CORE_Controller
                      $i++;
 
                      $inv_total = 0;
-                     foreach ($items as $item) {
-                        if($cashinfo->sales_invoice_id == $item->sales_invoice_id) {
-                            $inv_total += $item->inv_gross;
-                            $excel->getActiveSheet()->setCellValue('A'.$i,$item->product_code); 
-                            $excel->getActiveSheet()->setCellValue('B'.$i,$item->product_desc); 
-                            $excel->getActiveSheet()->setCellValue('C'.$i,$item->inv_qty); 
-                            $excel->getActiveSheet()->setCellValue('D'.$i,$item->inv_price); 
-                            $excel->getActiveSheet()->setCellValue('E'.$i,$item->inv_gross); 
+                     foreach ($cashitems as $cashitem) {
+                        if($cashinfo->cash_invoice_id == $cashitem->cash_invoice_id) {
+                            $inv_total += $cashitem->inv_gross;
+                            $excel->getActiveSheet()->setCellValue('A'.$i,$cashitem->product_code); 
+                            $excel->getActiveSheet()->setCellValue('B'.$i,$cashitem->product_desc); 
+                            $excel->getActiveSheet()->setCellValue('C'.$i,$cashitem->inv_qty); 
+                            $excel->getActiveSheet()->setCellValue('D'.$i,$cashitem->inv_price); 
+                            $excel->getActiveSheet()->setCellValue('E'.$i,$cashitem->inv_gross); 
                             $excel->getActiveSheet()->getStyle('C'.$i.':E'.$i)->getNumberFormat()->setFormatCode('###,##0.00;(###,##0.00)'); $i++;
                         }
 
@@ -250,6 +257,11 @@ class Export_sales extends CORE_Controller
                      $excel->getActiveSheet()->setCellValue('D'.$i, "Clerk");
                      $excel->getActiveSheet()->getStyle('D'.$i)->getFont()->setBold(TRUE);
                      $excel->getActiveSheet()->setCellValue('E'.$i, $info->user); $i++;
+
+
+                     $excel->getActiveSheet()->setCellValue('A'.$i, "Remarks");
+                     $excel->getActiveSheet()->getStyle('A'.$i)->getFont()->setBold(TRUE);
+                     $excel->getActiveSheet()->setCellValue('B'.$i,$info->remarks); $i++;
 
                     $excel->getActiveSheet()
                     ->getStyle('A'.$i.':'.'E'.$i)

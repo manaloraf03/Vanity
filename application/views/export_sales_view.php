@@ -66,7 +66,7 @@
                                         <div class="col-sm-12">
                                             Period End : <br />
                                             <div class="input-group" style="z-index: 99999">
-                                                <input type="text" name="date_filter" id="dt_end_date" class="date-picker form-control" value="12/31/<?php echo date("Y"); ?>" placeholder="End Date" data-error-msg="End Date is required!" required>
+                                                <input type="text" name="date_filter" id="dt_end_date" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>" placeholder="End Date" data-error-msg="End Date is required!" required>
                                                 <span class="input-group-addon">
                                                      <i class="fa fa-calendar"></i>
                                                 </span>
