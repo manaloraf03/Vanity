@@ -122,7 +122,9 @@ class Sales_invoice_model extends CORE_Model
         GROUP BY ci.customer_id) as main 
 
         LEFT JOIN customers c ON c.customer_id = main.customer_id
-        GROUP BY main.customer_id';
+        GROUP BY main.customer_id
+
+        ORDER BY trim(c.customer_name) ASC';
 
         return $this->db->query($sql)->result();
     }
