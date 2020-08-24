@@ -109,6 +109,26 @@ class Sales_invoice_model extends CORE_Model
 
         return $this->db->query($sql)->result();
     }
+    function get_customers_with_sales(){
+        $sql='SELECT main.customer_id, SUM(main.inv_count), c.customer_name FROM 
+        (SELECT si.customer_id, COUNT(*) inv_count FROM sales_invoice si 
+        WHERE si.is_active = TRUE and si.is_deleted = FALSE
+        GROUP BY si.customer_id
+
+        UNION ALL 
+
+        SELECT ci.customer_id, COUNT(*) inv_count FROM cash_invoice ci 
+        WHERE ci.is_active = TRUE and ci.is_deleted = FALSE
+        GROUP BY ci.customer_id) as main 
+
+        LEFT JOIN customers c ON c.customer_id = main.customer_id
+        GROUP BY main.customer_id 
+ 
+        ORDER BY trim(c.customer_name) ASC';
+
+        return $this->db->query($sql)->result();
+    }
+
 
     function get_customer_sale_history($customer_id = null,$product_id = null){
         $sql='          SELECT 
@@ -116,7 +136,9 @@ class Sales_invoice_model extends CORE_Model
             inv_no,
             transaction_type,
             product_desc,
+            product_code,
             inv_qty,
+            main.customer_id,
             inv_price,
             inv_gross,
             remarks,
@@ -133,6 +155,7 @@ class Sales_invoice_model extends CORE_Model
             sii.inv_price,
             sii.inv_gross,
             si.date_invoice,
+            si.customer_id,
             si.sales_inv_no  as inv_no,
             si.remarks
             FROM sales_invoice_items sii
@@ -153,6 +176,7 @@ class Sales_invoice_model extends CORE_Model
             cii.inv_price,
             cii.inv_gross,
             ci.date_invoice,
+            ci.customer_id,
             ci.cash_inv_no  as inv_no,
             ci.remarks
             FROM cash_invoice_items cii
@@ -166,7 +190,7 @@ class Sales_invoice_model extends CORE_Model
             ) as main
             LEFT JOIN products p ON p.product_id = main.product_id 
             LEFT JOIN units u ON u.unit_id= main.unit_id
-            ORDER BY main.date_invoice DESC
+            ORDER BY p.product_desc asc
         ';
 
         return $this->db->query($sql)->result();

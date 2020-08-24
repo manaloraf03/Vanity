@@ -141,7 +141,17 @@
         </div> -->
         <div class="panel-body table-responsive">
         <div class="row panel-row">
-        <h2 class="h2-panel-heading">Sales/Cash Invoice History</h2><hr>
+        <h2 class="h2-panel-heading">
+        <div class="row">
+            <div class="col-sm-4">Sales/Cash Invoice History  </div>
+            <div class="col-sm-8">
+                <button class="btn btn-primary" id="btn_export_selected" title="Export selected Customer" ><i class="fa fa-file-excel-o"></i> Export Selected </button>
+                <button class="btn btn-primary" id="btn_export" title="Export all Customers with Sales" ><i class="fa fa-file-excel-o"></i> Export All </button>
+            </div>
+        </div>
+                               
+            </h2><hr>
+
                     <div class="row">
                         <div class="col-lg-3">
                             <b class="required"></b>Customer : <br />
@@ -283,6 +293,15 @@ $(document).ready(function(){
       
     }();
     var bindEventHandlers=(function(){
+
+        $('#btn_export_selected').click(function(){
+            window.open('Customer_sale_history/transaction/export-selected?id='+$('#cbo_customers').val()+"&pid="+$('#product_id').val());
+        });
+
+        $('#btn_export').click(function(){
+            window.open('Customer_sale_history/transaction/export-all');
+        });
+
 
         var detailRows = [];
         $('#tbl_sales_invoice tbody').on( 'click', 'tr td.details-control', function () {
