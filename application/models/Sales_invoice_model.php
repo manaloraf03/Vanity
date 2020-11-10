@@ -196,6 +196,94 @@ class Sales_invoice_model extends CORE_Model
         return $this->db->query($sql)->result();
     }
 
+
+    function old_get_customer_sale_history($customer_id = null,$product_id = null){
+        $sql='SELECT 
+            invoice_id,
+            inv_no,
+            transaction_type,
+            product_desc,
+            product_code,
+            inv_qty,
+            main.customer_id,
+            inv_price,
+            inv_gross,
+            remarks,
+            DATE_FORMAT(main.date_invoice,"%m/%d/%Y") as date_invoice,
+            p.product_desc,
+            u.unit_name
+            FROM 
+            (SELECT         
+            sii.sales_invoice_id as invoice_id,
+            "SI" as transaction_type,
+            sii.product_id,
+            sii.unit_id,
+            sii.inv_qty,
+            sii.inv_price,
+            sii.inv_gross,
+            si.date_invoice,
+            si.customer_id,
+            si.sales_inv_no  as inv_no,
+            si.remarks
+            FROM old_sales_invoice_items sii
+            LEFT JOIN old_sales_invoice si ON si.sales_invoice_id = sii.sales_invoice_id 
+            LEFT JOIN old_products p ON p.product_id = sii.product_id
+            LEFT JOIN old_units u ON u.unit_id = sii.unit_id
+            WHERE si.is_active = TRUE AND si.is_deleted = FALSE
+            '.($customer_id==null||$customer_id==0?'':' AND si.customer_id='.$customer_id).'
+            '.($product_id==null||$product_id==0?'':' AND sii.product_id='.$product_id).'
+            UNION ALL
+ 
+            SELECT
+            cii.cash_invoice_id as invoice_id,
+            "CI" as transaction_type,
+            cii.product_id,
+            cii.unit_id,
+            cii.inv_qty,
+            cii.inv_price,
+            cii.inv_gross,
+            ci.date_invoice,
+            ci.customer_id,
+            ci.cash_inv_no  as inv_no,
+            ci.remarks
+            FROM old_cash_invoice_items cii
+
+            LEFT JOIN old_cash_invoice ci ON ci.cash_invoice_id = cii.cash_invoice_id 
+            LEFT JOIN old_products p ON p.product_id = cii.product_id
+            LEFT JOIN old_units u ON u.unit_id = cii.unit_id
+            WHERE ci.is_active = TRUE AND ci.is_deleted = FALSE
+            '.($customer_id==null||$customer_id==0?'':' AND ci.customer_id='.$customer_id).'
+            '.($product_id==null||$product_id==0?'':' AND cii.product_id='.$product_id).'
+            ) as main
+            LEFT JOIN old_products p ON p.product_id = main.product_id 
+            LEFT JOIN old_units u ON u.unit_id= main.unit_id
+            ORDER BY p.product_desc asc
+        ';
+
+        return $this->db->query($sql)->result();
+    }    
+
+
+    function old_get_customers_with_sales(){
+        $sql='SELECT main.customer_id, SUM(main.inv_count), c.customer_name FROM 
+        (SELECT si.customer_id, COUNT(*) inv_count FROM old_sales_invoice si 
+        WHERE si.is_active = TRUE and si.is_deleted = FALSE
+        GROUP BY si.customer_id
+
+        UNION ALL 
+
+        SELECT ci.customer_id, COUNT(*) inv_count FROM old_cash_invoice ci 
+        WHERE ci.is_active = TRUE and ci.is_deleted = FALSE
+        GROUP BY ci.customer_id) as main 
+
+        LEFT JOIN old_customers c ON c.customer_id = main.customer_id
+        GROUP BY main.customer_id 
+ 
+        ORDER BY trim(c.customer_name) ASC';
+
+        return $this->db->query($sql)->result();
+    }    
+
 function get_journal_entries_2($sales_invoice_id){
 
 $sql="SELECT main.* FROM(SELECT

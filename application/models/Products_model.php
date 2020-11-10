@@ -8,6 +8,10 @@ class Products_model extends CORE_Model {
         parent::__construct();
     }
 
+    function get_old_list(){
+        $query = $this->db->query('SELECT * FROM old_products WHERE old_products.is_deleted = FALSE ORDER BY old_products.product_desc ASC');
+        return $query->result(); 
+    }
 
     function getDepartment()
     {
