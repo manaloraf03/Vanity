@@ -1183,8 +1183,13 @@ Product Pick List
 
 */
 
-function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=null,$category_id=null,$item_type_id=null,$pick_list=null,$depid=null,$account_cii,$account_dis=null){
+function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=null,$category_id=null,$item_type_id=null,$pick_list=null,$depid=null,$account_cii,$account_dis=null,$customer_id=null){
     $sql="SELECT main.*
+        (CASE  
+            WHEN main.prev_srp > 0 
+            THEN main.prev_srp 
+            ELSE main.sale_price  
+        END) as sale_price     
          ".($pick_list==TRUE?",(main.product_ideal - main.CurrentQty) as recommended_qty":"")."
             FROM 
 
@@ -1230,12 +1235,86 @@ function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=nu
 
                 FROM
 
-                (SELECT p.*,c.category_name FROM products as p
-                LEFT JOIN categories as c ON c.category_id=p.category_id
-                WHERE p.is_deleted = FALSE 
-                ".($product_id==NULL?"":" AND p.product_id = $product_id")."
-
-                 )as pQ
+                (SELECT p.*, 
+                COALESCE(previous_srp.srp_price,0) as prev_srp,c.category_name FROM products as p 
+                LEFT JOIN categories as c ON c.category_id=p.category_id 
+                LEFT JOIN 
+                (SELECT  
+                        m.* 
+                    FROM 
+                        (SELECT  
+                            main.* 
+                        FROM 
+                            (SELECT  
+                            si.date_invoice AS txn_date, 
+                                si.date_created, 
+                                si.customer_id, 
+                                sii.product_id, 
+                                sii.inv_price AS srp_price 
+                        FROM 
+                            sales_invoice_items sii 
+                        LEFT JOIN sales_invoice si ON si.sales_invoice_id = sii.sales_invoice_id 
+                        WHERE 
+                            si.is_active = TRUE 
+                                AND si.is_deleted = FALSE UNION ALL SELECT  
+                            ci.date_invoice AS txn_date, 
+                                ci.date_created, 
+                                ci.customer_id, 
+                                cii.product_id, 
+                                cii.inv_price AS srp_price 
+                        FROM 
+                            cash_invoice_items cii 
+                        LEFT JOIN cash_invoice ci ON ci.cash_invoice_id = cii.cash_invoice_id 
+                        WHERE 
+                            ci.is_active = TRUE 
+                                AND ci.is_deleted = FALSE) AS main 
+                        WHERE 
+                            ".($customer_id==NULL?" main.customer_id = 0 ":" main.customer_id = $customer_id ")." 
+                        ORDER BY main.txn_date DESC , main.date_created DESC) AS m 
+                            INNER JOIN 
+                        (SELECT  
+                            main.customer_id, 
+                                main.product_id, 
+                                MAX(main.txn_date) AS txn_date, 
+                                MAX(main.date_created) as date_created 
+                        FROM 
+                            (SELECT  
+                            si.date_invoice AS txn_date, 
+                                si.date_created, 
+                                si.customer_id, 
+                                sii.product_id, 
+                                sii.inv_price AS srp_price 
+                        FROM 
+                            sales_invoice_items sii 
+                        LEFT JOIN sales_invoice si ON si.sales_invoice_id = sii.sales_invoice_id 
+                        WHERE 
+                            si.is_active = TRUE 
+                                AND si.is_deleted = FALSE UNION ALL SELECT  
+                            ci.date_invoice AS txn_date, 
+                                ci.date_created, 
+                                ci.customer_id, 
+                                cii.product_id, 
+                                cii.inv_price AS srp_price 
+                        FROM 
+                            cash_invoice_items cii 
+                        LEFT JOIN cash_invoice ci ON ci.cash_invoice_id = cii.cash_invoice_id 
+                        WHERE 
+                            ci.is_active = TRUE 
+                                AND ci.is_deleted = FALSE) AS main 
+                        WHERE 
+                            ".($customer_id==NULL?" main.customer_id = 0 ":" main.customer_id = $customer_id ")." 
+                        GROUP BY main.product_id)  
+                            max_tranc ON  
+                            m.product_id = max_tranc.product_id AND 
+                            m.txn_date = max_tranc.txn_date 
+                            ## AND m.date_created = max_tranc.date_created 
+                    ) as previous_srp ON previous_srp.product_id = p.product_id 
+ 
+ 
+                WHERE p.is_deleted = FALSE  
+                ".($product_id==NULL?"":" AND p.product_id = $product_id")." 
+ 
+                 )as pQ 
 
 
                 LEFT JOIN
