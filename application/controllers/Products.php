@@ -70,7 +70,7 @@ class Products extends CORE_Controller
         }
     }
 
-    function transaction($txn = null) {
+    function transaction($txn = null, $filter_value = null) {
         switch ($txn) {
             case 'list':
                 $m_products = $this->Products_model;
@@ -78,8 +78,9 @@ class Products extends CORE_Controller
                 $account_integration =$this->Account_integration_model;
                 $a_i=$account_integration->get_list();
                 $account =$a_i[0]->sales_invoice_inventory;
+                $customer_id = $filter_value;
 
-                $response['data']=$m_products->product_list(1,null,null,null,null,null,null,null,1);
+                $response['data']=$m_products->product_list(1,null,null,null,null,null,null,null,1,null,$customer_id);
                 // $response['data']=$this->response_rows(array('products.is_deleted'=>FALSE));
                 echo json_encode($response);
                 break;
