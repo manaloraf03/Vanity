@@ -940,7 +940,9 @@ class Templates extends CORE_Controller {
                 $data['sales_info']=$info[0];
                 $data['sales_invoice_items']=$m_sales_invoice_items->get_list(
                     array('sales_invoice_items.sales_invoice_id'=>$filter_value),
-                    'sales_invoice_items.*,products.product_desc,products.size,units.unit_name,products.product_code',
+                    'sales_invoice_items.*,
+                    (sales_invoice_items.weight*sales_invoice_items.inv_qty) as total_weight,
+                    products.product_desc,products.size,units.unit_name,products.product_code',
                     array(
                         array('products','products.product_id=sales_invoice_items.product_id','left'),
                         array('units','units.unit_id=sales_invoice_items.unit_id','left')
@@ -1102,7 +1104,9 @@ class Templates extends CORE_Controller {
                 $data['info']=$info[0];
                 $data['items']=$m_cash_invoice_items->get_list(
                     array('cash_invoice_items.cash_invoice_id'=>$filter_value),
-                    'cash_invoice_items.*,products.product_desc,products.size,units.unit_name,products.product_code',
+                    'cash_invoice_items.*, 
+                    (cash_invoice_items.weight*cash_invoice_items.inv_qty) as total_weight,
+                    products.product_desc,products.size,units.unit_name,products.product_code',
                     array(
                         array('products','products.product_id=cash_invoice_items.product_id','left'),
                         array('units','units.unit_id=cash_invoice_items.unit_id','left')

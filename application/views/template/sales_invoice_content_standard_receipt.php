@@ -107,6 +107,7 @@
                 <th width="12%" class="bottom top" style="text-align: center;height: 30px;padding: 6px;">QTY</th>
                 <th width="12%" class="bottom top" style="text-align: right;height: 30px;padding: 6px;">S.PRICE</th>
                 <th width="20%" class="bottom top" style="text-align: right;height: 30px;padding: 6px;">TOTAL</th>
+                <th width="6%" class="bottom top" style="text-align: right;height: 30px;padding: 6px;">WEIGHT</th>
             </tr>
             </thead>
             <tbody>
@@ -114,6 +115,7 @@
             $total_total = 0;
             $total_discount = 0;
             $total_after_global = 0;
+            $total_weight = 0;
             foreach($sales_invoice_items as $item){ ?>
                 <tr>
                     <td width="10%" class="" style="text-align: left;height: 15px;padding: 3px;"><?php echo $item->product_code; ?></td>
@@ -121,12 +123,14 @@
                     <td width="12%" class="" style="text-align: center;height: 15px;padding: 3px;"><?php echo number_format($item->inv_qty,0); ?></td>
                     <td width="12%" class="" style="text-align: right;height: 15px;padding: 3px;"><?php echo number_format($item->inv_price,2); ?></td>
                     <td width="20%" class="" style="text-align: right;height: 15px;padding: 3px;"><?php echo number_format($item->inv_gross,2); ?></td>
+                    <td width="6%" class="" style="text-align: right;height: 15px;padding: 3px;"><?php echo number_format($item->weight,2); ?></td>
                 </tr>
             <?php
 
             $total_total += $item->inv_gross;
             $total_discount += $item->inv_line_total_discount;
             $total_after_global += $item->inv_line_total_after_global;
+            $total_weight += $item->weight;
 
 
              } ?>
@@ -138,21 +142,26 @@
             </tr> -->
             </tbody>
             <tfoot>
-            <tr><td colspan="5" class="" >&nbsp;</td></tr>
+            <tr><td colspan="6" class="" >&nbsp;</td></tr>
+            <tr>
+                <td colspan="2" class="" ></td>
+                <td colspan="2" class="" style="text-align: right;height: 10px;padding: 2px;">TOTAL WEIGHT: </td>
+                <td colspan="2" class="bottom" style="text-align: right;height: 10px;padding: 2px;"><strong><?php echo number_format($total_weight,2); ?></strong></td>
+            </tr>
             <tr>
                 <td colspan="2" class="" ></td>
                 <td colspan="2" class="" style="text-align: right;height: 10px;padding: 2px;">SUB TOTAL: </td>
-                <td class="bottom" style="text-align: right;height: 10px;padding: 2px;"><strong><?php echo number_format($total_total,2); ?></strong></td>
+                <td colspan="2" class="bottom" style="text-align: right;height: 10px;padding: 2px;"><strong><?php echo number_format($total_total,2); ?></strong></td>
             </tr>
             <tr>
                 <td colspan="2" class="" ></td>
                 <td colspan="2" class="" style="text-align: right;height: 10px;padding: 2px;">DISCOUNT: </td>
-                <td class="top bottom" style="text-align: right;height: 10px;padding: 2px;"><strong>0.00</strong></td>
+                <td colspan="2" class="top bottom" style="text-align: right;height: 10px;padding: 2px;"><strong>0.00</strong></td>
             </tr>total_total
             <tr>
                 <td colspan="2" class="" ></td>
                 <td colspan="2" class="" style="text-align: right;height: 10px;padding: 2px;">TOTAL:</td>
-                <td colspan="" class="bottom" style="text-align: right;height: 10px;padding: 2px;"><strong><?php echo number_format($total_total,2); ?></strong></td>
+                <td colspan="2" class="bottom" style="text-align: right;height: 10px;padding: 2px;"><strong><?php echo number_format($total_total,2); ?></strong></td>
             </tr>
             </tfoot>
         </table><br /><br />
