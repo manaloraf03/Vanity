@@ -349,17 +349,17 @@
                                                                         <!-- DISPLAY -->
                                                                         <th width="8%">Qty </th>
                                                                         <th width="8%">UM </th>
-                                                                        <th width="23%">Item </th>
-                                                                        <th style="display: none;">Weight </th>
-                                                                        <th width="13%" style="text-align: right;">Total Weight </th>
-                                                                        <th width="13%" style="text-align: right;">Unit Price </th>
+                                                                        <th width="20%">Item </th>
+                                                                        <th width="10%" style="text-align: right;">Weight </th>
+                                                                        <th width="10%" style="text-align: right;">Total Weight </th>
+                                                                        <th width="10%" style="text-align: right;">Unit Price </th>
                                                                         <th width="8%" style="text-align: right;">Discount % </th>
                                                                         <!-- display:none; -->
                                                                         <th style="display:none;" width="8%">Total line Discount </th> <!-- total discount -->
                                                                         <th style="display:none;" width="8%">Tax % </th>
                                                                         <!-- DISPLAY -->
-                                                                        <th width="13%" style="text-align: right">Gross</th>
-                                                                        <th width="13%" style="text-align: right">Total</th>
+                                                                        <th width="12%" style="text-align: right">Gross</th>
+                                                                        <th width="12%" style="text-align: right">Total</th>
                                                                         <!-- display:none;  -->
                                                                         <th style="display:none;" width="10%">Vat Input(Total Line Tax) </th> <!-- vat input -->
                                                                         <th style="display:none;" width="10%">Net of Vat (Price w/out Tax) </th> <!-- net of vat -->
@@ -373,10 +373,10 @@
                                                                 </tbody>
                                                                 <tfoot>
                                                                     <tr>
-                                                                        <td colspan="9" style="height: 50px;">&nbsp;</td>
+                                                                        <td colspan="10" style="height: 50px;">&nbsp;</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td colspan="2" style="text-align: right;">Discount %</td>
+                                                                        <td colspan="3" style="text-align: right;">Discount %</td>
                                                                         <td align="right" colspan="1" id="" color="red">
                                                                             <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
                                                                             <input id="txt_overall_discount_amount" name="total_overall_discount_amount" type="hidden" class="numeric form-control" value="0.00" />
@@ -390,7 +390,7 @@
                                                                         <td></td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td colspan="4" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
+                                                                        <td colspan="5" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
                                                                         <td align="right" colspan="1" id="td_tax" color="red">0.00</td>
                                                                         <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total After Tax :</strong></td>
                                                                         <td align="right" colspan="1" id="td_after_tax" color="red">0.00</td>
@@ -2046,7 +2046,7 @@
                                                         // DISPLAY
                                                         '<td ><input name="so_qty[]" type="text" class="number form-control" value="' + accounting.formatNumber(d.so_qty, 2) + '"></td>' + unit +
                                                         '<td >' + d.product_desc + '<input type="text" style="display:none;" class="form-control" name="is_parent[]" value="' + d.is_parent + '"></td>' +
-                                                        '<td style="display:none;"><input name="weight[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.weight, 2) + '" readonly></td>' +
+                                                        '<td><input name="weight[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.weight, 2) + '" readonly></td>' +
                                                         '<td ><input name="total_weight[]" readonly type="text" class="numeric form-control" value="' + accounting.formatNumber(d.total_weight, 2) + '" style="text-align:right;"></td>' +
                                                         '<td ><input name="so_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_price, 2) + '" style="text-align:right;"></td>' +
                                                         '<td  style=""><input name="so_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_discount, 2) + '" style="text-align:right;"></td>' +
