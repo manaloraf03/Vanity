@@ -1544,7 +1544,7 @@ $(document).ready(function(){
         
         });
 
-        $('#tbl_items tbody').on('input keyup','input.numeric,input.number',function(){
+        $('#tbl_items tbody').on('keyup','input.numeric,input.number',function(){
             var row=$(this).closest('tr');
 
             var qty=parseFloat(accounting.unformat(row.find(oTableItems.qty).find('input.number').val()));             //0

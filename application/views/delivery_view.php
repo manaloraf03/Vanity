@@ -1741,7 +1741,7 @@ $(document).ready(function(){
         
         });
 
-        $('#tbl_items tbody').on('input keyup','input.numeric',function(){
+        $('#tbl_items tbody').on('keyup','input.numeric',function(){
             var row=$(this).closest('tr');
             var price=parseFloat(accounting.unformat(row.find(oTableItems.unit_price).find('input.numeric').val()));
             var discount=parseFloat(accounting.unformat(row.find(oTableItems.discount).find('input.numeric').val()));
