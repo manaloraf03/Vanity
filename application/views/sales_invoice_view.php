@@ -268,63 +268,65 @@
                             <input type="text" name="contact_person" id="contact_person" class="form-control" data-error-msg="Contact Person is required!" placeholder="Contact Person">
                         </div>
 
-                        <div class="col-sm-2">
-                            <b class="required">*</b><label> Due Date :</label> <br />
-                            <div class="input-group">
-                                <input type="text" name="date_due" id="due_default" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>" placeholder="Date Due" data-error-msg="Please set the date this items are issued!" required>
-                                 <span class="input-group-addon">
-                                     <i class="fa fa-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-sm-4">
-                       <b>* </b>  Order Source :<br />
-                        <select name="order_source_id" id="cbo_order_source" data-error-msg="Order Source is required." required>
-                            <option value="0">[ Create New Order Source ]</option>
-                            <?php foreach($order_sources as $order_source){ ?>
-                                <option value="<?php echo $order_source->order_source_id; ?>"><?php echo $order_source->order_source_name; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div> 
-                        <div class="col-sm-8">
-                            <label>Address :</label><br>
-                            <input class="form-control" id="txt_address" type="text" name="address" placeholder="Customer Address">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div>
-        <hr>
-            <label class="control-label" style="font-family: Tahoma;"><strong>Enter PLU or Search Item :</strong></label>
-        <button id="refreshproducts" class="btn-primary btn pull-right" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span>  Refresh</button>
-        <div id="custom-templates">
-            <input class="typeahead" id="typeaheadsearch" type="text" placeholder="Enter PLU or Search Item">
-            <i class="pull-right">Note: Unit Price will depend on chosen Customer Type</i>
-        </div><br />
-            <form id="frm_items">
-                <div class="table-responsive">
-                    <table id="tbl_items" class="table table-striped" cellspacing="0" width="100%" style="font-font:tahoma;">
-                        <thead class="">    
-                        <tr>
-                            <th width="10%">Qty</th><!-- 10% -->
-                            <th width="10%">UM</th> <!-- 10% -->
-                            <th width="25%">Item</th> <!-- 25% -->
-                            <th width="15%" style="text-align: right;">Unit Price</th> <!-- 15% -->
-                            <th width="10%" style="text-align: right;">Discount % </th>
-                            <!-- DISPLAY NONE  -->
-                            <th style="display:none;"" width="10%">Total Discount</th> <!-- total discount -->
-                            <th style="display: none;" width="10%">Tax %</th>
-                            <!-- DISPLAY -->
-                            <th width="15%" style="text-align: right;">Gross</th>
-                            <th width="15%" style="text-align: right;">Net Total</th>
-                            <!-- DISPLAY NONE  -->
-                            <th style="display:none;" width="10%">Vat Input(Total Line Tax)</th> <!-- vat input -->
-                            <th style="display:none;" width="10%">Net of Vat (Price w/out Tax)</th> <!-- net of vat -->
-                            <td style="display:none;" width="10%">Item ID</td><!-- product id -->
-                            <th style="display:none;" width="10%">Total after Global</th> 
+                                                                    <div class="col-sm-2">
+                                                                        <b class="required">*</b><label> Due Date :</label> <br />
+                                                                        <div class="input-group">
+                                                                            <input type="text" name="date_due" id="due_default" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>" placeholder="Date Due" data-error-msg="Please set the date this items are issued!" required>
+                                                                            <span class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-4">
+                                                                        <b>* </b> Order Source :<br />
+                                                                        <select name="order_source_id" id="cbo_order_source" data-error-msg="Order Source is required." required>
+                                                                            <option value="0">[ Create New Order Source ]</option>
+                                                                            <?php foreach ($order_sources as $order_source) { ?>
+                                                                                <option value="<?php echo $order_source->order_source_id; ?>"><?php echo $order_source->order_source_name; ?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <label>Address :</label><br>
+                                                                        <input class="form-control" id="txt_address" type="text" name="address" placeholder="Customer Address">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </form>
+                                                </div>
+                                                <div>
+                                                    <hr>
+                                                    <label class="control-label" style="font-family: Tahoma;"><strong>Enter PLU or Search Item :</strong></label>
+                                                    <button id="refreshproducts" class="btn-primary btn pull-right" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span> Refresh</button>
+                                                    <div id="custom-templates">
+                                                        <input class="typeahead" id="typeaheadsearch" type="text" placeholder="Enter PLU or Search Item">
+                                                        <i class="pull-right">Note: Unit Price will depend on chosen Customer Type</i>
+                                                    </div><br />
+                                                    <form id="frm_items">
+                                                        <div class="table-responsive">
+                                                            <table id="tbl_items" class="table table-striped" cellspacing="0" width="100%" style="font-font:tahoma;">
+                                                                <thead class="">
+                                                                    <tr>
+                                                                        <th width="8%">Qty</th><!-- 10% -->
+                                                                        <th width="8%">UM</th> <!-- 10% -->
+                                                                        <th width="20%">Item</th> <!-- 25% -->
+                                                                        <th width="10%" style="text-align: right;">Weight</th> <!-- 15% -->
+                                                                        <th width="10%" style="text-align: right;">Total Weight</th> <!-- 15% -->
+                                                                        <th width="10%" style="text-align: right;">Unit Price</th> <!-- 15% -->
+                                                                        <th width="8%" style="text-align: right;">Discount % </th>
+                                                                        <!-- DISPLAY NONE  -->
+                                                                        <th style="display:none;"" width=" 10%">Total Discount</th> <!-- total discount -->
+                                                                        <th style="display: none;" width="10%">Tax %</th>
+                                                                        <!-- DISPLAY -->
+                                                                        <th width="12%" style="text-align: right;">Gross</th>
+                                                                        <th width="12%" style="text-align: right;">Net Total</th>
+                                                                        <!-- DISPLAY NONE  -->
+                                                                        <th style="display:none;" width="10%">Vat Input(Total Line Tax)</th> <!-- vat input -->
+                                                                        <th style="display:none;" width="10%">Net of Vat (Price w/out Tax)</th> <!-- net of vat -->
+                                                                        <td style="display:none;" width="10%">Item ID</td><!-- product id -->
+                                                                        <th style="display:none;" width="10%">Total after Global</th>
 
                             <th width="5%"><center>Action</center></th>
                         </tr>
@@ -349,24 +351,34 @@
                                     <td></td>
                                     <td><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></td>
                                 </tr>-->
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6" style="height: 50px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">Discount %:</td>
-                                <td align="right" colspan="1" id="" color="red">
-                                <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
-                                <input type="hidden" id="txt_overall_discount_amount" name="total_overall_discount_amount" class="numeric form-control" value="0.00" readonly></td>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="10" style="height: 50px;">&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="3" style="text-align: right;">Discount %:</td>
+                                                                        <td align="right" colspan="1" id="" color="red">
+                                                                            <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
+                                                                            <input type="hidden" id="txt_overall_discount_amount" name="total_overall_discount_amount" class="numeric form-control" value="0.00" readonly>
+                                                                        </td>
 
                                 <td style="text-align: right;">Total After Discount:</td>
                                 <td id="td_total_after_discount" style="text-align: right">0.00</td>
 
-                                <td style="text-align: right;" colspan="2">Total before tax:</td>
-                                <td id="td_total_before_tax" style="text-align: right">0.00</td>
-                                <td></td>
-                            </tr>
+                                                                        <td style="text-align: right;" colspan="2">Total before tax:</td>
+                                                                        <td id="td_total_before_tax" style="text-align: right">0.00</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="4" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
+                                                                        <td align="right" colspan="2" id="td_tax" color="red">0.00</td>
+                                                                        <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total After Tax :</strong></td>
+                                                                        <td align="right" colspan="1" id="td_after_tax" color="red">0.00</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                                <!--                         <tfoot>
                             <tr>
                                 <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
                                 <td align="right" colspan="2" id="td_tax" color="red">0.00</td>
@@ -1975,22 +1987,25 @@ $(document).ready(function(){
                         return false;
                     }
                 }
-        });
-        return stat;
-    };
-    var getproduct=function(){
-       return $.ajax({
-           "dataType":"json",
-           "type":"POST",
-           "url":"products/transaction/list",
-           "beforeSend": function(){
-                countproducts = products.local.length;
-                if(countproducts > 100){
-                    showNotification({title:"Please Wait !",stat:"info",msg:"Refreshing your Products List."});
-                }
-           }
-      });
-    };
+                return '<tr>' +
+                    //DISPLAY
+                    '<td ><input name="inv_qty[]" type="text" class="numeric form-control trigger-keyup" value="' + accounting.formatNumber(d.inv_qty, 2) + '"></td>' + unit +
+                    '<td ">' + d.product_desc + '<input type="text" style="display:none;" class="form-control" name="is_parent[]" value="' + d.is_parent + '"></td>' +
+                    '<td><input name="weight[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.weight, 2) + '" readonly></td>' +
+                    '<td ><input name="total_weight[]" readonly type="text" class="numeric form-control" value="' + accounting.formatNumber(d.total_weight, 2) + '" style="text-align:right;"></td>' +
+                    '<td ><input name="inv_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_price, 2) + '" style="text-align:right;"></td>' +
+                    '<td  style=""><input name="inv_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_discount, 2) + '" style="text-align:right;"></td>' +
+                    // DISPLAY NONE
+                    '<td style="display:none;" ><input name="inv_line_total_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_line_total_discount, 2) + '" readonly></td>' +
+                    '<td  style="display:none;"><input name="inv_tax_rate[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_tax_rate, 2) + '"></td>' +
+                    // DISPLAY AGAIN 10%
+                    '<td  style=""><input name="inv_gross[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_gross, 2) + '" readonly></td>' +
+                    '<td  align="right"><input name="inv_line_total_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_line_total_price, 2) + '" readonly></td>' +
+                    // DISPLAY NONE AGAIN
+                    '<td style="display:none;"><input name="inv_tax_amount[]" type="text" class="numeric form-control" value="' + d.inv_tax_amount + '" readonly></td>' +
+                    '<td style="display:none;"><input name="inv_non_tax_amount[]" type="text" class="numeric form-control" value="' + d.inv_non_tax_amount + '" readonly></td>' +
+                    '<td style="display:none;"><input name="product_id[]" type="text" class="numeric form-control" value="' + d.product_id + '" readonly></td>' +
+                    '<td style="display:none;"><input name="inv_line_total_after_global[]" type="text" class="numeric form-control" value="' + d.inv_line_total_after_global + '" readonly></td>' +
 
     var createCustomer=function(){
         var _data=$('#frm_customer').serializeArray();
