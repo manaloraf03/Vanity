@@ -1076,11 +1076,11 @@ $(document).ready(function(){
             _customer_type_ = _cboCustomerType.val();
             var sale_price=0.00;
 
-            if(suggestion.prev_srp > 0){
-
-                sale_price  = suggestion.prev_srp;
-
-            }else{
+            if(suggestion.prev_srp > 0){ 
+ 
+                sale_price  = suggestion.prev_srp; 
+ 
+            }else{ 
                 if(_customer_type_ == '' || _customer_type_ == 0){
                     sale_price=suggestion.sale_price;
                 }else if(_customer_type_ == '1' ){ // DISCOUNTED CUSTOMER TYPE
@@ -1336,7 +1336,7 @@ $(document).ready(function(){
             $('#txt_address').val(obj_customers.data('address'));
             $('#contact_person').val(obj_customers.data('contact'));
             $('#cbo_customer_type').select2('val',obj_customers.data('customer_type'));
-            $('#refreshproducts').trigger('click');
+            $('#refreshproducts').trigger('click'); 
             if(i==0){ _cboCustomerType.select2('val',0); }
         });
         $('#btn_create_salesperson').click(function(){
@@ -1487,7 +1487,7 @@ $(document).ready(function(){
             showList(false);
             _cboSource.select2('val',1);
             $('#tbl_items > tbody').html('');
-            $('#cbo_departments').select2('val', 7);
+            $('#cbo_departments').select2('val', 4);
             $('#cbo_department').select2('val', null);
             $('#cbo_customers').select2('val', null);
             $('#cbo_customer_type').select2('val', 0);
@@ -1990,7 +1990,7 @@ $(document).ready(function(){
        return $.ajax({
            "dataType":"json",
            "type":"POST",
-           "url":"products/transaction/list/"+ _cboCustomers.select2('val'),
+           "url":"products/transaction/list/"+ _cboCustomers.select2('val'), 
            "beforeSend": function(){
                 countproducts = products.local.length;
                 if(countproducts > 100){

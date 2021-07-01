@@ -104,8 +104,7 @@ class Rights_link_model extends CORE_Model{
                                           (95,'20','20-1','Edit Adjustments'),
                                           (96,'20','20-2','Edit Product Costing'),
                                           (97,'15','15-7','Spoilage Report'),
-                                          (98,'8','8-7','Profit Report')
-
+                                          (98,'8','8-7','Profit Report') 
 
                                           ON DUPLICATE KEY UPDATE
                                           rights_links.parent_code=VALUES(rights_links.parent_code),

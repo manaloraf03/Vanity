@@ -1353,7 +1353,7 @@ $(document).ready(function(){
             //$('.toggle-fullscreen').click();
             $('#span_invoice_no').html('INV-XXXX');
             clearFields($('#frm_deliveries'));
-            $('#cbo_departments').select2('val', null);
+            $('#cbo_departments').select2('val', 4);
             $('#cbo_suppliers').select2('val', null);
             $('#img_user').attr('src','assets/img/anonymous-icon.png');
             $('#td_discount').html('0.00');
