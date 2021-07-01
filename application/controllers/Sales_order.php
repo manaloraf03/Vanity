@@ -233,6 +233,7 @@ class Sales_order extends CORE_Controller
                 $so_line_total_price=$this->input->post('so_line_total_price',TRUE);
                 $so_tax_amount=$this->input->post('so_tax_amount',TRUE);
                 $so_non_tax_amount=$this->input->post('so_non_tax_amount',TRUE);
+                $weight=$this->input->post('weight', TRUE);
 
                 $batch_no=$this->input->post('batch_no',TRUE);
                 $exp_date=$this->input->post('exp_date',TRUE);
@@ -251,6 +252,7 @@ class Sales_order extends CORE_Controller
                     $m_sales_order_items->so_line_total_price=$this->get_numeric_value($so_line_total_price[$i]);
                     $m_sales_order_items->so_tax_amount=$this->get_numeric_value($so_tax_amount[$i]);
                     $m_sales_order_items->so_non_tax_amount=$this->get_numeric_value($so_non_tax_amount[$i]);
+                    $m_sales_order_items->weight=$this->get_numeric_value($weight[$i]);
 
                     $m_sales_order_items->batch_no=$batch_no[$i];
                     $m_sales_order_items->exp_date=date('Y-m-d', strtotime($exp_date[$i]));
@@ -346,6 +348,7 @@ class Sales_order extends CORE_Controller
                 $is_parent=$this->input->post('is_parent',TRUE);
                 $batch_no=$this->input->post('batch_no',TRUE);
                 $exp_date=$this->input->post('exp_date',TRUE);
+                $weight = $this->input->post('weight', TRUE);
 
                 for($i=0;$i<count($prod_id);$i++){
 
@@ -360,6 +363,7 @@ class Sales_order extends CORE_Controller
                     $m_sales_order_items->so_line_total_price=$this->get_numeric_value($so_line_total_price[$i]);
                     $m_sales_order_items->so_tax_amount=$this->get_numeric_value($so_tax_amount[$i]);
                     $m_sales_order_items->so_non_tax_amount=$this->get_numeric_value($so_non_tax_amount[$i]);
+                    $m_sales_order_items->weight = $this->get_numeric_value($weight[$i]);
 
                     $m_sales_order_items->batch_no=$batch_no[$i];
                     $m_sales_order_items->exp_date=date('Y-m-d', strtotime($exp_date[$i]));
