@@ -282,111 +282,115 @@
                     </div>
             </div>
 
-            </div>
-        </form>
-    </div>
-    <hr>
-    <div class="row" style="padding: 1%;margin-top: 0px;padding-top:0px;">
-        <label class="control-label" style="font-family: Tahoma;"><strong>Enter PLU or Search Item :</strong></label>
-        <button id="refreshproducts" class="btn-primary btn pull-right" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span>  Refresh</button>
-        <div id="custom-templates">
-            <input class="typeahead" id="typeaheadsearch" type="text" placeholder="Enter PLU or Search Item">
-        </div><br />
-            <form id="frm_items">
-                <div class="table-responsive">
-                        <table id="tbl_items" class="table table-striped"  cellspacing="0" width="100%" style="font-font:tahoma;">
-                        <thead class="">
-                        <tr>
-                            <!-- DISPLAY -->
-                            <th width="10%">Qty </th>
-                            <th width="10%">UM </th>
-                            <th width="25%">Item </th>
-                            <th width="15%" style="text-align: right;">Unit Price </th>
-                            <th width="10%" style="text-align: right;">Discount % </th>
-                            <!-- display:none; -->
-                            <th style="display:none;" width="10%">Total line Discount </th> <!-- total discount -->
-                            <th style="display:none;" width="10%">Tax % </th>
-                            <!-- DISPLAY -->
-                            <th width="15%" style="text-align: right">Gross</th>
-                            <th width="15%" style="text-align: right">Total</th>
-                            <!-- display:none;  -->
-                            <th style="display:none;"  width="10%">Vat Input(Total Line Tax) </th> <!-- vat input -->
-                            <th style="display:none;"  width="10%">Net of Vat (Price w/out Tax) </th> <!-- net of vat -->
-                            <td style="display:none;" width="10%">Item ID </td><!-- product id -->
-                            <th width="5%"><center>Action</center></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="8" style="height: 50px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">Discount %</td>
-                                <td align="right" colspan="1" id="" color="red">
-                                <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
-                                <input id="txt_overall_discount_amount" name="total_overall_discount_amount" type="hidden" class="numeric form-control" value="0.00" />
-                                </td>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <hr>
+                                                <div class="row" style="padding: 1%;margin-top: 0px;padding-top:0px;">
+                                                    <label class="control-label" style="font-family: Tahoma;"><strong>Enter PLU or Search Item :</strong></label>
+                                                    <button id="refreshproducts" class="btn-primary btn pull-right" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span> Refresh</button>
+                                                    <div id="custom-templates">
+                                                        <input class="typeahead" id="typeaheadsearch" type="text" placeholder="Enter PLU or Search Item">
+                                                    </div><br />
+                                                    <form id="frm_items">
+                                                        <div class="table-responsive">
+                                                            <table id="tbl_items" class="table table-striped" cellspacing="0" width="100%" style="font-font:tahoma;">
+                                                                <thead class="">
+                                                                    <tr>
+                                                                        <!-- DISPLAY -->
+                                                                        <th width="8%">Qty </th>
+                                                                        <th width="8%">UM </th>
+                                                                        <th width="20%">Item </th>
+                                                                        <th width="10%" style="text-align: right;">Weight </th>
+                                                                        <th width="10%" style="text-align: right;">Total Weight </th>
+                                                                        <th width="10%" style="text-align: right;">Unit Price </th>
+                                                                        <th width="8%" style="text-align: right;">Discount % </th>
+                                                                        <!-- display:none; -->
+                                                                        <th style="display:none;" width="8%">Total line Discount </th> <!-- total discount -->
+                                                                        <th style="display:none;" width="8%">Tax % </th>
+                                                                        <!-- DISPLAY -->
+                                                                        <th width="12%" style="text-align: right">Gross</th>
+                                                                        <th width="12%" style="text-align: right">Total</th>
+                                                                        <!-- display:none;  -->
+                                                                        <th style="display:none;" width="10%">Vat Input(Total Line Tax) </th> <!-- vat input -->
+                                                                        <th style="display:none;" width="10%">Net of Vat (Price w/out Tax) </th> <!-- net of vat -->
+                                                                        <td style="display:none;" width="10%">Item ID </td><!-- product id -->
+                                                                        <th width="5%">
+                                                                            <center>Action</center>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="10" style="height: 50px;">&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="3" style="text-align: right;">Discount %</td>
+                                                                        <td align="right" colspan="1" id="" color="red">
+                                                                            <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
+                                                                            <input id="txt_overall_discount_amount" name="total_overall_discount_amount" type="hidden" class="numeric form-control" value="0.00" />
+                                                                        </td>
 
                                 <td>Total After Discount:</td>
                                 <td id="td_total_after_discount" style="text-align: right">0.00</td>
 
-                                <td style="text-align: right;" colspan="2">Total Before Tax:</td>
-                                <td id="td_total_before_tax" style="text-align: right">0.00</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
-                                <td align="right" colspan="1" id="td_tax" color="red">0.00</td>
-                                <td colspan="2"  style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total After Tax :</strong></td>
-                                <td align="right" colspan="1" id="td_after_tax" color="red">0.00</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </form>
-                <div class="row">
-                        <div class="col-lg-12">
-                            <label><strong>Remarks :</strong></label><br />
-                            <textarea name="remarks" id="remarks" class="form-control" placeholder="Remarks"></textarea>
-                        </div>
-                </div>
-            <br />
-            <div class="row" style="display:none;">
-                <div class="col-lg-4 col-lg-offset-8">
-                    <div class="table-responsive">
-                        <table id="tbl_sales_order_summary" class="table invoice-total" style="font-family: tahoma;">
-                            <tbody>
-                            <tr>
-                                <td>Discount :</td>
-                                <td align="right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Total before Tax :</td>
-                                <td align="right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Tax :</td>
-                                <td align="right">0.00</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total After Tax :</strong></td>
-                                <td align="right"><b>0.00</b></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-    </div>
-</div>
-<div class="panel-footer">
-    <div class="row">
-        <div class="col-sm-12">
-            <button id="btn_save" class="btn-primary btn" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span>  Save Changes</button>
-            <button id="btn_cancel" class="btn-default btn" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"">Cancel</button>
+                                                                        <td style="text-align: right;" colspan="2">Total Before Tax:</td>
+                                                                        <td id="td_total_before_tax" style="text-align: right">0.00</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="5" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
+                                                                        <td align="right" colspan="1" id="td_tax" color="red">0.00</td>
+                                                                        <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total After Tax :</strong></td>
+                                                                        <td align="right" colspan="1" id="td_after_tax" color="red">0.00</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </form>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <label><strong>Remarks :</strong></label><br />
+                                                            <textarea name="remarks" id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row" style="display:none;">
+                                                        <div class="col-lg-4 col-lg-offset-8">
+                                                            <div class="table-responsive">
+                                                                <table id="tbl_sales_order_summary" class="table invoice-total" style="font-family: tahoma;">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Discount :</td>
+                                                                            <td align="right">0.00</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Total before Tax :</td>
+                                                                            <td align="right">0.00</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Tax :</td>
+                                                                            <td align="right">0.00</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><strong>Total After Tax :</strong></td>
+                                                                            <td align="right"><b>0.00</b></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <button id="btn_save" class="btn-primary btn" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span> Save Changes</button>
+                                                        <button id="btn_cancel" class="btn-default btn" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"">Cancel</button>
         </div>
     </div>
 </div>
@@ -1908,7 +1912,114 @@ $(document).ready(function(){
          return prodstat;    
     };
 
-});
-</script>
+                                                function validateNumber(event) {
+                                                    var key = window.event ? event.keyCode : event.which;
+                                                    if (event.keyCode === 8 || event.keyCode === 46 ||
+                                                        event.keyCode === 37 || event.keyCode === 39) {
+                                                        return true;
+                                                    } else if (key < 48 || key > 57) {
+                                                        return false;
+                                                    } else return true;
+                                                };
+                                                var getFloat = function(f) {
+                                                    return parseFloat(accounting.unformat(f));
+                                                };
+                                                var newRowItem = function(d) {
+                                                    if (d.primary_unit == 1) {
+                                                        parent = ' selected';
+                                                        child = ' ';
+                                                    } else {
+                                                        parent = ' ';
+                                                        child = ' selected';
+                                                    }
+                                                    if (d.is_bulk == '1') {
+                                                        unit = '<td ><select class="line_unit' + d.a + '" name="unit_id[]"><option value="' + d.parent_unit_id + '" data-unit-identifier="1" ' + parent + '>' + d.parent_unit_name + '</option><option value="' + d.child_unit_id + '" data-unit-identifier="0" ' + child + '>' + d.child_unit_name + '</option></select></td>';
+                                                    } else {
+                                                        unit = '<td ><select class="line_unit' + d.a + '" name="unit_id[]" ><option value="' + d.parent_unit_id + '" data-unit-identifier="1" ' + parent + '>' + d.parent_unit_name + '</option></select></td>';
+                                                    }
+                                                    return '<tr>' +
+                                                        // DISPLAY
+                                                        '<td ><input name="so_qty[]" type="text" class="number form-control" value="' + accounting.formatNumber(d.so_qty, 2) + '"></td>' + unit +
+                                                        '<td >' + d.product_desc + '<input type="text" style="display:none;" class="form-control" name="is_parent[]" value="' + d.is_parent + '"></td>' +
+                                                        '<td><input name="weight[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.weight, 2) + '" readonly></td>' +
+                                                        '<td ><input name="total_weight[]" readonly type="text" class="numeric form-control" value="' + accounting.formatNumber(d.total_weight, 2) + '" style="text-align:right;"></td>' +
+                                                        '<td ><input name="so_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_price, 2) + '" style="text-align:right;"></td>' +
+                                                        '<td  style=""><input name="so_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_discount, 2) + '" style="text-align:right;"></td>' +
+                                                        // DISPLAY NONE display:none;
+                                                        '<td style="display:none;" width="11%"><input name="so_line_total_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_line_total_discount, 2) + '" readonly></td>' +
+                                                        '<td  style="display:none;"><input name="so_tax_rate[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_tax_rate, 2) + '"></td>' +
+                                                        // DISPLAY AGAIN 
+                                                        '<td  style=""><input name="so_gross[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_gross, 2) + '" readonly></td>' +
+                                                        '<td  align="right"><input name="so_line_total_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.so_line_total_price, 2) + '" readonly></td>' +
+                                                        //DISPLAY NONE display:none;
+                                                        '<td style="display:none;"><input name="so_tax_amount[]" type="text" class="numeric form-control" value="' + d.so_tax_amount + '" readonly></td>' +
+                                                        '<td style="display:none;"><input name="so_non_tax_amount[]" type="text" class="numeric form-control" value="' + d.so_non_tax_amount + '" readonly></td>' +
+                                                        '<td style="display:none;"><input name="product_id[]" type="text" class="form-control" value="' + d.product_id + '" readonly></td>' +
+                                                        '<td align="center"><button type="button" name="remove_item" class="btn btn-red"><i class="fa fa-trash"></i></button></td>' +
+                                                        '<td style="display:none;"  ><input type="text" class="numeric form-control" value="' + d.bulk_price + '" readonly></td>' +
+                                                        '<td style="display:none;"  ><input type="text" class="numeric form-control" value="' + d.retail_price + '" readonly></td>' +
+                                                        '</tr>';
+                                                };
+                                                var reComputeTotal = function() {
+                                                    var rows = $('#tbl_items > tbody tr');
+                                                    var discounts = 0;
+                                                    var before_tax = 0;
+                                                    var after_tax = 0;
+                                                    var so_tax_amount = 0;
+                                                    $.each(rows, function() {
+                                                        //console.log($(oTableItems.net_vat,$(this)));
+                                                        discounts += parseFloat(accounting.unformat($(oTableItems.total_line_discount, $(this)).find('input.numeric').val()));
+                                                        before_tax += parseFloat(accounting.unformat($(oTableItems.net_vat, $(this)).find('input.numeric').val()));
+                                                        so_tax_amount += parseFloat(accounting.unformat($(oTableItems.vat_input, $(this)).find('input.numeric').val()));
+                                                        after_tax += parseFloat(accounting.unformat($(oTableItems.total, $(this)).find('input.numeric').val()));
+                                                    });
+                                                    var tbl_summary = $('#tbl_sales_order_summary');
+                                                    tbl_summary.find(oTableDetails.discount).html(accounting.formatNumber(discounts, 2));
+                                                    tbl_summary.find(oTableDetails.before_tax).html(accounting.formatNumber(before_tax, 2));
+                                                    tbl_summary.find(oTableDetails.so_tax_amount).html(accounting.formatNumber(so_tax_amount, 2));
+                                                    tbl_summary.find(oTableDetails.after_tax).html('<b>' + accounting.formatNumber(after_tax, 2) + '</b>');
+
+
+                                                    /*$('#td_before_tax').html(accounting.formatNumber(before_tax,2));
+                                                    $('#td_after_tax').html(accounting.formatNumber(after_tax,2));
+                                                    $('#td_discount').html(accounting.formatNumber(discounts,2));
+                                                    $('#td_tax').html(accounting.formatNumber(so_tax_amount,2));*/
+
+
+                                                    $('#txt_overall_discount_amount').val(accounting.formatNumber(after_tax * ($('#txt_overall_discount').val() / 100), 2));
+                                                    $('#td_total_before_tax').html(accounting.formatNumber(before_tax, 2)); // ok 
+                                                    $('#td_after_tax').html('<b>' + accounting.formatNumber(after_tax, 2) + '</b>');
+                                                    $('#td_tax').html(accounting.formatNumber(so_tax_amount, 2)); //ok 
+                                                    $('#td_total_after_discount').html(accounting.formatNumber(after_tax - (after_tax * ($('#txt_overall_discount').val() / 100)), 2));
+                                                    $('#td_discount').html(accounting.formatNumber(discounts, 2)); //unknown
+                                                };
+                                                var reInitializeNumeric = function() {
+                                                    $('.numeric').autoNumeric('init', {
+                                                        mDec: 2
+                                                    });
+                                                    $('.number').autoNumeric('init', {
+                                                        mDec: 2
+                                                    });
+                                                };
+
+                                                var initializeChange = function() {
+
+                                                };
+
+                                                var checkProduct = function(check_id) {
+                                                    var prodstat = true;
+                                                    var rowcheck = $('#tbl_items > tbody tr');
+                                                    $.each(rowcheck, function() {
+                                                        item = parseFloat(accounting.unformat($(oTableItems.item_id, $(this)).find('input').val()));
+                                                        if (check_id == item) {
+                                                            prodstat = false;
+                                                            return false;
+                                                        }
+                                                    });
+                                                    return prodstat;
+                                                };
+
+                                            });
+                                        </script>
 </body>
 </html>
