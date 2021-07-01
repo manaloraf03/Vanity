@@ -38,7 +38,7 @@
 
         #header-table tr td {
             text-transform: uppercase;
-            font-size: 8pt;
+            font-size: 10px;
         }
         .left {border-left: 1px solid black;}
         .right{border-right: 1px solid black;}
@@ -52,9 +52,6 @@
         @page {
           margin-top: 0.5cm;
         }
-        table td{
-            font-size: 10pt;
-        }
 </style>
 
 <div>
@@ -62,8 +59,8 @@
         <tr>
             <td width="100%"  class="" >
             <center>
-                <span style="text-transform: uppercase;font-weight: bold;font-size: 10pt;"><?php echo $company_info->company_name; ?></span><br>
-                <span style="text-transform: uppercase;font-weight: bold;font-size: 10pt;"><?php echo $company_info->company_address; ?></span><br>
+                <span style="text-transform: uppercase;font-weight: bold;font-size: 10px;"><?php echo $company_info->company_name; ?></span><br>
+                <span style="text-transform: uppercase;font-weight: bold;font-size: 10px;"><?php echo $company_info->company_address; ?></span><br>
             </center>
             </td>
         </tr>
@@ -156,9 +153,9 @@
             </tr>
             <tr>
                 <td style="width: 10%;"></td>
-                <td style="width: 25%;text-align: center;"><strong style="font-size: 10pt;">CUSTOMER'S SIGNATURE</strong></td>
+                <td style="width: 25%;text-align: center;"><strong style="font-size: 10px;">CUSTOMER'S SIGNATURE</strong></td>
                 <td style="width: 20%;"></td>
-                <td style="width: 25%;text-align: center;"><strong style="font-size: 10pt;">SALES CLERK'S SIGNATURE</strong></td>
+                <td style="width: 25%;text-align: center;"><strong style="font-size: 10px;">SALES CLERK'S SIGNATURE</strong></td>
                 <td style="width: 10%;"></td>
             </tr>
         </table>
