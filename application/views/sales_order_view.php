@@ -1094,24 +1094,18 @@ $(document).ready(function(){
                 _customer_type_ = _cboCustomerType.val();
                 var sale_price=0.00;
 
-                if(suggestion.prev_srp > 0){ 
- 
-                    sale_price  = suggestion.prev_srp; 
- 
-                }else{ 
-                    if(_customer_type_ == '' || _customer_type_ == 0){
-                        sale_price=suggestion.sale_price;
-                    }else if(_customer_type_ == '1' ){ // DISCOUNTED CUSTOMER TYPE
-                        sale_price=suggestion.discounted_price;
-                    }else if(_customer_type_ == '2' ){ // DEALER CUSTOMER TYPE
-                        sale_price=suggestion.dealer_price;
-                    }else if(_customer_type_ == '3' ){ // DISTRIBUTOR CUSTOMER TYPE
-                        sale_price=suggestion.distributor_price;
-                    }else if(_customer_type_ == '4' ){ // PUBLIC CUSTOMER TYPE
-                        sale_price=suggestion.public_price;
-                    }else{
-                        sale_price=suggestion.sale_price;
-                    }
+                if(_customer_type_ == '' || _customer_type_ == 0){
+                    sale_price=suggestion.sale_price;
+                }else if(_customer_type_ == '1' ){ // DISCOUNTED CUSTOMER TYPE
+                    sale_price=suggestion.discounted_price;
+                }else if(_customer_type_ == '2' ){ // DEALER CUSTOMER TYPE
+                    sale_price=suggestion.dealer_price;
+                }else if(_customer_type_ == '3' ){ // DISTRIBUTOR CUSTOMER TYPE
+                    sale_price=suggestion.distributor_price;
+                }else if(_customer_type_ == '4' ){ // PUBLIC CUSTOMER TYPE
+                    sale_price=suggestion.public_price;
+                }else{
+                    sale_price=suggestion.sale_price;
                 }
 
                 var total=getFloat(sale_price);
@@ -1256,7 +1250,6 @@ $(document).ready(function(){
                  }
             var obj_customers=$('#cbo_customers').find('option[value="' + i + '"]');
             $('#cbo_customer_type').select2('val',obj_customers.data('customer_type'));
-            $('#refreshproducts').trigger('click'); 
             if(i==0){ _cboCustomerType.select2('val',0); }
         });
 
@@ -1379,7 +1372,7 @@ $(document).ready(function(){
             $('#order_default').datepicker('setDate', 'today');
             clearFields($('#frm_sales_order'));
             $('#tbl_items tbody').html('');
-            $('#cbo_departments').select2('val', 2);
+            $('#cbo_departments').select2('val', null);
             $('#cbo_department').select2('val', null);
             $('#cbo_customers').select2('val', null);
             $('#cbo_customer_type').select2('val', 0);
@@ -1707,7 +1700,7 @@ $(document).ready(function(){
        return $.ajax({
            "dataType":"json",
            "type":"POST",
-           "url":"products/transaction/list/"+ _cboCustomers.select2('val'), 
+           "url":"products/transaction/list",
            "beforeSend": function(){
                 countproducts = products.local.length;
                 if(countproducts > 100){
