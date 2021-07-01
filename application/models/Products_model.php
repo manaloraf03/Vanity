@@ -1186,15 +1186,14 @@ Product Pick List
 
 
 */
- 
-function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=null,$category_id=null,$item_type_id=null,$pick_list=null,$depid=null,$account_cii,$account_dis=null,$customer_id=null){ 
+
+function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=null,$category_id=null,$item_type_id=null,$pick_list=null,$depid=null,$account_cii,$account_dis=null,$customer_id=null){
     $sql="SELECT main.*,
         (CASE  
             WHEN main.prev_srp > 0 
             THEN main.prev_srp 
             ELSE main.sale_price  
-        END) as sale_price 
-
+        END) as sale_price     
          ".($pick_list==TRUE?",(main.product_ideal - main.CurrentQty) as recommended_qty":"")."
             FROM 
 

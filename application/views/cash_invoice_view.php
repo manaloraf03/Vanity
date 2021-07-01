@@ -1074,7 +1074,7 @@ $(document).ready(function(){
             if(suggestion.prev_srp > 0){ 
  
                 sale_price  = suggestion.prev_srp; 
-
+ 
             }else{ 
                 if(_customer_type_ == '' || _customer_type_ == 0){
                     sale_price=suggestion.sale_price;
@@ -1090,7 +1090,6 @@ $(document).ready(function(){
                     sale_price=suggestion.sale_price;
                 }
             }
-
 
             var total=getFloat(sale_price);
             var net_vat=0;

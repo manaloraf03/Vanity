@@ -1093,7 +1093,7 @@ $(document).ready(function(){
                 //choose what purchase cost to be use
                 _customer_type_ = _cboCustomerType.val();
                 var sale_price=0.00;
-                
+
                 if(suggestion.prev_srp > 0){ 
  
                     sale_price  = suggestion.prev_srp; 
@@ -1255,7 +1255,7 @@ $(document).ready(function(){
                 $('#modal_new_customer').modal('show');
                  }
             var obj_customers=$('#cbo_customers').find('option[value="' + i + '"]');
-            $('#cbo_customer_type').select2('val',obj_customers.data('customer_type'));
+            $('#cbo_customer_type').select2('val',obj_customers.data('customer_type')); 
             $('#refreshproducts').trigger('click'); 
             if(i==0){ _cboCustomerType.select2('val',0); }
         });

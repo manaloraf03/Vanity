@@ -196,8 +196,7 @@ class Sales_invoice_model extends CORE_Model
         return $this->db->query($sql)->result();
     }
 
-
-    function old_get_customer_sale_history($customer_id = null,$product_id = null){
+   function old_get_customer_sale_history($customer_id = null,$product_id = null){
         $sql='SELECT 
             invoice_id,
             inv_no,

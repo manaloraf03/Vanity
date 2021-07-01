@@ -1075,7 +1075,7 @@ $(document).ready(function(){
             //choose what purchase cost to be use
             _customer_type_ = _cboCustomerType.val();
             var sale_price=0.00;
-            
+
             if(suggestion.prev_srp > 0){ 
  
                 sale_price  = suggestion.prev_srp; 
@@ -1094,8 +1094,8 @@ $(document).ready(function(){
                 }else{
                     sale_price=suggestion.sale_price;
                 }
-            }]
-
+            }
+            
             var total=getFloat(sale_price);
             var net_vat=0;
             var vat_input=0;

@@ -16,7 +16,7 @@ class Customers_model extends CORE_Model{
     function get_old_list(){
         $query = $this->db->query('SELECT * FROM old_customers WHERE old_customers.is_deleted = FALSE AND old_customers.is_active = TRUE ORDER BY old_customers.customer_name ASC');
         return $query->result(); 
-    }
+    }    
 
     function get_customer_list_for_sales_report(){
         $sql="SELECT 
