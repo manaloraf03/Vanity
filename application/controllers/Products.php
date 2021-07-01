@@ -79,8 +79,8 @@ class Products extends CORE_Controller
                 $a_i=$account_integration->get_list();
                 $account =$a_i[0]->sales_invoice_inventory;
                 $customer_id = $filter_value; 
-                // SET AS 4 - MAIN WAREHOUSE DEFAULT
-                $response['data']=$m_products->product_list(1,null,null,null,null,null,null,4,1,null,$customer_id); 
+
+                $response['data']=$m_products->product_list(1,null,null,null,null,null,null,null,1,null,$customer_id); 
                 // $response['data']=$this->response_rows(array('products.is_deleted'=>FALSE));
                 echo json_encode($response);
                 break;

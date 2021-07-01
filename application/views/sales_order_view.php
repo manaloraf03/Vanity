@@ -1093,7 +1093,7 @@ $(document).ready(function(){
                 //choose what purchase cost to be use
                 _customer_type_ = _cboCustomerType.val();
                 var sale_price=0.00;
- 
+
                 if(suggestion.prev_srp > 0){ 
  
                     sale_price  = suggestion.prev_srp; 
@@ -1379,7 +1379,7 @@ $(document).ready(function(){
             $('#order_default').datepicker('setDate', 'today');
             clearFields($('#frm_sales_order'));
             $('#tbl_items tbody').html('');
-            $('#cbo_departments').select2('val', null);
+            $('#cbo_departments').select2('val', 7);
             $('#cbo_department').select2('val', null);
             $('#cbo_customers').select2('val', null);
             $('#cbo_customer_type').select2('val', 0);

@@ -1189,7 +1189,7 @@ function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=nu
             WHEN main.prev_srp > 0 
             THEN main.prev_srp 
             ELSE main.sale_price  
-        END) as sale_price 
+        END) as sale_price     
          ".($pick_list==TRUE?",(main.product_ideal - main.CurrentQty) as recommended_qty":"")."
             FROM 
 
@@ -1315,6 +1315,7 @@ function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=nu
                 ".($product_id==NULL?"":" AND p.product_id = $product_id")." 
  
                  )as pQ 
+
 
                 LEFT JOIN
 
