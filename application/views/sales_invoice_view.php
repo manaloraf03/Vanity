@@ -1080,7 +1080,7 @@ $(document).ready(function(){
  
                 sale_price  = suggestion.prev_srp; 
  
-            }else{ 
+            }else{
                 if(_customer_type_ == '' || _customer_type_ == 0){
                     sale_price=suggestion.sale_price;
                 }else if(_customer_type_ == '1' ){ // DISCOUNTED CUSTOMER TYPE
@@ -1094,7 +1094,7 @@ $(document).ready(function(){
                 }else{
                     sale_price=suggestion.sale_price;
                 }
-            } 
+            }
             
             var total=getFloat(sale_price);
             var net_vat=0;
