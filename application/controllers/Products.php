@@ -127,7 +127,7 @@ class Products extends CORE_Controller
                 $m_products->is_bulk =$this->get_numeric_value($this->input->post('is_bulk',TRUE));
                 $m_products->child_unit_desc = $this->get_numeric_value($this->input->post('child_unit_desc', TRUE));
                 $m_products->child_unit_id = $this->input->post('child_unit_id', TRUE);  
-  
+                $m_products->weight =$this->get_numeric_value($this->input->post('weight',TRUE)); 
 
         
                 $m_products->tax_type_id = $this->input->post('tax_type_id', TRUE);
@@ -199,7 +199,7 @@ class Products extends CORE_Controller
                 $m_products->parent_unit_id = $this->input->post('parent_unit_id', TRUE);
                 $m_products->child_unit_desc = $this->get_numeric_value($this->input->post('child_unit_desc', TRUE));
                 $m_products->child_unit_id = $this->input->post('child_unit_id', TRUE);  
-
+                $m_products->weight =$this->get_numeric_value($this->input->post('weight',TRUE)); 
                 $m_products->is_bulk =$this->get_numeric_value($this->input->post('is_bulk',TRUE));
                 $m_products->tax_type_id = $this->input->post('tax_type_id', TRUE);
                 //$m_products->is_inventory = $this->input->post('inventory',TRUE);
