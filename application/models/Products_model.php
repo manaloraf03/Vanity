@@ -1314,7 +1314,7 @@ function product_list($account,$as_of_date=null,$product_id=null,$supplier_id=nu
                 WHERE p.is_deleted = FALSE  
                 ".($product_id==NULL?"":" AND p.product_id = $product_id")." 
  
-                 )as pQ
+                 )as pQ 
 
 
                 LEFT JOIN
