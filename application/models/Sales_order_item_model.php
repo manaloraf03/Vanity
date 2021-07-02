@@ -59,8 +59,8 @@ ORIGINAL QUERY OF THE FUNCTION
                 MAX(m.so_tax_rate)as so_tax_rate,
                 (SUM(m.SoQty)-SUM(m.InvQty))as so_qty,
                 MAX(m.unit_id) as unit_id,
-                MAX(m.is_parent) as is_parent,
-                m.weight
+                MAX(m.is_parent) as is_parent
+
 
                 FROM
 
@@ -76,8 +76,7 @@ ORIGINAL QUERY OF THE FUNCTION
                     soi.batch_no,
                     soi.exp_date,
                         soi.unit_id,
-                        soi.is_parent,
-                        soi.weight
+                        soi.is_parent
                     FROM sales_order as so
                     INNER JOIN sales_order_items as soi ON so.sales_order_id=soi.sales_order_id
                     WHERE so.sales_order_id=$sales_order_id AND so.is_active=TRUE AND so.is_deleted=FALSE
@@ -99,8 +98,7 @@ ORIGINAL QUERY OF THE FUNCTION
                     sii.batch_no,
                     sii.exp_date,
                         0 as unit_id,
-                        0 as is_parent,
-                        sii.weight
+                        0 as is_parent
 
                     FROM (sales_invoice as si
                     INNER JOIN sales_order as so ON si.sales_order_id=so.sales_order_id)
@@ -122,8 +120,7 @@ ORIGINAL QUERY OF THE FUNCTION
                     cii.batch_no,
                     cii.exp_date,
                         0 as unit_id,
-                        0 as is_parent,
-                        cii.weight
+                        0 as is_parent
 
                     FROM (cash_invoice as ci
                     INNER JOIN sales_order as so ON ci.sales_order_id=so.sales_order_id)
