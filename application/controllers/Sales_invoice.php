@@ -290,7 +290,6 @@ class Sales_invoice extends CORE_Controller
                 $batch_no=$this->input->post('batch_no',TRUE);
                 $cost_upon_invoice=$this->input->post('cost_upon_invoice',TRUE);
                 $is_parent=$this->input->post('is_parent',TRUE);
-                $weight = $this->input->post('weight', TRUE);
                 
 
                 $m_products=$this->Products_model;
@@ -309,7 +308,6 @@ class Sales_invoice extends CORE_Controller
                     $m_invoice_items->inv_line_total_price=$this->get_numeric_value($inv_line_total_price[$i]);
                     $m_invoice_items->inv_tax_amount=$this->get_numeric_value($inv_tax_amount[$i]);
                     $m_invoice_items->inv_non_tax_amount=$this->get_numeric_value($inv_non_tax_amount[$i]);
-                    $m_invoice_items->weight = $this->get_numeric_value($weight[$i]);
                     //$m_invoice_items->dr_invoice_id=$dr_invoice_id[$i];
                     //$m_invoice_items->exp_date=date('Y-m-d', strtotime($exp_date[$i]));
                     //$m_invoice_items->batch_no=$batch_no[$i];
@@ -437,7 +435,6 @@ class Sales_invoice extends CORE_Controller
                     $orig_so_price=$this->input->post('orig_so_price',TRUE);
                     $cost_upon_invoice=$this->input->post('cost_upon_invoice',TRUE);
                     $is_parent=$this->input->post('is_parent',TRUE);
-                    $weight = $this->input->post('weight', TRUE);
 
                     $m_products=$this->Products_model;
 
@@ -455,7 +452,6 @@ class Sales_invoice extends CORE_Controller
                         $m_invoice_items->inv_line_total_price=$this->get_numeric_value($inv_line_total_price[$i]);
                         $m_invoice_items->inv_tax_amount=$this->get_numeric_value($inv_tax_amount[$i]);
                         $m_invoice_items->inv_non_tax_amount=$this->get_numeric_value($inv_non_tax_amount[$i]);
-                        $m_invoice_items->weight = $this->get_numeric_value($weight[$i]);
                         //$m_invoice_items->batch_no=$batch_no[$i];
                         //$m_invoice_items->exp_date=date('Y-m-d', strtotime($exp_date[$i]));
                         $m_invoice_items->orig_so_price=$this->get_numeric_value($orig_so_price[$i]);
