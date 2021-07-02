@@ -30,7 +30,7 @@ class Inventory extends CORE_Controller
         $data['_top_navigation'] = $this->load->view('template/elements/top_navigation', '', true);
         $data['title'] = 'Inventory Report';
 
-        $data['departments']=$this->Departments_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE));
+        $data['departments']=$this->Departments_model->get_list(array('is_deleted'=>FALSE,'is_active'=>TRUE,'department_id'=>4));
         
         (in_array('15-4',$this->session->user_rights)? 
         $this->load->view('inventory_report_view',$data)

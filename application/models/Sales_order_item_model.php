@@ -62,6 +62,7 @@ ORIGINAL QUERY OF THE FUNCTION
                 MAX(m.is_parent) as is_parent,
                 m.weight
 
+
                 FROM
 
                 (
@@ -101,7 +102,6 @@ ORIGINAL QUERY OF THE FUNCTION
                         0 as unit_id,
                         0 as is_parent,
                         sii.weight
-
                     FROM (sales_invoice as si
                     INNER JOIN sales_order as so ON si.sales_order_id=so.sales_order_id)
                     INNER JOIN sales_invoice_items as sii ON si.sales_invoice_id=sii.sales_invoice_id
@@ -124,7 +124,6 @@ ORIGINAL QUERY OF THE FUNCTION
                         0 as unit_id,
                         0 as is_parent,
                         cii.weight
-
                     FROM (cash_invoice as ci
                     INNER JOIN sales_order as so ON ci.sales_order_id=so.sales_order_id)
                     INNER JOIN cash_invoice_items as cii ON ci.cash_invoice_id=cii.cash_invoice_id

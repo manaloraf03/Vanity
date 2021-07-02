@@ -1104,7 +1104,7 @@ class Templates extends CORE_Controller {
                 $data['info']=$info[0];
                 $data['items']=$m_cash_invoice_items->get_list(
                     array('cash_invoice_items.cash_invoice_id'=>$filter_value),
-                    'cash_invoice_items.*, 
+                    'cash_invoice_items.*,
                     (cash_invoice_items.weight*cash_invoice_items.inv_qty) as total_weight,
                     products.product_desc,products.size,units.unit_name,products.product_code',
                     array(

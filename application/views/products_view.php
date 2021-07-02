@@ -286,11 +286,11 @@
                                                                 </select>
                                                             </div>
 
-
                                                             <div class="form-group" style="margin-bottom:0px; vertical-align: middle;text-align: right;"><br>
                                                                     <label  for="is_tax_exempt" style="text-align: left;vertical-align: middle;"><input type="checkbox" name="is_tax_exempt" class="" id="is_tax_exempt" style="transform: scale(2.0);">  &nbsp;&nbsp;Tax Exempt ?</label>
 
                                                             </div>
+
 
 
                                                         </div>
@@ -400,22 +400,16 @@
                                                                         <input type="text" name="distributor_price" id="distributor_price" class="form-control numeric product_costing">
                                                                     </div>
                                                                 </div>
-
-
-
-                                                                <div class="form-group" style="margin-bottom:0px;">
-                                                                    <label class="">Weight :</label>
-                                                                    <div class="input-group">
-                                                                            <span class="input-group-addon">
-                                                                                <i class="fa fa-toggle-off"></i>
-                                                                            </span>
-                                                                        <input type="text" name="weight" id="weight" class="form-control numeric">
-                                                                    </div>
-                                                                </div>
-
+                                                                <div class="form-group" style="margin-bottom:0px;"> 
+                                                                    <label class="">Weight :</label> 
+                                                                    <div class="input-group"> 
+                                                                            <span class="input-group-addon"> 
+                                                                                <i class="fa fa-toggle-off"></i> 
+                                                                            </span> 
+                                                                        <input type="text" name="weight" id="weight" class="form-control numeric"> 
+                                                                    </div> 
+                                                                </div> 
                                                             </div>
-
-
 
 
                                                             <div class="col-lg-6">

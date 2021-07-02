@@ -1615,7 +1615,7 @@
                     showList(false);
                     _cboSource.select2('val', 1);
                     $('#tbl_items > tbody').html('');
-                    $('#cbo_departments').select2('val', 7);
+                    $('#cbo_departments').select2('val', 4);
                     $('#cbo_department').select2('val', null);
                     $('#cbo_customers').select2('val', null);
                     $('#cbo_customer_type').select2('val', 0);
