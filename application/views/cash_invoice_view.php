@@ -332,161 +332,11 @@
                             <td style="display:none;" width="10%">Item ID</td><!-- product id -->
                             <th style="display:none;" width="10%">Total after Global</th> 
 
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <!-- <div class="panel-footer"></div> -->
-                                        </div>
-                                    </div>
-                                    <div id="div_cash_invoice_fields" style="display: none;">
-                                        <div class="panel panel-default">
-                                            <div class="pull-right">
-                                                <h4 class="cash_invoice_title" style="margin-top: 0%;"></h4>
-                                                <div class="btn btn-green" style="margin-left: 10px;">
-                                                    <strong><a id="btn_receive_so" href="#" style="text-decoration: none; color: white;">Create from Sales Order</a></strong>
-                                                </div>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="row panel-row">
-                                                    <form id="frm_cash_invoice" role="form" class="form-horizontal">
-                                                        <h2 class="h2-panel-heading">Invoice # : <span id="span_invoice_no">CI-INV-YYYYMMDD-XX</span></h4>
-                                                            <div>
-                                                                <hr>
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <b class="required">*</b><label> Department :</label> <br />
-                                                                        <select name="department" id="cbo_departments" data-error-msg="Department is required." required>
-                                                                            <option value="0">[ Create New Department ]</option>
-                                                                            <?php foreach ($departments as $department) { ?>
-                                                                                <option value="<?php echo $department->department_id; ?>"><?php echo $department->department_name; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3 hidden ">
-                                                                        <b class="required">*</b> <label>Salesperson :</label><br />
-                                                                        <select name="salesperson_id" id="cbo_salesperson">
-                                                                            <option value="0">[ Create New Salesperson ]</option>
-                                                                            <?php foreach ($salespersons as $salesperson) { ?>
-                                                                                <option value="<?php echo $salesperson->salesperson_id; ?>"><?php echo $salesperson->acr_name . ' - ' . $salesperson->fullname; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label>SO # :</label> <br />
-                                                                        <div class="input-group">
-                                                                            <input type="text" name="so_no" class="form-control">
-                                                                            <span class="input-group-addon">
-                                                                                <a href="#" id="link_browse" style="text-decoration: none;color:black;"><b>...</b></a>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <b class="required"></b> <label>Salesperson :</label><br />
-                                                                        <?php echo $this->session->user_fullname; ?>
-                                                                    </div>
-                                                                    <div class="col-sm-2 ">
-                                                                        <b class="required">*</b> <label>Invoice Date :</label> <br />
-                                                                        <div class="input-group">
-                                                                            <input type="text" name="date_invoice" id="invoice_default" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>" placeholder="Date Invoice" data-error-msg="Please set the date this items are issued!" required>
-                                                                            <span class="input-group-addon">
-                                                                                <i class="fa fa-calendar"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <b class="required">*</b><label>Customer :</label> <br />
-                                                                        <select name="customer" id="cbo_customers" data-error-msg="Customer is required." required>
-                                                                            <option value="0">[ Create New Customer ]</option>
-                                                                            <?php foreach ($customers as $customer) { ?>
-                                                                                <option data-address="<?php echo $customer->address; ?>" data-contact="<?php echo $customer->contact_name; ?>" value="<?php echo $customer->customer_id; ?>" data-term-default="<?php echo ($customer->term == "none" ? "" : $customer->term); ?>" data-customer_type="<?php echo $customer->customer_type_id; ?>"><?php echo $customer->customer_name; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label>Customer Type :</label><br />
-                                                                        <select name="customer_type_id" id="cbo_customer_type">
-                                                                            <option value="0">Walk In</option>
-                                                                            <?php foreach ($customer_type as $customer_type) { ?>
-                                                                                <option value="<?php echo $customer_type->customer_type_id; ?>"><?php echo $customer_type->customer_type_name ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-3">
-                                                                        <label>Contact Person :</label><br />
-                                                                        <input type="text" name="contact_person" id="contact_person" class="form-control" required data-error-msg="Contact Person is required!" placeholder="Contact Person">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <b class="required">*</b><label> Due Date :</label> <br />
-                                                                        <div class="input-group">
-                                                                            <input type="text" name="date_due" id="due_default" class="date-picker form-control" value="<?php echo date("m/d/Y"); ?>" placeholder="Date Due" data-error-msg="Please set the date this items are issued!" required>
-                                                                            <span class="input-group-addon">
-                                                                                <i class="fa fa-calendar"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-4">
-                                                                        <b>* </b> Order Source :<br />
-                                                                        <select name="order_source_id" id="cbo_order_source" data-error-msg="Order Source is required." required>
-                                                                            <option value="0">[ Create New Order Source ]</option>
-                                                                            <?php foreach ($order_sources as $order_source) { ?>
-                                                                                <option value="<?php echo $order_source->order_source_id; ?>"><?php echo $order_source->order_source_name; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <label>Address :</label><br>
-                                                                        <input class="form-control" id="txt_address" type="text" name="address" placeholder="Customer Address">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <hr>
-                                                    <label class="control-label" style="font-family: Tahoma;"><strong>Enter PLU or Search Item :</strong></label>
-                                                    <button id="refreshproducts" class="btn-primary btn pull-right" style="text-transform: capitalize;font-family: Tahoma, Georgia, Serif;"><span class=""></span> Refresh</button>
-                                                    <div id="custom-templates">
-                                                        <input class="typeahead" id="typeaheadsearch" type="text" placeholder="Enter PLU or Search Item">
-                                                    </div><br />
-                                                    <form id="frm_items">
-                                                        <div class="table-responsive">
-                                                            <table id="tbl_items" class="table table-striped" cellspacing="0" width="100%" style="font-font:tahoma;">
-                                                                <thead class="">
-                                                                    <tr>
-                                                                        <th width="8%">Qty</th><!-- 10% -->
-                                                                        <th width="8%">UM</th> <!-- 10% -->
-                                                                        <th width="20%">Item</th> <!-- 25% -->
-                                                                        <th width="10%" style="text-align: right;">Weight</th>
-                                                                        <th width="10%" style="text-align: right;">Total Weight</th>
-                                                                        <th width="10%" style="text-align: right;">Unit Price</th> <!-- 15% -->
-                                                                        <th width="10%" style="text-align: right;">Discount % </th>
-                                                                        <!-- DISPLAY NONE  -->
-                                                                        <th style="display:none;"" width=" 10%">Total Discount</th> <!-- total discount -->
-                                                                        <th style="display: none;" width="10%">Tax %</th>
-                                                                        <!-- DISPLAY -->
-                                                                        <th width="12%" style="text-align: right;">Gross</th>
-                                                                        <th width="12%" style="text-align: right;">Net Total</th>
-                                                                        <!-- DISPLAY NONE  -->
-                                                                        <th style="display:none;" width="10%">Vat Input(Total Line Tax)</th> <!-- vat input -->
-                                                                        <th style="display:none;" width="10%">Net of Vat (Price w/out Tax)</th> <!-- net of vat -->
-                                                                        <td style="display:none;" width="10%">Item ID</td><!-- product id -->
-                                                                        <th style="display:none;" width="10%">Total after Global</th>
-
-                                                                        <th width="5%">
-                                                                            <center>Action</center>
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!--<tr>
+                            <th width="5%"><center>Action</center></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr>
                                     <td width="10%"><input type="text" class="numeric form-control" align="right"></td>
                                     <td width="5%">pcs</td>
                                     <td width="30%">Computer Case</td>
@@ -505,34 +355,24 @@
                                     <td></td>
                                     <td><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></td>
                                 </tr>-->
-                                                                </tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <td colspan="10" style="height: 50px;">&nbsp;</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td colspan="3" style="text-align: right;">Discount %:</td>
-                                                                        <td align="right" colspan="1" id="" color="red">
-                                                                            <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
-                                                                            <input type="hidden" id="txt_overall_discount_amount" name="total_overall_discount_amount" class="numeric form-control" value="0.00" readonly>
-                                                                        </td>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" style="height: 50px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">Discount %:</td>
+                                <td align="right" colspan="1" id="" color="red">
+                                <input id="txt_overall_discount" name="total_overall_discount" type="text" class="numeric form-control" value="0.00" />
+                                <input type="hidden" id="txt_overall_discount_amount" name="total_overall_discount_amount" class="numeric form-control" value="0.00" readonly></td>
 
                                 <td style="text-align: right;">Total After Discount:</td>
                                 <td id="td_total_after_discount" style="text-align: right">0.00</td>
 
-                                                                        <td style="text-align: right;" colspan="2">Total before tax:</td>
-                                                                        <td id="td_total_before_tax" style="text-align: right">0.00</td>
-                                                                        <td></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td colspan="4" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
-                                                                        <td align="right" colspan="2" id="td_tax" color="red">0.00</td>
-                                                                        <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Total After Tax :</strong></td>
-                                                                        <td align="right" colspan="1" id="td_after_tax" color="red">0.00</td>
-                                                                        <td></td>
-                                                                    </tr>
-                                                                </tfoot>
-                                                                <!--                         <tfoot>
+                                <td style="text-align: right;" colspan="2">Total before tax:</td>
+                                <td id="td_total_before_tax" style="text-align: right">0.00</td>
+                                <td></td>
+                            </tr>
                             <tr>
                                 <td colspan="2" style="text-align: right;"><strong><i class="glyph-icon icon-star"></i> Tax :</strong></td>
                                 <td align="right" colspan="2" id="td_tax" color="red">0.00</td>
@@ -2110,25 +1950,22 @@ $(document).ready(function(){
                         return false;
                     }
                 }
-                return '<tr>' +
-                    //DISPLAY
-                    '<td ><input name="inv_qty[]" type="text" class="numeric form-control trigger-keyup" value="' + accounting.formatNumber(d.inv_qty, 2) + '"></td>' + unit +
-                    '<td ">' + d.product_desc + '<input type="text" style="display:none;" class="form-control" name="is_parent[]" value="' + d.is_parent + '"></td>' +
-                    '<td><input name="weight[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.weight, 2) + '" readonly></td>' +
-                    '<td ><input name="total_weight[]" readonly type="text" class="numeric form-control" value="' + accounting.formatNumber(d.total_weight, 2) + '" style="text-align:right;"></td>' +
-                    '<td ><input name="inv_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_price, 2) + '" style="text-align:right;"></td>' +
-                    '<td  style=""><input name="inv_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_discount, 2) + '" style="text-align:right;"></td>' +
-                    // DISPLAY NONE
-                    '<td style="display:none;" ><input name="inv_line_total_discount[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_line_total_discount, 2) + '" readonly></td>' +
-                    '<td  style="display:none;"><input name="inv_tax_rate[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_tax_rate, 2) + '"></td>' +
-                    // DISPLAY AGAIN 10%
-                    '<td  style=""><input name="inv_gross[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_gross, 2) + '" readonly></td>' +
-                    '<td  align="right"><input name="inv_line_total_price[]" type="text" class="numeric form-control" value="' + accounting.formatNumber(d.inv_line_total_price, 2) + '" readonly></td>' +
-                    // DISPLAY NONE AGAIN
-                    '<td style="display:none;"><input name="inv_tax_amount[]" type="text" class="numeric form-control" value="' + d.inv_tax_amount + '" readonly></td>' +
-                    '<td style="display:none;"><input name="inv_non_tax_amount[]" type="text" class="numeric form-control" value="' + d.inv_non_tax_amount + '" readonly></td>' +
-                    '<td style="display:none;"><input name="product_id[]" type="text" class="numeric form-control" value="' + d.product_id + '" readonly></td>' +
-                    '<td style="display:none;"><input name="inv_line_total_after_global[]" type="text" class="numeric form-control" value="' + d.inv_line_total_after_global + '" readonly></td>' +
+        });
+        return stat;
+    };
+    var getproduct=function(){
+       return $.ajax({
+           "dataType":"json",
+           "type":"POST",
+           "url":"products/transaction/list",
+           "beforeSend": function(){
+                countproducts = products.local.length;
+                if(countproducts > 100){
+                    showNotification({title:"Please Wait !",stat:"info",msg:"Refreshing your Products List."});
+                }
+           }
+      });
+    };
 
     var createCustomer=function(){
         var _data=$('#frm_customer').serializeArray();
