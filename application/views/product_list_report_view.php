@@ -314,7 +314,7 @@ $(document).ready(function(){
                                                 <div class="row">
                                                 <div class="col-sm-3" >
                                                     Category :
-                                                    <select name="category_id" id="product_category" data-error-msg="Category is required." required>
+                                                    <select name="category_id" id="product_category" data-error-msg="Category is required." required class="form-control">
                                                         <option value="">All Categories</option>
                                                         <?php foreach($categories as $row) { echo '<option value="'.$row->category_id.'">'.$row->category_name.'</option>'; } ?>
                                                     </select>
@@ -323,7 +323,7 @@ $(document).ready(function(){
                                                 <div class="col-sm-3">
                                                     <div class="form-group" style="margin-bottom:0px;">
                                                          Supplier :
-                                                        <select name="supplier_id" id="new_supplier" data-error-msg="Supplier is required." required>
+                                                        <select name="supplier_id" id="new_supplier" data-error-msg="Supplier is required." required class="form-control">
                                                             <option value="">All Suppliers</option>
                                                             <?php foreach($suppliers as $row) {   echo '<option value="'.$row->supplier_id.'">'.$row->supplier_name.'</option>';} ?>
                                                         </select>
@@ -333,7 +333,7 @@ $(document).ready(function(){
                                                     <div class="form-group" style="margin-bottom:0px;">
                                                         Inventory type :
 
-                                                        <select name="item_type_id" id="cbo_item_type" data-error-msg="Inverntory type is required." required>
+                                                        <select name="item_type_id" id="cbo_item_type" data-error-msg="Inverntory type is required." required class="form-control">
                                                             <option value="">All Inventory Types</option>
                                                             <?php foreach($item_types as $item_type){ ?>
                                                                 <option value="<?php echo $item_type->item_type_id ?>"><?php echo $item_type->item_type; ?></option>
@@ -345,16 +345,12 @@ $(document).ready(function(){
                                                 <br>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-2">
-                                                        <button class="btn btn-primary pull-left" style="margin-right: 5px; margin-top: 10px; margin-bottom: 10px;" id="btn_print" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Print" ><i class="fa fa-print"></i> Print Report
+                                                    <div class="col-sm-12">
+                                                        <button class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;" id="btn_print" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Print" ><i class="fa fa-print"></i> Print Report
                                                         </button>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <button class="btn btn-success pull-left" style="margin-right: 5px; margin-top: 10px; margin-bottom: 10px;" id="btn_excel" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Export to Excel" ><i class="fa fa-file-excel-o"></i> Excel Report
+                                                        <button class="btn btn-success" style="margin-top: 10px; margin-bottom: 10px;" id="btn_excel" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Export to Excel" ><i class="fa fa-file-excel-o"></i> Excel Report
                                                         </button>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <button class="btn btn-success pull-left" style="margin-right: 5px; margin-top: 10px; margin-bottom: 10px;" id="btn_email" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Export to Excel" ><span class=""></span>  <i class="fa fa-file-excel-o"></i> Email Report
+                                                        <button class="btn btn-success" style="margin-top: 10px; margin-bottom: 10px;" id="btn_email" style="text-transform: none; font-family: Tahoma, Georgia, Serif; " title="Export to Excel" ><span class=""></span>  <i class="fa fa-file-excel-o"></i> Email Report
                                                         </button>
                                                     </div>
                                                 </div>
@@ -376,7 +372,7 @@ $(document).ready(function(){
                                                         <th>Ideal Qty</th>
                                                         <th>Discounted Price</th>
                                                         <th>Dealer Price</th>
-                                                        <th>Distributor Price</th>
+                                                        <th>Branch Price</th>
                                                         <th>Public Price</th>
 
 
