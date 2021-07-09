@@ -368,7 +368,7 @@
 
 
                                                                 <div class="form-group" style="margin-bottom:0px;">
-                                                                    <label class="">Wholesaler Price :</label>
+                                                                    <label class="">City Distributor / Wholesaler Price :</label>
                                                                     <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>
@@ -392,7 +392,7 @@
 
 
                                                                 <div class="form-group" style="margin-bottom:0px;">
-                                                                    <label class="">Distributor's Price :</label>
+                                                                    <label class="">Branch Price :</label>
                                                                     <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>

@@ -60,7 +60,7 @@
             <th>Ideal Qty</th>
             <th>Discounted Price</th>
             <th>Dealer Price</th>
-            <th>Distributor Price</th>
+            <th>Branch Price</th>
             <th>Public Price</th>
     	</thead>
     	<tbody>
