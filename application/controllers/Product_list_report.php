@@ -31,8 +31,7 @@ class Product_list_report extends CORE_Controller
         $this->load->model('Company_model');
         $this->load->model('Email_settings_model');
 
-
-                   $this->load->library('excel');
+        $this->load->library('excel');
 
     }
 
@@ -196,7 +195,7 @@ class Product_list_report extends CORE_Controller
                 ->setCellValue('L8','Ideal Qty')
                 ->setCellValue('M8','Discounted Price')
                 ->setCellValue('N8','Dealer Price')         
-                ->setCellValue('O8','Distributor Price')
+                ->setCellValue('O8','Branch Price')
                 ->setCellValue('P8','Public Price');
 
 
@@ -359,7 +358,7 @@ class Product_list_report extends CORE_Controller
                 ->setCellValue('L8','Ideal Qty')
                 ->setCellValue('M8','Discounted Price')
                 ->setCellValue('N8','Dealer Price')         
-                ->setCellValue('O8','Distributor Price')
+                ->setCellValue('O8','Branch Price')
                 ->setCellValue('P8','Public Price');
 
 

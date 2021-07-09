@@ -89,7 +89,8 @@ class Pick_list extends CORE_Controller
                 $m_products = $this->Products_model;
                 $supplier_id = $this->input->get('sup');
                 $category_id = $this->input->get('cat');
-                $data['data']=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1);
+                $data['data']=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1,null,1);
+
                 // echo json_encode($response);
                 $suppliers = $this->Suppliers_model->get_list($supplier_id);
                 $categories = $this->Categories_model->get_list($category_id);
@@ -113,7 +114,7 @@ class Pick_list extends CORE_Controller
 
                 ($supplier_id == null ? $supplier_name = 'ALL' : $supplier_name=$suppliers[0]->supplier_name);
                 ($category_id == null ? $category_name = 'ALL' : $category_name=$categories[0]->category_name);
-                $data=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1);
+                $data=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1,null,1);
                 // echo json_encode($response);
                 // $this->load->view('template/product_list_report_content',$data);
 
@@ -249,7 +250,7 @@ class Pick_list extends CORE_Controller
 
                 ($supplier_id == null ? $supplier_name = 'ALL' : $supplier_name=$suppliers[0]->supplier_name);
                 ($category_id == null ? $category_name = 'ALL' : $category_name=$categories[0]->category_name);
-                $data=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1);
+                $data=$m_products->product_list(1,null,null,$supplier_id,$category_id,null,1,null,1);
                 // echo json_encode($response);
 
                 $excel=$this->excel;
