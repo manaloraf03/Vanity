@@ -194,7 +194,7 @@ class Product_list_report extends CORE_Controller
                 ->setCellValue('K8','Warning QTY')
                 ->setCellValue('L8','Ideal Qty')
                 ->setCellValue('M8','Discounted Price')
-                ->setCellValue('N8','Dealer Price')         
+                ->setCellValue('N8','Vanity Elite Price')         
                 ->setCellValue('O8','Branch Price')
                 ->setCellValue('P8','Public Price');
 
@@ -357,7 +357,7 @@ class Product_list_report extends CORE_Controller
                 ->setCellValue('K8','Warning QTY')
                 ->setCellValue('L8','Ideal Qty')
                 ->setCellValue('M8','Discounted Price')
-                ->setCellValue('N8','Dealer Price')         
+                ->setCellValue('N8','Vanity Elite Price')         
                 ->setCellValue('O8','Branch Price')
                 ->setCellValue('P8','Public Price');
 

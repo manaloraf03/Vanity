@@ -380,7 +380,7 @@
 
 
                                                                 <div class="form-group" style="margin-bottom:0px;">
-                                                                    <label class="">Dealer's Price :</label>
+                                                                    <label class="">Vanity Elite Price :</label>
                                                                     <div class="input-group">
                                                                             <span class="input-group-addon">
                                                                                 <i class="fa fa-toggle-off"></i>

@@ -371,7 +371,7 @@ $(document).ready(function(){
                                                         <th>Warning QTY </th>
                                                         <th>Ideal Qty</th>
                                                         <th>Discounted Price</th>
-                                                        <th>Dealer Price</th>
+                                                        <th>Vanity Elite Price</th>
                                                         <th>Branch Price</th>
                                                         <th>Public Price</th>
 
