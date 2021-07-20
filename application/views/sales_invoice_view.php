@@ -1042,9 +1042,10 @@
                         {
                             targets: [7],
                             render: function(data, type, full, meta) {
-                                var btn_edit = '<button class="btn btn-primary btn-sm" name="edit_info"  style="margin-left:-15px;" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i> </button>';
+                                var btn_print_weight = '<button class="btn btn-warning btn-sm" name="print_weight"  style="margin-left:-15px;" data-toggle="tooltip" data-placement="top" title="Print (Weight)"><i class="fa fa-print"></i> </button>';
+                                var btn_edit = '<button class="btn btn-primary btn-sm" name="edit_info" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i> </button>';
                                 var btn_trash = '<button class="btn btn-danger btn-sm" name="remove_info" style="margin-right:0px;" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button>';
-                                return '<center>' + btn_edit + "&nbsp;" + btn_trash + '</center>';
+                                return '<center>' + btn_print_weight + "&nbsp;" + btn_edit + "&nbsp;" + btn_trash + '</center>';
                             }
                         },
                         {
@@ -1322,6 +1323,14 @@
                     //     });
                     window.open('Templates/layout/sales-invoice/' + d.sales_invoice_id + '?type=contentview');
                 });
+
+                $('#tbl_sales_invoice tbody').on('click', 'button[name="print_weight"]', function() {
+                    var tr = $(this).closest('tr');
+                    var row = dt.row(tr);
+                    var d = row.data();
+                    window.open('Templates/layout/sales-invoice/' + d.sales_invoice_id + '?type=print_weight');
+                });
+
                 $('#link_browse').click(function() {
                     $('#btn_receive_so').click();
                 });
@@ -1907,6 +1916,7 @@
                         showList(false);
                     }
                 });
+
                 $('#tbl_sales_invoice tbody').on('click', 'button[name="remove_info"]', function() {
                     _selectRowObj = $(this).closest('tr');
                     var data = dt.row(_selectRowObj).data();

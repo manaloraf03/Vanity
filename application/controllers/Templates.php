@@ -1010,6 +1010,21 @@ class Templates extends CORE_Controller {
                     $pdf->Output();
                 }
 
+                //preview on browser
+                if($type=='print_weight'){
+
+                    $file_name=$info[0]->sales_inv_no;
+                    $pdfFilePath = $file_name.".pdf"; //generate filename base on id
+                    $pdf = $this->m_pdf->load(); //pass the instance of the mpdf class
+                    // $content=$this->load->view('template/sales_invoice_content_standard',$data,TRUE); //load the template for invoice
+                    $content=$this->load->view('template/sales_invoice_content_standard_receipt_weight',$data,TRUE); //load the template for receipt
+
+                    $pdf->setFooter('{PAGENO}');
+                    
+                    $pdf->WriteHTML($content);
+                    //download it.
+                    $pdf->Output();
+                }
                 break;
 
             case 'proforma-invoice': //proforma invoice
@@ -1129,6 +1144,20 @@ class Templates extends CORE_Controller {
                     //download it.
                     $pdf->Output();
                 }
+
+                //preview on browser
+                if($type=='print_weight'){
+                    $file_name=$info[0]->cash_inv_no;
+                    $pdfFilePath = $file_name.".pdf"; //generate filename base on id
+                    $pdf = $this->m_pdf->load(); //pass the instance of the mpdf class
+                    // $content=$this->load->view('template/cash_invoice_entries',$data,TRUE); //load the template for invoice
+                    $content=$this->load->view('template/cash_invoice_entries_receipt_weight',$data,TRUE); //load the template for receipt
+                    $pdf->setFooter('{PAGENO}');
+                    
+                    $pdf->WriteHTML($content);
+                    //download it.
+                    $pdf->Output();
+                } 
 
                 break;
 
@@ -1364,6 +1393,19 @@ class Templates extends CORE_Controller {
                     $pdfFilePath = $file_name.".pdf"; //generate filename base on id
                     $pdf = $this->m_pdf->load(); //pass the instance of the mpdf class
                     $content=$this->load->view('template/so_content',$data,TRUE); //load the template
+                    $pdf->setFooter('{PAGENO}');
+                    $pdf->WriteHTML($content);
+                    //download it.
+                    $pdf->Output();
+                }
+
+
+                //preview on browser
+                if($type=='print_weight'){
+                    $file_name=$info[0]->so_no;
+                    $pdfFilePath = $file_name.".pdf"; //generate filename base on id
+                    $pdf = $this->m_pdf->load(); //pass the instance of the mpdf class
+                    $content=$this->load->view('template/so_weight_content',$data,TRUE); //load the template
                     $pdf->setFooter('{PAGENO}');
                     $pdf->WriteHTML($content);
                     //download it.
